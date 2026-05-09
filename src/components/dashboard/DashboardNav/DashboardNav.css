@@ -1,0 +1,153 @@
+/* ============================================
+   CAPEO — DASHBOARD NAV CSS
+   ============================================ */
+
+   .dash-nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-6);
+  }
+  
+  /* ── PROFIL ── */
+  .dash-nav__profile {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--space-4);
+  }
+  
+  .dash-nav__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--blue-mid);
+    border: 1px solid var(--gold-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  
+  .dash-nav__profile-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .dash-nav__name {
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .dash-nav__email {
+    font-size: var(--text-xs);
+    font-weight: 300;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .dash-nav__premium {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  
+  /* ── MENU ── */
+  .dash-nav__menu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    flex: 1;
+  }
+  
+  .dash-nav__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: left;
+    width: 100%;
+  }
+  .dash-nav__item:hover {
+    background: var(--glass);
+    color: var(--text);
+  }
+  .dash-nav__item--active {
+    background: var(--gold-dim);
+    color: var(--gold);
+    font-weight: 400;
+  }
+  
+  .dash-nav__item-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  
+  /* ── FOOTER ── */
+  .dash-nav__footer {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+    margin-top: var(--space-4);
+  }
+  
+  .dash-nav__member {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .dash-nav {
+      padding: var(--space-4) var(--space-5);
+    }
+    .dash-nav__menu {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+    .dash-nav__item {
+      flex: none;
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-xs);
+    }
+    .dash-nav__profile {
+      padding-bottom: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+    .dash-nav__footer {
+      display: none;
+    }
+  }

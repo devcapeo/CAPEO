@@ -1,0 +1,248 @@
+/* ============================================
+   CAPEO — HOW IT WORKS CSS
+   Responsive : mobile first.
+   ============================================ */
+
+   .how {
+    padding: var(--space-24) 0;
+    position: relative;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(11, 18, 32, 0.4),
+      transparent
+    );
+  }
+  
+  /* ── EN-TÊTE ── */
+  .how__header {
+    max-width: 600px;
+    margin-bottom: var(--space-16);
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .how__title {
+    font-family: var(--font-serif);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: var(--space-4);
+    line-height: 1.1;
+  }
+  .how__title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  
+  .how__sub {
+    font-size: var(--text-base);
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+  
+  /* ── ÉTAPES ── */
+  .how__steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+    margin-bottom: var(--space-12);
+  }
+  
+  /* Ligne de connexion entre étapes */
+  .how__steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--gold-border),
+      var(--gold-border),
+      transparent
+    );
+    z-index: 0;
+  }
+  
+  /* ── ÉTAPE ── */
+  .how__step {
+    position: relative;
+    padding: 0 var(--space-6);
+    text-align: center;
+    z-index: 1;
+  }
+  
+  .how__step-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+  
+  .how__step-num {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-border);
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
+    transition: all var(--transition);
+  }
+  
+  .how__step:hover .how__step-num {
+    background: var(--gold-dim);
+    box-shadow: var(--shadow-gold);
+  }
+  
+  .how__step-icon {
+    color: var(--text-dim);
+    transition: color var(--transition);
+  }
+  .how__step:hover .how__step-icon {
+    color: var(--gold-muted);
+  }
+  
+  .how__step-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: var(--space-3);
+  }
+  
+  .how__step-desc {
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  
+  /* Flèche entre étapes */
+  .how__step-arrow {
+    position: absolute;
+    top: 20px;
+    right: -8px;
+    color: var(--gold-muted);
+    opacity: 0.5;
+    z-index: 2;
+  }
+  
+  /* ── NOTE LÉGALE ── */
+  .how__legal {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-8);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .how__legal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+  
+  .how__legal p {
+    font-size: var(--text-xs);
+    font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  
+  /* ── CTA ── */
+  .how__cta {
+    text-align: center;
+  }
+  
+  .how__cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: all var(--transition);
+    padding: var(--space-3) var(--space-6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+  .how__cta-link:hover {
+    color: var(--gold);
+    border-color: var(--gold-border);
+  }
+  
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .how__steps {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-10);
+    }
+    .how__steps::before {
+      display: none;
+    }
+    .how__step-arrow {
+      display: none;
+    }
+    .how__step {
+      padding: 0 var(--space-4);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .how {
+      padding: var(--space-16) 0;
+    }
+    .how__header {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .how__steps {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8);
+    }
+    .how__step {
+      text-align: left;
+      padding: 0;
+    }
+    .how__step-top {
+      flex-direction: row;
+      align-items: center;
+    }
+    .how__legal {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .how__steps {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }

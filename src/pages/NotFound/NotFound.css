@@ -1,0 +1,114 @@
+/* ============================================
+   CAPEO — 404 CSS
+   ============================================ */
+
+   .notfound-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .notfound-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 50% 40%,
+        rgba(26,50,96,0.25) 0%, transparent 70%);
+  }
+  
+  .notfound-page__inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    max-width: 480px;
+  }
+  
+  .notfound-page__code {
+    font-family: var(--font-serif);
+    font-size: clamp(80px, 15vw, 140px);
+    font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1;
+    letter-spacing: 0.1em;
+  }
+  
+  .notfound-page__line {
+    width: 48px;
+    height: 1px;
+    background: linear-gradient(
+      90deg, transparent, var(--gold), transparent
+    );
+  }
+  
+  .notfound-page__title {
+    font-family: var(--font-serif);
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 400;
+    color: var(--text);
+  }
+  
+  .notfound-page__desc {
+    font-size: var(--text-base);
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+  
+  .notfound-page__actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .notfound-page__btn-primary {
+    padding: 13px 28px;
+    background: var(--gold);
+    color: var(--bg-deep);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: all var(--transition);
+  }
+  .notfound-page__btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-gold);
+  }
+  
+  .notfound-page__btn-ghost {
+    padding: 13px 28px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all var(--transition);
+  }
+  .notfound-page__btn-ghost:hover {
+    border-color: var(--gold-border);
+    color: var(--text);
+  }
+  
+  .notfound-page__logo {
+    margin-top: var(--space-8);
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+  }
+  .notfound-page__logo span { color: var(--gold); }

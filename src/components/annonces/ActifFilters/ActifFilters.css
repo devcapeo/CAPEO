@@ -1,0 +1,121 @@
+/* ============================================
+   CAPEO — ACTIF FILTERS CSS
+   ============================================ */
+
+   .actif-filters {
+    padding: var(--space-6);
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+  
+  .actif-filters__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .actif-filters__title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    color: var(--text);
+  }
+  
+  .actif-filters__reset {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition);
+  }
+  .actif-filters__reset:hover {
+    color: var(--gold);
+  }
+  
+  .actif-filters__group {
+    margin-bottom: var(--space-5);
+  }
+  
+  .actif-filters__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: var(--space-2);
+  }
+  
+  .actif-filters__input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text);
+    transition: border-color var(--transition);
+  }
+  .actif-filters__input:focus {
+    border-color: var(--gold-border);
+    outline: none;
+  }
+  .actif-filters__input::placeholder {
+    color: var(--text-dim);
+  }
+  
+  /* Checkbox custom */
+  .actif-filters__checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--text-muted);
+    transition: color var(--transition);
+  }
+  .actif-filters__checkbox:hover {
+    color: var(--text);
+  }
+  
+  .actif-filters__checkbox input {
+    display: none;
+  }
+  
+  .actif-filters__checkbox-box {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    background: var(--bg-input);
+    flex-shrink: 0;
+    transition: all var(--transition);
+    position: relative;
+  }
+  
+  .actif-filters__checkbox input:checked + .actif-filters__checkbox-box {
+    background: var(--gold-dim);
+    border-color: var(--gold-border);
+  }
+  
+  .actif-filters__checkbox input:checked + .actif-filters__checkbox-box::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 4px;
+    height: 7px;
+    border-right: 1.5px solid var(--gold);
+    border-bottom: 1.5px solid var(--gold);
+    margin-top: -1px;
+  }

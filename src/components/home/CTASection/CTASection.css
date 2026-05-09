@@ -1,0 +1,246 @@
+/* ============================================
+   CAPEO — CTA SECTION CSS
+   Responsive : mobile first.
+   ============================================ */
+
+   .cta-section {
+    padding: var(--space-24) 0;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+  }
+  
+  /* Orbe de fond centré */
+  .cta-section__orb {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(26, 50, 96, 0.2) 0%,
+      transparent 70%
+    );
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  /* ── EN-TÊTE ── */
+  .cta-section__header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--space-12);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .cta-section__title {
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 5vw, 62px);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: var(--space-5);
+  }
+  .cta-section__title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  
+  .cta-section__sub {
+    font-size: var(--text-base);
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  
+  /* ── CARTES ── */
+  .cta-section__cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+    max-width: 860px;
+    margin: 0 auto var(--space-12);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .cta-card {
+    padding: var(--space-10) var(--space-8);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    transition: all var(--transition);
+  }
+  
+  .cta-card--seller {
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+  }
+  .cta-card--seller:hover {
+    box-shadow: var(--shadow-gold);
+    transform: translateY(-2px);
+  }
+  
+  .cta-card--buyer {
+    background: var(--glass);
+    border: 1px solid var(--border);
+  }
+  .cta-card--buyer:hover {
+    border-color: var(--gold-border);
+    transform: translateY(-2px);
+  }
+  
+  .cta-card__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  
+  .cta-card__title {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 2.5vw, 28px);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  
+  .cta-card__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
+  }
+  
+  .cta-card__list li {
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--text-muted);
+    padding-left: var(--space-5);
+    position: relative;
+    line-height: 1.5;
+  }
+  .cta-card__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold-muted);
+  }
+  
+  .cta-card__btn {
+    display: block;
+    text-align: center;
+    padding: 14px 28px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: all var(--transition);
+    margin-top: var(--space-2);
+  }
+  
+  .cta-card__btn--primary {
+    background: var(--gold);
+    color: var(--bg-deep);
+    border: none;
+  }
+  .cta-card__btn--primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-gold);
+  }
+  
+  .cta-card__btn--ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .cta-card__btn--ghost:hover {
+    border-color: var(--gold-border);
+    color: var(--gold);
+  }
+  
+  /* ── LIGNE DE CONFIANCE ── */
+  .cta-section__trust {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .cta-section__trust-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: var(--space-3) var(--space-6);
+    transition: color var(--transition);
+  }
+  .cta-section__trust-item svg {
+    color: var(--gold);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+  .cta-section__trust-item:hover {
+    color: var(--text-muted);
+  }
+  
+  .cta-section__trust-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .cta-section {
+      padding: var(--space-16) 0;
+    }
+    .cta-section__cards {
+      grid-template-columns: 1fr;
+      max-width: 100%;
+    }
+    .cta-section__trust {
+      gap: var(--space-2);
+    }
+    .cta-section__trust-divider {
+      display: none;
+    }
+    .cta-section__trust-item {
+      padding: var(--space-2) var(--space-4);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .cta-section__header {
+      text-align: left;
+    }
+    .cta-card {
+      padding: var(--space-8) var(--space-6);
+    }
+    .cta-section__trust {
+      justify-content: flex-start;
+    }
+  }

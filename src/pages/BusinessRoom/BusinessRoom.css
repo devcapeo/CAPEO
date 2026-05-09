@@ -1,0 +1,309 @@
+/* ============================================
+   CAPEO — BUSINESS ROOM CSS
+   Page dédiée au deal.
+   Layout : header fixe + tabs + contenu.
+   ============================================ */
+
+   .broom-page {
+    padding-top: var(--header-height);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* ── HEADER ── */
+  .broom-header {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: var(--header-height);
+    z-index: var(--z-sticky);
+    backdrop-filter: blur(12px);
+  }
+  
+  .broom-header__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  /* Retour */
+  .broom-header__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color var(--transition);
+    width: fit-content;
+  }
+  .broom-header__back:hover { color: var(--text-muted); }
+  
+  /* Actif */
+  .broom-header__actif {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+  
+  .broom-header__category {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: var(--space-1);
+  }
+  
+  .broom-header__title {
+    font-family: var(--font-serif);
+    font-size: clamp(18px, 2.5vw, 28px);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: var(--space-1);
+  }
+  
+  .broom-header__location {
+    font-size: var(--text-xs);
+    font-weight: 300;
+    color: var(--text-dim);
+  }
+  
+  .broom-header__actif-right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  
+  .broom-header__price {
+    font-family: var(--font-mono);
+    font-size: clamp(20px, 2.5vw, 28px);
+    color: var(--gold);
+    margin-bottom: var(--space-2);
+  }
+  
+  .broom-header__status {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  
+  .broom-header__status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2ECC71;
+    animation: pulseDot 1.5s ease-in-out infinite;
+  }
+  
+  /* Progress */
+  .broom-header__progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  
+  .broom-header__progress-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+  
+  .broom-header__progress-pct {
+    color: var(--gold);
+    font-weight: 400;
+  }
+  
+  .broom-header__progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  
+  .broom-header__progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+  
+  .broom-header__progress-note {
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+  
+  /* Participants */
+  .broom-header__participants {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  
+  .broom-header__participants-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  
+  .broom-header__avatars {
+    display: flex;
+  }
+  
+  .broom-header__avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--blue-mid);
+    border: 2px solid var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 11px;
+    color: var(--gold);
+    margin-left: -6px;
+    transition: transform var(--transition);
+    cursor: default;
+  }
+  .broom-header__avatar:first-child { margin-left: 0; }
+  .broom-header__avatar:hover { transform: translateY(-2px); z-index: 1; }
+  
+  .broom-header__avatar--seller {
+    background: var(--gold-dim);
+    border-color: var(--gold-border);
+    color: var(--gold);
+  }
+  
+  .broom-header__seller-label {
+    font-size: var(--text-xs);
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+  .broom-header__seller-label span {
+    color: var(--text-dim);
+    margin-left: var(--space-1);
+  }
+  
+  /* ── TABS ── */
+  .broom-tabs {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: calc(var(--header-height) + 200px);
+    z-index: var(--z-base);
+  }
+  
+  .broom-tabs__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-8);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .broom-tabs__inner::-webkit-scrollbar { display: none; }
+  
+  .broom-tab {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-6);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+    margin-bottom: -1px;
+  }
+  .broom-tab:hover {
+    color: var(--text);
+  }
+  .broom-tab--active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+    font-weight: 400;
+  }
+  .broom-tab svg {
+    opacity: 0.6;
+    transition: opacity var(--transition);
+  }
+  .broom-tab--active svg,
+  .broom-tab:hover svg {
+    opacity: 1;
+  }
+  
+  /* ── CONTENU ── */
+  .broom-content {
+    flex: 1;
+    background: var(--bg-deep);
+  }
+  
+  .broom-content__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-8);
+  }
+  
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .broom-header__inner {
+      padding: var(--space-4) var(--space-5);
+    }
+    .broom-tabs__inner {
+      padding: 0 var(--space-4);
+    }
+    .broom-tab {
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-xs);
+    }
+    .broom-tab span {
+      display: none;
+    }
+    .broom-tab svg {
+      opacity: 1;
+    }
+    .broom-content__inner {
+      padding: var(--space-5) var(--space-4);
+    }
+    .broom-header__actif {
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .broom-header__actif-right {
+      text-align: left;
+    }
+    .broom-header__status {
+      justify-content: flex-start;
+    }
+  }

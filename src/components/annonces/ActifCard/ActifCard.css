@@ -1,0 +1,220 @@
+/* ============================================
+   CAPEO — ACTIF CARD V2 CSS
+   Plus grande, photo, aérée.
+   ============================================ */
+
+   .actif-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+  .actif-card:hover {
+    border-color: var(--gold-border);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* ── IMAGE ── */
+  .actif-card__img {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: var(--bg-surface);
+  }
+  
+  .actif-card__img-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .actif-card:hover .actif-card__img-photo {
+    transform: scale(1.04);
+  }
+  
+  /* Fonds fallback */
+  .actif-card__img-bg {
+    position: absolute;
+    inset: 0;
+  }
+  .actif-card__img-bg--immobilier {
+    background: linear-gradient(135deg, #0F1E3D, #1A3260);
+  }
+  .actif-card__img-bg--entreprise {
+    background: linear-gradient(135deg, #0D1426, #162040);
+  }
+  .actif-card__img-bg--objet-rare {
+    background: linear-gradient(135deg, #1A1408, #2D2210);
+  }
+  .actif-card__img-bg--atypique {
+    background: linear-gradient(135deg, #0D1A0D, #162816);
+  }
+  
+  /* Overlay gradient sombre en bas */
+  .actif-card__img-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(5,8,15,0.7));
+    z-index: 1;
+  }
+  
+  /* Badges top */
+  .actif-card__img-top {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    right: var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+  }
+  
+  .actif-card__cat-badge {
+    padding: 3px 10px;
+    background: rgba(5,8,15,0.8);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    backdrop-filter: blur(8px);
+  }
+  
+  .actif-card__premium-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    backdrop-filter: blur(8px);
+  }
+  
+  .actif-card__tag {
+    position: absolute;
+    bottom: var(--space-3);
+    left: var(--space-3);
+    z-index: 2;
+    padding: 3px 10px;
+    background: rgba(26,50,96,0.85);
+    border: 1px solid rgba(39,78,158,0.4);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  
+  .actif-card__verified {
+    position: absolute;
+    bottom: var(--space-3);
+    right: var(--space-3);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+  }
+  
+  /* ── CORPS ── */
+  .actif-card__body {
+    padding: var(--space-5) var(--space-5) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--space-2);
+  }
+  
+  .actif-card__title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.25;
+  }
+  
+  .actif-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: 300;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .actif-card__meta svg {
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+  .actif-card__meta-sep { opacity: 0.4; }
+  
+  .actif-card__price {
+    font-family: var(--font-mono);
+    font-size: var(--text-xl);
+    color: var(--gold);
+    font-weight: 400;
+    margin-top: var(--space-1);
+    flex: 1;
+  }
+  
+  .actif-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+  
+  .actif-card__interests {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+  .actif-card__interests strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  
+  .actif-card__arrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all var(--transition);
+  }
+  .actif-card:hover .actif-card__arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }

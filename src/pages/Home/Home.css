@@ -1,0 +1,11 @@
+/* ============================================
+   CAPEO — HOME CSS
+   Styles spécifiques à la page Home.
+   Les styles de chaque section sont dans
+   leur propre fichier CSS.
+   ============================================ */
+
+   .home {
+    padding-top: var(--header-height);
+    overflow-x: hidden;
+  }
