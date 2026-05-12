@@ -191,7 +191,7 @@ export default function Dashboard() {
                     stroke="currentColor" strokeWidth="0.7"
                     strokeLinejoin="round"/>
                 </svg>
-                Premium
+                CAPEO+
               </div>
             </div>
           </div>
