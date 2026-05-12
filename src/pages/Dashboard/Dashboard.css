@@ -214,6 +214,7 @@
 .dash-content {
   flex: 1;
   padding: var(--space-8) var(--space-10);
+  max-width: var(--max-width);
   width: 100%;
 }
 
