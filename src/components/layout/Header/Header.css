@@ -9,8 +9,8 @@
     right: 0;
     z-index: var(--z-sticky);
     height: var(--header-height);
-    border-bottom: 1px solid transparent;
-    background: rgba(5, 8, 15, 0.5);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-deep);
     backdrop-filter: blur(20px);
     transition: background var(--transition), border-color var(--transition);
   }
