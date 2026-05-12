@@ -213,7 +213,8 @@
 /* Contenu */
 .dash-content {
   flex: 1;
-  padding: var(--space-8) var(--space-8);
+  padding: var(--space-8) var(--space-10);
+  width: 100%;
 }
 
 /* ── BOTTOM NAV MOBILE ── */
