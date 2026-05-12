@@ -216,3 +216,11 @@ img { max-width: 100%; display: block; }
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
+/* Override body background pour les pages light */
+body:has(.dash-root) {
+  background: var(--app-bg);
+}
+
+body:has(.page-light) {
+  background: var(--app-bg);
+}
