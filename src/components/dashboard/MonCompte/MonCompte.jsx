@@ -1,173 +1,131 @@
-/* ============================================
-   CAPEO — MON COMPTE
-   Paramètres utilisateur.
-   Abonnement, KYC, préférences, alertes.
-   Props : user (objet)
-   ============================================ */
+import { useState } from 'react'
+import './MonCompte.css'
 
-   import { useState } from 'react'
-   import './MonCompte.css'
-   
-   export default function MonCompte({ user }) {
-     const [alerts, setAlerts] = useState({
-       newActif:    true,
-       roomActivity: true,
-       offMarket:   true,
-       newsletter:  false,
-     })
-   
-     const toggleAlert = (key) => {
-       setAlerts((prev) => ({ ...prev, [key]: !prev[key] }))
-     }
-   
-     return (
-       <div className="mon-compte">
-   
-         <div className="dash-section__header">
-           <div>
-             <div className="section-label">Paramètres</div>
-             <h2 className="dash-section__title">Mon compte</h2>
-           </div>
-         </div>
-   
-         {/* Abonnement */}
-         <div className="mon-compte__block">
-           <div className="mon-compte__block-title">Abonnement</div>
-           <div className="mon-compte__plan">
-             <div className="mon-compte__plan-info">
-               <div className="mon-compte__plan-name">
-                 {user.isPremium ? 'CAPEO Premium' : 'Compte gratuit'}
-               </div>
-               <div className="mon-compte__plan-desc">
-                 {user.isPremium
-                   ? 'Rooms illimitées · Off Market · Alertes · Profil patrimoine'
-                   : 'Accès aux annonces publiques uniquement'
-                 }
-               </div>
-             </div>
-             {user.isPremium ? (
-               <div className="mon-compte__plan-badge">
-                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                   <path d="M5 1l1 3h3L6.5 6l1 3L5 7.5 2.5 9l1-3L1 4h3z"
-                     stroke="currentColor" strokeWidth="0.8"
-                     strokeLinejoin="round"/>
-                 </svg>
-                 Premium actif
-               </div>
-             ) : (
-               <button className="mon-compte__upgrade-btn">
-                 Passer Premium — 19,90€/mois
-               </button>
-             )}
-           </div>
-           {user.isPremium && (
-             <div className="mon-compte__plan-actions">
-               <button className="mon-compte__link-btn">
-                 Gérer l'abonnement
-               </button>
-               <button className="mon-compte__link-btn mon-compte__link-btn--danger">
-                 Annuler
-               </button>
-             </div>
-           )}
-         </div>
-   
-         {/* KYC */}
-         <div className="mon-compte__block">
-           <div className="mon-compte__block-title">Vérification d'identité</div>
-           <div className="mon-compte__kyc">
-             <div className="mon-compte__kyc-status mon-compte__kyc-status--verified">
-               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                 <path d="M2 6l2.5 2.5 5.5-5"
-                   stroke="currentColor" strokeWidth="1.2"
-                   strokeLinecap="round" strokeLinejoin="round"/>
-               </svg>
-               Identité vérifiée
-             </div>
-             <div className="mon-compte__kyc-desc">
-               Votre document d'identité a été vérifié par l'équipe CAPEO.
-               Votre badge Vérifié est actif sur toutes vos annonces.
-             </div>
-           </div>
-         </div>
-   
-         {/* Alertes */}
-         <div className="mon-compte__block">
-           <div className="mon-compte__block-title">Alertes et notifications</div>
-           <div className="mon-compte__alerts">
-             {[
-               { key: 'newActif',     label: 'Nouvel actif correspondant à mon profil' },
-               { key: 'roomActivity', label: 'Activité dans mes rooms' },
-               { key: 'offMarket',    label: 'Nouveaux actifs Off Market' },
-               { key: 'newsletter',   label: 'Newsletter CAPEO' },
-             ].map((alert) => (
-               <div key={alert.key} className="mon-compte__alert-row">
-                 <span className="mon-compte__alert-label">
-                   {alert.label}
-                 </span>
-                 <button
-                   className={`mon-compte__toggle ${alerts[alert.key] ? 'mon-compte__toggle--on' : ''}`}
-                   onClick={() => toggleAlert(alert.key)}
-                 >
-                   <div className="mon-compte__toggle-dot"></div>
-                 </button>
-               </div>
-             ))}
-           </div>
-         </div>
-   
-         {/* Profil investisseur */}
-         <div className="mon-compte__block">
-           <div className="mon-compte__block-title">Profil acquéreur</div>
-           <div className="mon-compte__profile-grid">
-             <div className="mon-compte__profile-field">
-               <label className="mon-compte__profile-label">
-                 Budget d'investissement
-               </label>
-               <input
-                 type="text"
-                 className="mon-compte__profile-input"
-                 defaultValue="100 000€ — 500 000€"
-               />
-             </div>
-             <div className="mon-compte__profile-field">
-               <label className="mon-compte__profile-label">
-                 Localisation préférée
-               </label>
-               <input
-                 type="text"
-                 className="mon-compte__profile-input"
-                 defaultValue="Paris, Lyon, Côte d'Azur"
-               />
-             </div>
-             <div className="mon-compte__profile-field">
-               <label className="mon-compte__profile-label">
-                 Catégories d'actifs
-               </label>
-               <input
-                 type="text"
-                 className="mon-compte__profile-input"
-                 defaultValue="Immobilier, Entreprise"
-               />
-             </div>
-           </div>
-           <button className="mon-compte__save-btn">
-             Enregistrer les préférences
-           </button>
-         </div>
-   
-         {/* Danger zone */}
-         <div className="mon-compte__block mon-compte__block--danger">
-           <div className="mon-compte__block-title mon-compte__block-title--danger">
-             Zone critique
-           </div>
-           <div className="mon-compte__danger-actions">
-             <button className="mon-compte__danger-btn">
-               Supprimer mon compte
-             </button>
-           </div>
-         </div>
-   
-       </div>
-     )
-   }
+export default function MonCompte({ user }) {
+  const [alerts, setAlerts] = useState({
+    newActif:     true,
+    roomActivity: true,
+    offMarket:    true,
+    newsletter:   false,
+  })
+  const [saved, setSaved] = useState(false)
+
+  const toggle = (key) => {
+    setAlerts((prev) => ({ ...prev, [key]: !prev[key] }))
+  }
+
+  const handleSave = () => {
+    setSaved(true)
+    setTimeout(() => setSaved(false), 2000)
+  }
+
+  return (
+    <div className="mon-compte">
+
+      <div className="dash-section-header">
+        <div>
+          <h2 className="dash-section-title">Mon compte</h2>
+          <p className="dash-section-sub">Paramètres et préférences</p>
+        </div>
+        <button
+          className={`dash-btn-primary ${saved ? 'dash-btn-primary--saved' : ''}`}
+          onClick={handleSave}
+        >
+          {saved ? '✓ Enregistré' : 'Enregistrer'}
+        </button>
+      </div>
+
+      {/* Abonnement */}
+      <div className="compte-block">
+        <div className="compte-block__title">Abonnement</div>
+        <div className="compte-plan">
+          <div className="compte-plan__info">
+            <div className="compte-plan__name">
+              {user.isPremium ? 'CAPEO+' : 'Compte gratuit'}
+            </div>
+            <div className="compte-plan__desc">
+              {user.isPremium
+                ? 'Rooms illimitées · Off Market · Alertes · Profil patrimoine'
+                : 'Accès aux annonces publiques uniquement'}
+            </div>
+          </div>
+          {user.isPremium ? (
+            <div className="compte-plan__badge">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M5 1l1 3h3L6.5 6l1 3L5 7.5 2.5 9l1-3L1 4h3z"
+                  stroke="currentColor" strokeWidth="0.8"
+                  strokeLinejoin="round"/>
+              </svg>
+              CAPEO+ actif
+            </div>
+          ) : (
+            <button className="compte-upgrade-btn">
+              Passer à CAPEO+ — 19,90€/mois
+            </button>
+          )}
+        </div>
+        {user.isPremium && (
+          <div className="compte-plan__actions">
+            <button className="compte-link-btn">Gérer l'abonnement</button>
+            <button className="compte-link-btn compte-link-btn--danger">Annuler</button>
+          </div>
+        )}
+      </div>
+
+      {/* Alertes */}
+      <div className="compte-block">
+        <div className="compte-block__title">Notifications</div>
+        <div className="compte-alerts">
+          {[
+            { key: 'newActif',     label: 'Nouvel actif correspondant à mon profil' },
+            { key: 'roomActivity', label: 'Activité dans mes rooms' },
+            { key: 'offMarket',    label: 'Nouveaux actifs Off Market' },
+            { key: 'newsletter',   label: 'Newsletter CAPEO' },
+          ].map((a) => (
+            <div key={a.key} className="compte-alert-row">
+              <span className="compte-alert-label">{a.label}</span>
+              <button
+                className={`compte-toggle ${alerts[a.key] ? 'compte-toggle--on' : ''}`}
+                onClick={() => toggle(a.key)}
+              >
+                <div className="compte-toggle__dot"></div>
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Profil acquéreur */}
+      <div className="compte-block">
+        <div className="compte-block__title">Profil acquéreur</div>
+        <div className="compte-fields">
+          {[
+            { label: 'Budget', placeholder: '100 000€ — 500 000€' },
+            { label: 'Localisation', placeholder: 'Paris, Lyon, Côte d\'Azur' },
+            { label: 'Catégories', placeholder: 'Immobilier, Entreprise' },
+          ].map((f) => (
+            <div key={f.label} className="compte-field">
+              <label className="compte-field__label">{f.label}</label>
+              <input
+                type="text"
+                className="compte-input"
+                placeholder={f.placeholder}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Danger zone */}
+      <div className="compte-block compte-block--danger">
+        <div className="compte-block__title compte-block__title--danger">
+          Zone critique
+        </div>
+        <button className="compte-danger-btn">
+          Supprimer mon compte
+        </button>
+      </div>
+
+    </div>
+  )
+}
