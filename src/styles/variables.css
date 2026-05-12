@@ -1,116 +1,106 @@
 /* ============================================
-   CAPEO — FICHIER MAÎTRE DESIGN
-   Toutes les variables du site sont ici.
-   Modifier ce fichier = modifier tout le site.
+   CAPEO — VARIABLES GLOBALES
+   Palette hybride : dark (vitrine) + light (outil)
    ============================================ */
 
-   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap');
+:root {
 
-   :root {
-   
-     /* ── COULEURS FOND ── */
-     --bg-deep:     #09090B;   /* Fond principal */
-     --bg-surface:  #111113;   /* Surfaces secondaires */
-     --bg-card:     #18181B;   /* Cartes, modales */
-     --bg-input:    #0D0D0F;   /* Champs de formulaire */
-   
-     /* ── BLEUS ── */
-     --blue-dark:    #0F1E3D;
-     --blue-mid:     #1A3260;
-     --blue-light:   #274E9E;
-   
-     /* ── OR SATINÉ — couleur signature CAPEO ── */
-     --gold:        #B8953F;
-     --gold-light:  #C9A84C;
-     --gold-muted:   #8B6F2E;
-     --gold-dim:    rgba(184,149,63,0.1);
-     --gold-border: rgba(184,149,63,0.2);
-     --gold-glow:    rgba(201, 168, 76, 0.15);
-   
-     /* ── GLASS ── */
-     --glass: rgba(255,255,255,0.03);
-     --glass-hover:  rgba(255, 255, 255, 0.05);
-     --border:      rgba(255,255,255,0.09);
-     --border-hover: rgba(255, 255, 255, 0.12);
-   
-     /* ── TEXTE ── */
-     --text:         #EAF0FF;   /* Texte principal */
-     --text-muted:   #6B84AE;   /* Texte secondaire */
-     --text-dim:     #2E3F58;   /* Texte très discret */
-   
-     /* ── STATUTS ── */
-     --success:      #2ECC71;
-     --warning:      #F39C12;
-     --danger:       #E74C3C;
-     --info:         #3498DB;
-   
-     /* ── TYPOGRAPHIE ── */
-     --font-serif:   'Cormorant Garamond', serif;   /* Titres premium */
-     --font-sans:    'DM Sans', sans-serif;          /* Corps de texte */
-     --font-mono:    'JetBrains Mono', monospace;    /* Prix, données, codes */
-   
-     /* ── TAILLES DE POLICE ── */
-     --text-xs:      11px;
-     --text-sm:      13px;
-     --text-base:    15px;
-     --text-md:      17px;
-     --text-lg:      22px;
-     --text-xl:      28px;
-     --text-2xl:     36px;
-     --text-3xl:     48px;
-     --text-4xl:     64px;
-   
-     /* ── ESPACEMENTS ── */
-     --space-1:      4px;
-     --space-2:      8px;
-     --space-3:      12px;
-     --space-4:      16px;
-     --space-5:      20px;
-     --space-6:      24px;
-     --space-8:      32px;
-     --space-10:     40px;
-     --space-12:     48px;
-     --space-16:     64px;
-     --space-20:     80px;
-     --space-24:     96px;
-   
-     /* ── BORDER RADIUS ── */
-     --radius-xs:    2px;
-     --radius-sm:    3px;
-     --radius-md:    6px;
-     --radius-lg:    12px;
-     --radius-xl:    20px;
-     --radius-full:  9999px;
-   
-     /* ── SHADOWS ── */
-     --shadow-sm:    0 2px 8px rgba(0, 0, 0, 0.3);
-     --shadow-md:    0 8px 32px rgba(0, 0, 0, 0.4);
-     --shadow-lg:    0 16px 64px rgba(0, 0, 0, 0.5);
-     --shadow-gold:  0 0 24px rgba(201, 168, 76, 0.15);
-     --shadow-card:  0 8px 32px rgba(0, 0, 0, 0.4),
-                     inset 0 1px 0 rgba(255, 255, 255, 0.04);
-   
-     /* ── TRANSITIONS ── */
-     --transition-fast:   0.15s ease;
-     --transition:        0.25s ease;
-     --transition-slow:   0.4s ease;
-   
-     /* ── Z-INDEX ── */
-     --z-base:       1;
-     --z-dropdown:   100;
-     --z-sticky:     200;
-     --z-modal:      300;
-     --z-toast:      400;
-     --z-noise:      9999;
-   
-     /* ── LAYOUT ── */
-     --max-width:        1440px;
-     --max-width-text:   720px;
-     --header-height:    72px;
-   
-     /* ── BREAKPOINTS (référence commentée — utiliser en media queries) ──
-        mobile:   < 640px
-        tablet:   640px – 1024px
-        desktop:  > 1024px
-     ── */
-   }
+  /* ── LAYOUT ── */
+  --max-width:    1440px;
+  --header-height: 64px;
+
+  /* ── PALETTE DARK (vitrine) ── */
+  --bg-deep:      #09090B;
+  --bg-surface:   #111113;
+  --bg-card:      #18181B;
+  --bg-input:     #0D0D0F;
+  --blue-dark:    #0F1E3D;
+  --blue-mid:     #1A3260;
+  --blue-light:   #274E9E;
+
+  /* ── PALETTE LIGHT (outil) ── */
+  --app-bg:       #F8F9FA;
+  --app-surface:  #FFFFFF;
+  --app-card:     #FFFFFF;
+  --app-border:   #E9ECEF;
+  --app-text:     #0D1B2A;
+  --app-text-2:   #374151;
+  --app-muted:    #6B7280;
+  --app-dim:      #9CA3AF;
+  --app-input:    #F3F4F6;
+  --app-hover:    #F9FAFB;
+
+  /* ── OR — commun aux deux modes ── */
+  --gold:         #B8953F;
+  --gold-light:   #C9A84C;
+  --gold-muted:   #8A6E2F;
+  --gold-dim:     rgba(184,149,63,0.12);
+  --gold-border:  rgba(184,149,63,0.25);
+
+  /* ── TEXTE dark mode ── */
+  --text:         #F0EFE8;
+  --text-muted:   #A8A49A;
+  --text-dim:     #5C5850;
+
+  /* ── BORDURES dark mode ── */
+  --border:       rgba(255,255,255,0.08);
+  --glass:        rgba(255,255,255,0.03);
+  --glass-hover:  rgba(255,255,255,0.05);
+
+  /* ── TYPOGRAPHIE ── */
+  --font-serif:   'Cormorant Garamond', Georgia, serif;
+  --font-sans:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  /* ── FONT SIZES ── */
+  --text-xs:      12px;
+  --text-sm:      14px;
+  --text-base:    16px;
+  --text-md:      17px;
+  --text-lg:      18px;
+  --text-xl:      20px;
+  --text-2xl:     24px;
+  --text-3xl:     30px;
+
+  /* ── SPACING ── */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+
+  /* ── RADIUS ── */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  /* ── SHADOWS dark ── */
+  --shadow-sm:    0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:    0 8px 24px rgba(0,0,0,0.4);
+  --shadow-lg:    0 16px 48px rgba(0,0,0,0.5);
+  --shadow-gold:  0 8px 24px rgba(184,149,63,0.2);
+
+  /* ── SHADOWS light ── */
+  --shadow-app-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-app-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-app-lg: 0 8px 24px rgba(0,0,0,0.08);
+
+  /* ── Z-INDEX ── */
+  --z-base:    1;
+  --z-sticky:  10;
+  --z-modal:   100;
+
+  /* ── TRANSITIONS ── */
+  --transition:       all 0.2s ease;
+  --transition-slow:  all 0.4s ease;
+}
