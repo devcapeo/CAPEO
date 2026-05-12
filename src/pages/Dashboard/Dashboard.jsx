@@ -178,11 +178,6 @@ export default function Dashboard() {
       <aside className="dash-sidebar">
         <div className="dash-sidebar__inner">
 
-          {/* Logo */}
-          <div className="dash-sidebar__logo">
-            CAP<span>E</span>O
-          </div>
-
           {/* Profil */}
           <div className="dash-sidebar__profile">
             <div className="dash-sidebar__avatar">
