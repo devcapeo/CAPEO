@@ -142,7 +142,7 @@ export default function DashOverview({ user, onNav }) {
             Bonjour, {user.name.split(' ')[0]}
           </h1>
           <p className="dash-overview__sub">
-            Voici un résumé de votre activité sur CAPEO.
+            Voici un résumé de votre activité.
           </p>
         </div>
         {user.isPremium && (
@@ -152,7 +152,7 @@ export default function DashOverview({ user, onNav }) {
                 stroke="currentColor" strokeWidth="0.8"
                 strokeLinejoin="round"/>
             </svg>
-            Premium actif
+            CAPEO+ actif
           </div>
         )}
       </div>
