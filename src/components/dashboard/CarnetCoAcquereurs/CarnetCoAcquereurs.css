@@ -1,191 +1,165 @@
-/* ============================================
-   CAPEO — CARNET CO-ACQUÉREURS CSS
-   ============================================ */
+.carnet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: var(--max-width);
+}
 
-   .carnet {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-    max-width: 900px;
-  }
-  
-  .carnet__sub {
-    font-size: var(--text-sm);
-    font-weight: 300;
-    color: var(--text-muted);
-    margin-top: var(--space-2);
-    max-width: 500px;
-  }
-  
-  .carnet__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
-  }
-  
-  /* ── CARTE ── */
-  .carnet-card {
-    padding: var(--space-5);
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    cursor: pointer;
-    transition: all var(--transition);
-  }
-  .carnet-card:hover {
-    border-color: var(--gold-border);
-  }
-  .carnet-card--selected {
-    border-color: var(--gold-border);
-    background: var(--gold-dim);
-  }
-  
-  .carnet-card__header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-  
-  .carnet-card__avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--blue-mid);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-  
-  .carnet-card__info { flex: 1; }
-  
-  .carnet-card__name {
-    font-size: var(--text-base);
-    font-weight: 400;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-  
-  .carnet-card__location {
-    font-size: var(--text-xs);
-    font-weight: 300;
-    color: var(--text-dim);
-  }
-  
-  .carnet-card__verified {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--gold-dim);
-    border: 1px solid var(--gold-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-  
-  .carnet-card__stats {
-    display: flex;
-    gap: var(--space-6);
-  }
-  
-  .carnet-card__stat {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    font-size: var(--text-sm);
-    font-weight: 400;
-    color: var(--text);
-  }
-  
-  .carnet-card__stat-label {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-  
-  .carnet-card__structures {
-    display: flex;
-    gap: var(--space-2);
-    flex-wrap: wrap;
-  }
-  
-  .carnet-card__structure {
-    padding: 2px 8px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xs);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-  }
-  
-  .carnet-card__met {
-    font-size: var(--text-xs);
-    font-weight: 300;
-    color: var(--text-dim);
-    font-style: italic;
-  }
-  
-  .carnet-card__expanded {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--border);
-    animation: fadeDown 0.3s ease both;
-  }
-  
-  .carnet-card__note-label {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: var(--space-1);
-  }
-  
-  .carnet-card__note-text {
-    font-size: var(--text-sm);
-    font-weight: 300;
-    color: var(--text-muted);
-    font-style: italic;
-  }
-  
-  .carnet-card__contact-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3);
-    background: transparent;
-    border: 1px solid var(--gold-border);
-    border-radius: var(--radius-sm);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    cursor: pointer;
-    transition: all var(--transition);
-  }
-  .carnet-card__contact-btn:hover {
-    background: var(--gold-dim);
-  }
-  
-  @media (max-width: 640px) {
-    .carnet__grid {
-      grid-template-columns: 1fr;
-    }
-  }
+.carnet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.carnet-card {
+  padding: var(--space-5);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-app-sm);
+}
+.carnet-card:hover {
+  box-shadow: var(--shadow-app-md);
+  border-color: var(--gold-border);
+}
+.carnet-card--selected {
+  border-color: var(--gold-border);
+  box-shadow: var(--shadow-app-md);
+}
+
+.carnet-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.carnet-card__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--app-text);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.carnet-card__info { flex: 1; }
+
+.carnet-card__name {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.carnet-card__location {
+  font-size: var(--text-xs);
+  color: var(--app-muted);
+}
+
+.carnet-card__verified {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #D1FAE5;
+  border: 1px solid #A7F3D0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #065F46;
+  flex-shrink: 0;
+}
+
+.carnet-card__stats {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.carnet-card__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.carnet-card__stat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--app-muted);
+  font-weight: 400;
+}
+
+.carnet-card__structures {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.carnet-card__structure {
+  padding: 2px 8px;
+  background: var(--app-bg);
+  border: 1px solid var(--app-border);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--app-muted);
+}
+
+.carnet-card__met {
+  font-size: var(--text-xs);
+  color: var(--app-muted);
+  font-style: italic;
+}
+
+.carnet-card__expanded {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--app-border);
+}
+
+.carnet-card__note-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-1);
+}
+
+.carnet-card__note-text {
+  font-size: var(--text-sm);
+  color: var(--app-text-2);
+  font-style: italic;
+}
+
+.carnet-card__msg-btn {
+  padding: var(--space-3) var(--space-4);
+  background: var(--app-text);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.carnet-card__msg-btn:hover { background: #1B2E42; }
+
+@media (max-width: 640px) {
+  .carnet-grid { grid-template-columns: 1fr; }
+}
