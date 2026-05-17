@@ -1,19 +1,32 @@
 /* ============================================
-   CAPEO — CTA SECTION V4 CSS
-   Plus aéré, moins massif.
+   CAPEO — CTA SECTION V5 CSS
+   Split bord-à-bord avec bandes dorées
+   latérales. Cohérent avec le reste du site.
    ============================================ */
 
 .cta-split {
-  padding: var(--space-16) 0 var(--space-20);
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 60px;
+  position: relative;
+  margin-top: var(--space-20);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
-.cta-split__container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 var(--space-10);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-5);
+/* Bandes dorées latérales */
+.cta-split__band {
+  background: var(--gold);
+  position: relative;
+}
+.cta-split__band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
 }
 
 /* ── PANELS ── */
@@ -22,17 +35,16 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  border-radius: var(--radius-md);
-  min-height: 380px;
+  min-height: 460px;
 }
 
 .cta-split__panel--seller {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  background: var(--bg-deep);
 }
 
 .cta-split__panel--buyer {
-  background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
-  border: 1px solid var(--gold-border);
+  background: var(--blue-dark);
+  border-left: 1px solid var(--border);
 }
 
 /* Texture subtile */
@@ -41,32 +53,44 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
-  background-size: 32px 32px;
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 80px 80px;
   pointer-events: none;
-  opacity: 0.4;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
 }
 
-/* Accent doré sur acquéreurs */
-.cta-split__panel--buyer::after {
+/* Orb décoratif */
+.cta-split__panel::after {
   content: '';
   position: absolute;
-  top: 0; left: 0;
-  width: 3px;
-  height: 60px;
-  background: var(--gold);
-  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+.cta-split__panel--seller::after {
+  background: rgba(184,149,63,0.08);
+  top: -20%;
+  left: -10%;
+}
+.cta-split__panel--buyer::after {
+  background: rgba(184,149,63,0.06);
+  bottom: -20%;
+  right: -10%;
 }
 
 .cta-split__panel-inner {
   position: relative;
   z-index: 1;
-  padding: var(--space-10) var(--space-10);
+  padding: var(--space-16) var(--space-12);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  max-width: 460px;
+  gap: var(--space-5);
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* Label */
@@ -75,48 +99,49 @@
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  margin-bottom: var(--space-1);
-}
-.cta-split__panel--seller .cta-split__label {
-  color: rgba(0,0,0,0.55);
-}
-.cta-split__panel--buyer .cta-split__label {
   color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.cta-split__label::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
 }
 
 /* Titre */
 .cta-split__title {
   font-family: var(--font-serif);
-  font-size: clamp(26px, 3vw, 38px);
+  font-size: clamp(32px, 3.5vw, 44px);
   font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.01em;
-}
-.cta-split__panel--seller .cta-split__title {
-  color: var(--bg-deep);
-}
-.cta-split__panel--buyer .cta-split__title {
   color: var(--text);
+}
+
+.cta-split__title em {
+  font-style: italic;
+  color: var(--gold);
 }
 
 /* Description */
 .cta-split__desc {
   font-size: var(--text-sm);
   font-weight: 300;
-  line-height: 1.75;
-}
-.cta-split__panel--seller .cta-split__desc {
-  color: rgba(0,0,0,0.65);
-}
-.cta-split__panel--buyer .cta-split__desc {
+  line-height: 1.85;
   color: var(--text-muted);
+  margin-bottom: var(--space-3);
 }
 
 /* Boutons */
 .cta-split__btn {
   display: inline-flex;
   align-items: center;
-  padding: 12px 24px;
+  gap: var(--space-2);
+  padding: 13px 28px;
   border-radius: var(--radius-xs);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
@@ -125,53 +150,64 @@
   text-decoration: none;
   transition: all var(--transition);
   width: fit-content;
-  margin-top: var(--space-3);
 }
 
-.cta-split__btn--dark {
-  background: var(--bg-deep);
-  color: var(--gold);
-}
-.cta-split__btn--dark:hover {
-  background: #1a1a1a;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-}
-
-.cta-split__btn--gold {
+.cta-split__btn--primary {
   background: var(--gold);
   color: var(--bg-deep);
 }
-.cta-split__btn--gold:hover {
+.cta-split__btn--primary:hover {
   background: var(--gold-light);
   transform: translateY(-2px);
   box-shadow: var(--shadow-gold);
 }
 
+.cta-split__btn--ghost {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold-border);
+}
+.cta-split__btn--ghost:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
-  .cta-split__container {
-    padding: 0 var(--space-6);
+  .cta-split {
+    grid-template-columns: 40px 1fr 1fr 40px;
+  }
+  .cta-split__panel {
+    min-height: 420px;
   }
   .cta-split__panel-inner {
-    padding: var(--space-8);
+    padding: var(--space-12) var(--space-8);
   }
 }
 
 @media (max-width: 768px) {
   .cta-split {
-    padding: var(--space-10) 0 var(--space-12);
-  }
-  .cta-split__container {
     grid-template-columns: 1fr;
-    gap: var(--space-4);
-    padding: 0 var(--space-5);
+  }
+  .cta-split__band {
+    height: 8px;
   }
   .cta-split__panel {
     min-height: auto;
+    border-left: none;
+  }
+  .cta-split__panel--buyer {
+    border-top: 1px solid var(--border);
   }
   .cta-split__panel-inner {
-    padding: var(--space-8) var(--space-6);
+    padding: var(--space-12) var(--space-6);
     max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-split__panel-inner {
+    padding: var(--space-10) var(--space-5);
   }
 }
