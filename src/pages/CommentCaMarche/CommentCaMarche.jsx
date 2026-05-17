@@ -1,330 +1,173 @@
 /* ============================================
-   CAPEO — PAGE COMMENT ÇA MARCHE
-   Explication complète du fonctionnement.
-   Processus vendeur + acquéreur.
-   FAQ + disclaimer légal.
+   CAPEO — COMMENT ÇA MARCHE V2
+   Layout 2 colonnes Vendeurs / Acquéreurs.
+   Étapes numérotées en liste.
+   FAQ accordion.
+   Référence Emergent.
    ============================================ */
 
-   import { useState, useEffect, useRef } from 'react'
-   import { Link } from 'react-router-dom'
-   import './CommentCaMarche.css'
-   
-   const STEPS_SELLER = [
-     {
-       num: '01',
-       title: 'Publiez gratuitement',
-       desc: 'Créez votre annonce en quelques minutes. Photos, description, prix. Entièrement gratuit, sans commission.',
-     },
-     {
-       num: '02',
-       title: 'Uploadez un document',
-       desc: 'Titre de propriété, Kbis, certificat d\'authenticité. Notre équipe vérifie sous 24h et vous attribue le badge Vérifié CAPEO.',
-     },
-     {
-       num: '03',
-       title: 'Accédez aux acquéreurs',
-       desc: 'Votre actif est visible auprès d\'acquéreurs qualifiés et vérifiés. Vous recevez leurs messages directement dans la room.',
-     },
-     {
-       num: '04',
-       title: 'Finalisez hors plateforme',
-       desc: 'La transaction se formalise entre vous et les acquéreurs, devant notaire ou par tout autre moyen légal. CAPEO n\'intervient pas.',
-     },
-   ]
-   
-   const STEPS_BUYER = [
-     {
-       num: '01',
-       title: 'Explorez les actifs',
-       desc: 'Consultez librement toutes les annonces. Filtrez par catégorie, prix, localisation. Accès gratuit sans inscription.',
-     },
-     {
-       num: '02',
-       title: 'Rejoignez une room',
-       desc: 'Vous payez 15€ pour accéder à la room privée autour d\'un actif, ou souscrivez au Premium pour un accès illimité.',
-     },
-     {
-       num: '03',
-       title: 'Coordonnez-vous',
-       desc: 'Discutez avec le vendeur et les autres acquéreurs. Déclarez votre intention d\'apport. Choisissez votre structure (SCI, nom propre...).',
-     },
-     {
-       num: '04',
-       title: 'Passez à l\'acte',
-       desc: 'Une fois le groupe constitué, organisez la transaction hors plateforme avec votre notaire. CAPEO vous a mis en contact.',
-     },
-   ]
-   
-   const FAQ = [
-     {
-       q: 'CAPEO prend-il une commission sur les transactions ?',
-       a: 'Non. CAPEO ne prend aucune commission sur les transactions. Vous payez uniquement pour la visibilité (vendeur) ou l\'accès aux rooms et aux fonctionnalités premium (acquéreur).',
-     },
-     {
-       q: 'Les montants déclarés dans la room sont-ils contractuels ?',
-       a: 'Non. Les intentions d\'apport déclarées dans la room sont purement déclaratives et non contractuelles. Elles n\'engagent aucun versement. La transaction se formalise hors CAPEO, devant notaire.',
-     },
-     {
-       q: 'Comment CAPEO vérifie-t-il les vendeurs ?',
-       a: 'Chaque vendeur uploade un document justificatif (titre de propriété, Kbis, certificat d\'authenticité...). Notre équipe le vérifie manuellement sous 24h. Le badge Vérifié CAPEO est attribué après validation.',
-     },
-     {
-       q: 'Que se passe-t-il si un actif ne correspond pas à la description ?',
-       a: 'CAPEO fournit un espace de mise en relation mais ne garantit pas l\'exactitude des informations publiées par les vendeurs. En cas d\'annonce frauduleuse prouvée, l\'accès à la room vous est remboursé. Nous vous recommandons de toujours effectuer une due diligence avant toute acquisition.',
-     },
-     {
-       q: 'Qu\'est-ce que le Off Market ?',
-       a: 'Le Off Market regroupe des actifs exclusifs non listés sur d\'autres plateformes. Biens immobiliers avant mise sur le marché, cessions discrètes, œuvres en port franc. Accessible uniquement aux abonnés Premium.',
-     },
-     {
-       q: 'CAPEO est-il régulé par l\'AMF ?',
-       a: 'CAPEO est une plateforme de mise en relation technique au sens du règlement européen 2019/1150. Aucun flux financier ne transite par CAPEO. Nous ne sommes pas un prestataire de services de financement participatif (PSFP) et n\'agissons pas comme intermédiaire financier.',
-     },
-   ]
-   
-   export default function CommentCaMarche() {
-     const [openFaq, setOpenFaq] = useState(null)
-     const sectionRef = useRef(null)
-   
-     useEffect(() => {
-       const observer = new IntersectionObserver(
-         (entries) => {
-           entries.forEach((entry) => {
-             if (entry.isIntersecting) {
-               entry.target.classList.add('visible')
-               observer.unobserve(entry.target)
-             }
-           })
-         },
-         { threshold: 0.1 }
-       )
-       const reveals = sectionRef.current?.querySelectorAll('.reveal')
-       reveals?.forEach((el) => observer.observe(el))
-       return () => observer.disconnect()
-     }, [])
-   
-     return (
-       <div className="ccm-page" ref={sectionRef}>
-   
-         {/* ── HERO ── */}
-         <div className="ccm-hero">
-           <div className="container">
-             <div className="section-label reveal">Fonctionnement</div>
-             <h1 className="ccm-hero__title reveal">
-               Comment fonctionne<br/>
-               <em>CAPEO</em>
-             </h1>
-             <p className="ccm-hero__sub reveal">
-               Une mécanique simple et transparente.
-               CAPEO facilite la rencontre entre vendeurs et acquéreurs.
-               La transaction reste entre vous.
-             </p>
-           </div>
-         </div>
-   
-         {/* ── VENDEUR ── */}
-         <div className="ccm-section">
-           <div className="container">
-             <div className="ccm-section__header reveal">
-               <div className="ccm-section__role ccm-section__role--seller">
-                 Vendeur
-               </div>
-               <h2 className="ccm-section__title">
-                 Publiez votre actif.<br/>
-                 <em>Gratuitement.</em>
-               </h2>
-               <p className="ccm-section__sub">
-                 Aucune commission. Aucun frais caché.
-                 Vous payez uniquement si vous choisissez de booster
-                 la visibilité de votre annonce.
-               </p>
-             </div>
-   
-             <div className="ccm-steps">
-               {STEPS_SELLER.map((step, index) => (
-                 <div
-                   key={step.num}
-                   className={`ccm-step reveal reveal-delay-${index + 1}`}
-                 >
-                   <div className="ccm-step__num">{step.num}</div>
-                   <div className="ccm-step__content">
-                     <div className="ccm-step__title">{step.title}</div>
-                     <div className="ccm-step__desc">{step.desc}</div>
-                   </div>
-                   {index < STEPS_SELLER.length - 1 && (
-                     <div className="ccm-step__arrow">
-                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                         <path d="M4 8h8M9 5l3 3-3 3"
-                           stroke="currentColor" strokeWidth="1.2"
-                           strokeLinecap="round" strokeLinejoin="round"/>
-                       </svg>
-                     </div>
-                   )}
-                 </div>
-               ))}
-             </div>
-   
-             <div className="ccm-section__cta reveal">
-               <Link to="/proposer-un-actif" className="ccm-btn-primary">
-                 Proposer un actif
-               </Link>
-             </div>
-           </div>
-         </div>
-   
-         {/* ── ACQUÉREUR ── */}
-         <div className="ccm-section ccm-section--buyer">
-           <div className="container">
-             <div className="ccm-section__header reveal">
-               <div className="ccm-section__role ccm-section__role--buyer">
-                 Acquéreur
-               </div>
-               <h2 className="ccm-section__title">
-                 Trouvez votre actif.<br/>
-                 <em>Organisez-vous à plusieurs.</em>
-               </h2>
-               <p className="ccm-section__sub">
-                 Accédez à des actifs que vous ne trouvez pas ailleurs.
-                 Coordinateur-vous avec d'autres acquéreurs pour accéder
-                 à des biens plus importants.
-               </p>
-             </div>
-   
-             <div className="ccm-steps">
-               {STEPS_BUYER.map((step, index) => (
-                 <div
-                   key={step.num}
-                   className={`ccm-step reveal reveal-delay-${index + 1}`}
-                 >
-                   <div className="ccm-step__num">{step.num}</div>
-                   <div className="ccm-step__content">
-                     <div className="ccm-step__title">{step.title}</div>
-                     <div className="ccm-step__desc">{step.desc}</div>
-                   </div>
-                   {index < STEPS_BUYER.length - 1 && (
-                     <div className="ccm-step__arrow">
-                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                         <path d="M4 8h8M9 5l3 3-3 3"
-                           stroke="currentColor" strokeWidth="1.2"
-                           strokeLinecap="round" strokeLinejoin="round"/>
-                       </svg>
-                     </div>
-                   )}
-                 </div>
-               ))}
-             </div>
-   
-             <div className="ccm-section__cta reveal">
-               <Link to="/actifs" className="ccm-btn-primary">
-                 Explorer les actifs
-               </Link>
-               <Link to="/inscription" className="ccm-btn-ghost">
-                 Créer un compte
-               </Link>
-             </div>
-           </div>
-         </div>
-   
-         {/* ── LÉGAL ── */}
-         <div className="ccm-legal">
-           <div className="container">
-             <div className="ccm-legal__inner reveal">
-               <div className="ccm-legal__icon">
-                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                   <path d="M10 2L18 16H2L10 2Z"
-                     stroke="currentColor" strokeWidth="1.2"
-                     strokeLinejoin="round"/>
-                   <path d="M10 8v4"
-                     stroke="currentColor" strokeWidth="1.2"
-                     strokeLinecap="round"/>
-                   <circle cx="10" cy="14" r="0.8"
-                     fill="currentColor"/>
-                 </svg>
-               </div>
-               <div>
-                 <div className="ccm-legal__title">
-                   Cadre légal CAPEO
-                 </div>
-                 <p className="ccm-legal__text">
-                   CAPEO est une plateforme technique de mise en relation
-                   au sens du règlement européen 2019/1150.
-                   Aucun flux financier ne transite par CAPEO.
-                   Les intentions déclarées dans les rooms sont non contractuelles.
-                   CAPEO ne fournit aucun conseil en acquisition et ne garantit
-                   aucune information publiée par les vendeurs.
-                   La transaction se formalise intégralement hors plateforme,
-                   entre les parties.
-                 </p>
-               </div>
-             </div>
-           </div>
-         </div>
-   
-         {/* ── FAQ ── */}
-         <div className="ccm-faq">
-           <div className="container">
-             <div className="ccm-faq__header reveal">
-               <div className="section-label">FAQ</div>
-               <h2 className="ccm-faq__title">
-                 Questions fréquentes
-               </h2>
-             </div>
-   
-             <div className="ccm-faq__list">
-               {FAQ.map((item, index) => (
-                 <div
-                   key={index}
-                   className={`ccm-faq__item reveal reveal-delay-${(index % 3) + 1} ${openFaq === index ? 'ccm-faq__item--open' : ''}`}
-                 >
-                   <button
-                     className="ccm-faq__question"
-                     onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                   >
-                     <span>{item.q}</span>
-                     <svg
-                       width="16" height="16" viewBox="0 0 16 16" fill="none"
-                       className="ccm-faq__chevron"
-                     >
-                       <path d="M4 6l4 4 4-4"
-                         stroke="currentColor" strokeWidth="1.2"
-                         strokeLinecap="round" strokeLinejoin="round"/>
-                     </svg>
-                   </button>
-                   {openFaq === index && (
-                     <div className="ccm-faq__answer">
-                       {item.a}
-                     </div>
-                   )}
-                 </div>
-               ))}
-             </div>
-   
-           </div>
-         </div>
-   
-         {/* ── CTA FINAL ── */}
-         <div className="ccm-cta">
-           <div className="container">
-             <div className="ccm-cta__inner reveal">
-               <h2 className="ccm-cta__title">
-                 Prêt à rejoindre CAPEO ?
-               </h2>
-               <p className="ccm-cta__sub">
-                 Vendeurs — publiez gratuitement.
-                 Acquéreurs — accédez aux actifs d'exception.
-               </p>
-               <div className="ccm-cta__actions">
-                 <Link to="/inscription" className="ccm-btn-primary">
-                   Créer un compte
-                 </Link>
-                 <Link to="/actifs" className="ccm-btn-ghost">
-                   Explorer les actifs
-                 </Link>
-               </div>
-             </div>
-           </div>
-         </div>
-   
-       </div>
-     )
-   }
+import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
+import './CommentCaMarche.css'
+
+const VENDEUR_STEPS = [
+  {
+    num: '01',
+    title: 'Créez votre compte vendeur',
+    desc: 'Inscription gratuite. Validation de votre identité par vérification KYC.',
+  },
+  {
+    num: '02',
+    title: 'Décrochez le badge Vérifié CAPEO',
+    desc: 'Une fois vérifié, votre profil est marqué Vérifié CAPEO — un gage de sérieux pour les acquéreurs.',
+  },
+  {
+    num: '03',
+    title: 'Publiez votre actif',
+    desc: 'Décrivez l\'actif, ajoutez photos et indicateurs. Publication gratuite sans engagement.',
+  },
+  {
+    num: '04',
+    title: 'Recevez les manifestations d\'intérêt',
+    desc: 'Les acquéreurs intéressés entrent dans la Business Room privée pour vous contacter.',
+  },
+  {
+    num: '05',
+    title: 'Concluez hors plateforme',
+    desc: 'La transaction se formalise directement entre vous et les acquéreurs. CAPEO ne prélève aucune commission.',
+  },
+]
+
+const ACQUEREUR_STEPS = [
+  {
+    num: '01',
+    title: 'Explorez la place de marché',
+    desc: 'Parcourez les actifs disponibles, filtrez par catégorie, prix, localisation.',
+  },
+  {
+    num: '02',
+    title: 'Manifestez votre intérêt',
+    desc: 'Activez une Business Room pour entrer en contact avec le vendeur et les autres acquéreurs intéressés.',
+  },
+  {
+    num: '03',
+    title: 'Choisissez votre formule',
+    desc: '15€ par room à la carte, ou 19,90€/mois avec CAPEO+ pour un accès illimité (rooms + Off-Market).',
+  },
+  {
+    num: '04',
+    title: 'Échangez en privé',
+    desc: 'Discussion sécurisée, partage de documents confidentiels, déclarations d\'apport entre acquéreurs.',
+  },
+  {
+    num: '05',
+    title: 'Co-acquérez en toute discrétion',
+    desc: 'La signature s\'effectue hors plateforme via vos conseils habituels (notaires, avocats, experts).',
+  },
+]
+
+const FAQ = [
+  {
+    q: 'CAPEO prélève-t-il une commission sur les transactions ?',
+    a: 'Non. CAPEO n\'est pas un prestataire de services de financement participatif (PSFP). Aucun flux financier ne transite par la plateforme. Les transactions sont formalisées hors plateforme entre les parties. CAPEO se rémunère uniquement sur l\'accès aux Business Rooms (15€/room ou 19,90€/mois pour CAPEO+).',
+  },
+  {
+    q: 'Les indicateurs financiers affichés sont-ils vérifiés par CAPEO ?',
+    a: 'Non. Les indicateurs présentés (chiffres d\'affaires, surfaces, prix indicatifs, charges, etc.) sont fournis exclusivement par les vendeurs et ne sont pas vérifiés par CAPEO. Il appartient à chaque acquéreur de procéder à ses propres vérifications avec ses conseils.',
+  },
+  {
+    q: 'Comment fonctionne le badge Vérifié CAPEO ?',
+    a: 'Le badge Vérifié CAPEO atteste que l\'identité du vendeur a été vérifiée via notre processus KYC. Il ne constitue ni une garantie ni une recommandation sur la qualité de l\'actif proposé.',
+  },
+  {
+    q: 'Qu\'est-ce qu\'une Business Room ?',
+    a: 'Une Business Room est un espace privé dédié à un actif spécifique. Elle réunit le vendeur et les acquéreurs intéressés pour échanger en confidentialité : chat sécurisé, partage de documents, déclarations d\'intentions d\'apport entre co-acquéreurs.',
+  },
+  {
+    q: 'Qu\'est-ce que la co-acquisition ?',
+    a: 'La co-acquisition désigne le fait, pour plusieurs acquéreurs, de s\'unir pour acquérir ensemble un actif premium. CAPEO facilite la mise en relation des co-acquéreurs ; la structuration juridique et fiscale relève exclusivement des conseils des parties.',
+  },
+  {
+    q: 'CAPEO propose-t-il des simulations de rendement ?',
+    a: 'Non. Conformément au cadre réglementaire applicable, CAPEO ne propose aucune simulation de rendement, de plus-value ni de fiscalité.',
+  },
+  {
+    q: 'Quel est le cadre légal de CAPEO ?',
+    a: 'CAPEO est une plateforme de mise en relation au sens du règlement européen 2019/1150 sur l\'équité des relations entre plateformes et utilisateurs professionnels. CAPEO n\'est pas un PSFP, ne propose pas d\'offre au public d\'instruments financiers et n\'intervient pas dans le règlement des transactions.',
+  },
+]
+
+export default function CommentCaMarche() {
+  const [openFaq, setOpenFaq] = useState(null)
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.08 }
+    )
+    const reveals = sectionRef.current?.querySelectorAll('.reveal')
+    reveals?.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
+
+  const toggleFaq = (i) => setOpenFaq(openFaq === i ? null : i)
+
+  return (
+    <div className="ccm" ref={sectionRef}>
+
+      {/* ── HERO ── */}
+      <div className="ccm__hero">
+        <div className="ccm__hero-bg"></div>
+        <div className="ccm__hero-inner container reveal">
+          <div className="section-label">Le fonctionnement</div>
+          <h1 className="ccm__hero-title">
+            Comment fonctionne<br/>
+            <em>CAPEO.</em>
+          </h1>
+          <p className="ccm__hero-sub">
+            Une place de marché entre acquéreurs qualifiés et vendeurs
+            d'actifs premium. Mise en relation, confidentialité, zéro
+            commission. Les transactions se concluent hors plateforme
+            entre les parties.
+          </p>
+        </div>
+        <div className="ccm__hero-line"></div>
+      </div>
+
+      {/* ── COLONNES ÉTAPES ── */}
+      <div className="ccm__steps container">
+        <div className="ccm__steps-grid">
+
+          {/* Vendeurs */}
+          <div className="ccm__col reveal">
+            <div className="ccm__col-header">
+              <div className="ccm__col-label">Pour les vendeurs</div>
+              <h2 className="ccm__col-title">
+                Publiez gratuitement.
+              </h2>
+            </div>
+            <div className="ccm__col-steps">
+              {VENDEUR_STEPS.map((step, i) => (
+                <div key={i} className="ccm__step">
+                  <div className="ccm__step-num">{step.num}</div>
+                  <div className="ccm__step-content">
+                    <div className="ccm__step-title">{step.title}</div>
+                    <div className="ccm__step-desc">{step.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Link to="/proposer-un-actif" className="ccm__col-cta">
+              Publier un actif →
+            </Link>
+          </div>
+
+          {/* Séparate
