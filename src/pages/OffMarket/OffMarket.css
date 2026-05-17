@@ -1,337 +1,293 @@
 /* ============================================
-   CAPEO — OFF MARKET CSS
-   Responsive mobile first.
+   CAPEO — OFF-MARKET V2 CSS
+   Hero dark + bloc verrouillé centré.
    ============================================ */
 
-   .offmarket-page {
-    padding-top: var(--header-height);
-    min-height: 100vh;
+.offmarket {
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+.offmarket__hero {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.offmarket__hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 80% at 30% 50%,
+      rgba(26,50,96,0.4) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 80% 30%,
+      rgba(184,149,63,0.06) 0%, transparent 60%);
+  z-index: 0;
+}
+
+.offmarket__hero-orb {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: rgba(26,50,96,0.2);
+  filter: blur(120px);
+  top: -20%;
+  right: -15%;
+  z-index: 0;
+  animation: orbFloat 10s ease-in-out infinite;
+}
+
+.offmarket__hero-inner {
+  position: relative;
+  z-index: 1;
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-16);
+}
+
+.offmarket__hero-content {
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.offmarket__hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 400;
+  line-height: 1.0;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.offmarket__hero-title em {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+}
+
+.offmarket__hero-sub {
+  font-size: var(--text-base);
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 500px;
+}
+
+.offmarket__hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 14px 28px;
+  background: var(--gold);
+  color: var(--bg-deep);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: all var(--transition);
+  width: fit-content;
+  margin-top: var(--space-2);
+}
+.offmarket__hero-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+.offmarket__hero-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold-border),
+    transparent
+  );
+}
+
+/* ── CATALOGUE VERROUILLÉ ── */
+.offmarket__locked-wrap {
+  padding: var(--space-20) var(--space-10);
+  display: flex;
+  justify-content: center;
+}
+
+.offmarket__locked {
+  background: var(--blue-dark);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-12) var(--space-10);
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Texture fond */
+.offmarket__locked::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* Orb interne */
+.offmarket__locked::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(184,149,63,0.05);
+  filter: blur(80px);
+  bottom: -30%;
+  right: -10%;
+  pointer-events: none;
+}
+
+.offmarket__locked-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-border);
+  background: var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  position: relative;
+  z-index: 1;
+}
+
+.offmarket__locked-title {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 400;
+  color: var(--text);
+  position: relative;
+  z-index: 1;
+}
+
+.offmarket__locked-desc {
+  font-size: var(--text-sm);
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 420px;
+  position: relative;
+  z-index: 1;
+}
+
+.offmarket__locked-perks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 360px;
+  position: relative;
+  z-index: 1;
+}
+
+.offmarket__locked-perk {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 300;
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.offmarket__locked-perk-icon {
+  color: var(--gold);
+  flex-shrink: 0;
+  width: 20px;
+}
+
+.offmarket__locked-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 36px;
+  background: var(--gold);
+  color: var(--bg-deep);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all var(--transition);
+  position: relative;
+  z-index: 1;
+}
+.offmarket__locked-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+.offmarket__locked-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── DISCLAIMER ── */
+.offmarket__disclaimer {
+  padding: var(--space-10) var(--space-10) var(--space-16);
+}
+
+.offmarket__disclaimer-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-left: 2px solid var(--gold-border);
+  background: rgba(184,149,63,0.03);
+}
+
+.offmarket__disclaimer-icon {
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.offmarket__disclaimer-text {
+  font-size: var(--text-xs);
+  font-weight: 300;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+.offmarket__disclaimer-text strong {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .offmarket__locked-wrap {
+    padding: var(--space-16) var(--space-8);
   }
-  
-  /* ── EN-TÊTE ── */
-  .offmarket-page__header {
-    padding: var(--space-12) 0 var(--space-8);
-    border-bottom: 1px solid var(--border);
-    background: linear-gradient(
-      180deg,
-      rgba(201,168,76,0.04) 0%,
-      transparent 100%
-    );
-  }
-  
-  .offmarket-page__header-inner {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--space-8);
-  }
-  
-  .offmarket-page__title {
-    font-family: var(--font-serif);
-    font-size: clamp(36px, 5vw, 64px);
-    font-weight: 400;
-    color: var(--text);
-    margin-bottom: var(--space-3);
-    line-height: 1.1;
-  }
-  
-  .offmarket-page__sub {
-    font-size: var(--text-base);
-    font-weight: 300;
-    color: var(--text-muted);
-    line-height: 1.75;
-    max-width: 480px;
-  }
-  
-  .offmarket-page__lock-icon {
-    color: var(--gold);
-    opacity: 0.4;
-    flex-shrink: 0;
-    margin-top: var(--space-4);
-  }
-  
-  /* ── BANNER PREMIUM ── */
-  .offmarket-banner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-6);
-    padding: var(--space-5) var(--space-6);
-    background: var(--gold-dim);
-    border: 1px solid var(--gold-border);
-    border-radius: var(--radius-md);
-    margin: var(--space-8) 0;
-    flex-wrap: wrap;
-  }
-  
-  .offmarket-banner__content {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-4);
-    flex: 1;
-  }
-  
-  .offmarket-banner__icon {
-    color: var(--gold);
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  
-  .offmarket-banner__title {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-weight: 400;
-    color: var(--text);
-    margin-bottom: var(--space-2);
-  }
-  
-  .offmarket-banner__desc {
-    font-size: var(--text-sm);
-    font-weight: 300;
-    color: var(--text-muted);
-    line-height: 1.65;
-  }
-  
-  .offmarket-banner__btn {
-    padding: 12px 24px;
-    background: var(--gold);
-    color: var(--bg-deep);
-    border-radius: var(--radius-sm);
-    font-size: var(--text-sm);
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-decoration: none;
-    transition: all var(--transition);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .offmarket-banner__btn:hover {
-    background: var(--gold-light);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-gold);
-  }
-  
-  /* ── GRILLE ── */
-  .offmarket-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-5);
-    padding: var(--space-4) 0 var(--space-12);
-  }
-  
-  /* ── CARTE ── */
-  .offmarket-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    transition: all var(--transition);
-  }
-  .offmarket-card:hover {
-    border-color: var(--gold-border);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-  }
-  
-  /* Image */
-  .offmarket-card__img {
-    position: relative;
-    height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  
-  .offmarket-card__img-bg {
-    position: absolute;
-    inset: 0;
-  }
-  .offmarket-card__img-bg--a {
-    background: linear-gradient(135deg, #0F1E3D, #1A3260);
-  }
-  .offmarket-card__img-bg--b {
-    background: linear-gradient(135deg, #1A1408, #2D2210);
-  }
-  
-  /* Cadenas overlay */
-  .offmarket-card__lock {
-    position: absolute;
-    inset: 0;
-    background: rgba(5,8,15,0.75);
-    backdrop-filter: blur(6px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-3);
-    z-index: 2;
-  }
-  
-  .offmarket-card__lock-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--gold-dim);
-    border: 1px solid var(--gold-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--gold);
-  }
-  
-  .offmarket-card__lock-text {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-  
-  /* Badges */
-  .offmarket-card__badges {
-    position: absolute;
-    top: var(--space-4);
-    left: var(--space-4);
-    right: var(--space-4);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 3;
-  }
-  
-  .offmarket-card__cat {
-    padding: 3px 10px;
-    background: rgba(5,8,15,0.85);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xs);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-  
-  .offmarket-card__exclusive {
-    padding: 3px 10px;
-    background: var(--gold-dim);
-    border: 1px solid var(--gold-border);
-    border-radius: var(--radius-xs);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-  
-  /* Corps */
-  .offmarket-card__body {
-    padding: var(--space-5) var(--space-5) var(--space-4);
-  }
-  
-  .offmarket-card__title {
-    font-family: var(--font-serif);
-    font-size: var(--text-xl);
-    font-weight: 400;
-    color: var(--text);
-    margin-bottom: var(--space-2);
-    line-height: 1.2;
-  }
-  
-  .offmarket-card__location {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-xs);
-    font-weight: 300;
-    color: var(--text-dim);
-    margin-bottom: var(--space-4);
-  }
-  .offmarket-card__location svg { opacity: 0.5; }
-  
-  .offmarket-card__teaser {
-    font-size: var(--text-sm);
-    font-weight: 300;
-    color: var(--text-muted);
-    line-height: 1.65;
-    margin-bottom: var(--space-4);
-    transition: filter var(--transition);
-  }
-  
-  .offmarket-card__teaser--blurred {
-    filter: blur(4px);
-    user-select: none;
-    pointer-events: none;
-  }
-  
-  .offmarket-card__price {
-    font-family: var(--font-mono);
-    font-size: var(--text-lg);
-    color: var(--gold);
-    margin-bottom: var(--space-4);
-    letter-spacing: 0.06em;
-  }
-  
-  .offmarket-card__footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--border);
-  }
-  
-  .offmarket-card__interests {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-xs);
-    font-weight: 300;
-    color: var(--text-muted);
-  }
-  .offmarket-card__interests strong {
-    color: var(--text);
-    font-weight: 500;
-  }
-  
-  .offmarket-card__cta {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    color: var(--gold);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  .offmarket-card__cta:hover { color: var(--gold-light); }
-  
-  .offmarket-card__cta--locked {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-    color: var(--text-dim);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  .offmarket-card__cta--locked:hover { color: var(--gold); }
-  
-  /* ── CTA FINAL ── */
-  .offmarket-cta {
-    padding: var(--space-16) 0;
-    text-align: center;
-    border-top: 1px solid var(--border);
-    margin-top: var(--space-8);
-  }
-  
-  .offmarket-cta__title {
-    font-family: var(--font-serif);
-    font-size: clamp(32px, 4vw, 52px);
-    font-weight: 400;
-    color: var(--text);
-    line-height: 1.1;
-    margin-bottom: var(--space-5);
-  }
-  .offmarket-cta__title em {
-    font-style: italic;
-    color: var(--gold);
-  }
-  
-  .o
+  .offmarket__disclaimer {
