@@ -170,4 +170,93 @@ export default function CommentCaMarche() {
             </Link>
           </div>
 
-          {/* Séparate
+          {/* Séparateur vertical */}
+          <div className="ccm__col-sep"></div>
+
+          {/* Acquéreurs */}
+          <div className="ccm__col reveal reveal-delay-1">
+            <div className="ccm__col-header">
+              <div className="ccm__col-label">Pour les acquéreurs</div>
+              <h2 className="ccm__col-title">
+                Accédez à la sélection.
+              </h2>
+            </div>
+            <div className="ccm__col-steps">
+              {ACQUEREUR_STEPS.map((step, i) => (
+                <div key={i} className="ccm__step">
+                  <div className="ccm__step-num">{step.num}</div>
+                  <div className="ccm__step-content">
+                    <div className="ccm__step-title">{step.title}</div>
+                    <div className="ccm__step-desc">{step.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Link to="/inscription" className="ccm__col-cta">
+              Rejoindre CAPEO →
+            </Link>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── FAQ ── */}
+      <div className="ccm__faq">
+        <div className="container">
+          <div className="ccm__faq-header reveal">
+            <div className="section-label">Questions fréquentes</div>
+            <h2 className="ccm__faq-title">FAQ.</h2>
+          </div>
+
+          <div className="ccm__faq-list">
+            {FAQ.map((item, i) => (
+              <div
+                key={i}
+                className={`ccm__faq-item reveal ${openFaq === i ? 'ccm__faq-item--open' : ''}`}
+              >
+                <button
+                  className="ccm__faq-question"
+                  onClick={() => toggleFaq(i)}
+                >
+                  <span>{item.q}</span>
+                  <div className="ccm__faq-icon">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path
+                        d={openFaq === i ? 'M2 7h10' : 'M7 2v10M2 7h10'}
+                        stroke="currentColor" strokeWidth="1.2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </div>
+                </button>
+                {openFaq === i && (
+                  <div className="ccm__faq-answer">
+                    {item.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── CTA FINAL ── */}
+      <div className="ccm__bottom container reveal">
+        <div className="ccm__bottom-inner">
+          <h2 className="ccm__bottom-title">
+            Prêt à acquérir l'exception ?
+          </h2>
+          <div className="ccm__bottom-actions">
+            <Link to="/actifs" className="ccm__btn-primary">
+              Explorer les actifs →
+            </Link>
+            <Link to="/inscription" className="ccm__btn-ghost">
+              Créer un compte
+            </Link>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  )
+}
