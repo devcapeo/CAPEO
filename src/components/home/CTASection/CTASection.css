@@ -1,13 +1,19 @@
 /* ============================================
-   CAPEO — CTA SECTION V3 CSS
-   Split 50/50.
+   CAPEO — CTA SECTION V4 CSS
+   Plus aéré, moins massif.
    ============================================ */
 
 .cta-split {
+  padding: var(--space-16) 0 var(--space-20);
+}
+
+.cta-split__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-10);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 480px;
-  position: relative;
+  gap: var(--space-5);
 }
 
 /* ── PANELS ── */
@@ -16,15 +22,17 @@
   display: flex;
   align-items: center;
   overflow: hidden;
+  border-radius: var(--radius-md);
+  min-height: 380px;
 }
 
 .cta-split__panel--seller {
-  background: var(--gold);
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
 }
 
 .cta-split__panel--buyer {
-  background: var(--blue-dark);
-  border-left: 1px solid rgba(184,149,63,0.2);
+  background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
+  border: 1px solid var(--gold-border);
 }
 
 /* Texture subtile */
@@ -33,38 +41,32 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
   pointer-events: none;
+  opacity: 0.4;
 }
 
-/* Bandes dorées latérales */
-.cta-split__panel--seller::after {
-  content: '';
-  position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: 6px;
-  background: rgba(0,0,0,0.15);
-}
-
+/* Accent doré sur acquéreurs */
 .cta-split__panel--buyer::after {
   content: '';
   position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: 6px;
+  top: 0; left: 0;
+  width: 3px;
+  height: 60px;
   background: var(--gold);
-  opacity: 0.3;
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
 }
 
 .cta-split__panel-inner {
   position: relative;
   z-index: 1;
-  padding: var(--space-16) var(--space-12);
+  padding: var(--space-10) var(--space-10);
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
-  max-width: 520px;
+  gap: var(--space-4);
+  max-width: 460px;
 }
 
 /* Label */
@@ -73,9 +75,10 @@
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  margin-bottom: var(--space-1);
 }
 .cta-split__panel--seller .cta-split__label {
-  color: rgba(0,0,0,0.5);
+  color: rgba(0,0,0,0.55);
 }
 .cta-split__panel--buyer .cta-split__label {
   color: var(--gold);
@@ -84,7 +87,7 @@
 /* Titre */
 .cta-split__title {
   font-family: var(--font-serif);
-  font-size: clamp(28px, 3.5vw, 48px);
+  font-size: clamp(26px, 3vw, 38px);
   font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -103,7 +106,7 @@
   line-height: 1.75;
 }
 .cta-split__panel--seller .cta-split__desc {
-  color: rgba(0,0,0,0.6);
+  color: rgba(0,0,0,0.65);
 }
 .cta-split__panel--buyer .cta-split__desc {
   color: var(--text-muted);
@@ -113,58 +116,62 @@
 .cta-split__btn {
   display: inline-flex;
   align-items: center;
-  padding: 13px 28px;
+  padding: 12px 24px;
   border-radius: var(--radius-xs);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   text-decoration: none;
   transition: all var(--transition);
   width: fit-content;
-  margin-top: var(--space-2);
+  margin-top: var(--space-3);
 }
 
 .cta-split__btn--dark {
   background: var(--bg-deep);
   color: var(--gold);
-  border: 1px solid transparent;
 }
 .cta-split__btn--dark:hover {
-  background: #111;
+  background: #1a1a1a;
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
 .cta-split__btn--gold {
-  background: transparent;
-  color: var(--gold);
-  border: 1px solid var(--gold-border);
+  background: var(--gold);
+  color: var(--bg-deep);
 }
 .cta-split__btn--gold:hover {
-  background: var(--gold-dim);
-  border-color: var(--gold);
+  background: var(--gold-light);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .cta-split {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-  .cta-split__panel--buyer {
-    border-left: none;
-    border-top: 1px solid rgba(184,149,63,0.2);
+@media (max-width: 1024px) {
+  .cta-split__container {
+    padding: 0 var(--space-6);
   }
   .cta-split__panel-inner {
-    padding: var(--space-10) var(--space-6);
-    max-width: 100%;
+    padding: var(--space-8);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .cta-split {
+    padding: var(--space-10) 0 var(--space-12);
+  }
+  .cta-split__container {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding: 0 var(--space-5);
+  }
+  .cta-split__panel {
+    min-height: auto;
+  }
   .cta-split__panel-inner {
-    padding: var(--space-8) var(--space-5);
+    padding: var(--space-8) var(--space-6);
+    max-width: 100%;
   }
 }
