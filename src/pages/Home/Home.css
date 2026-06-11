@@ -5,7 +5,6 @@
    leur propre fichier CSS.
    ============================================ */
 
-   .home {
-    padding-top: var(--header-height);
-    overflow-x: hidden;
-  }
+.home {
+  overflow-x: hidden;
+}
