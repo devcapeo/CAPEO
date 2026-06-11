@@ -1,9 +1,8 @@
 /* ============================================
-   CAPEO — HEADER V2
-   Logo CAP(E)O avec E doré.
-   Bouton "Rejoindre CAPEO" en CTA.
-   Item actif surligné en or dans la nav.
-   Burger mobile responsive.
+   CAPEO — HEADER V4
+   Transparent au sommet, opaque au scroll.
+   Largeur contrainte. Logo CAP(E)O avec E doré.
+   Burger mobile fullscreen.
    ============================================ */
 
 import { useState, useEffect } from 'react'
@@ -12,7 +11,6 @@ import './Header.css'
 
 const NAV_LINKS = [
   { to: '/actifs',            label: 'Actifs' },
-  { to: '/off-market',        label: 'Off-Market' },
   { to: '/comment-ca-marche', label: 'Comment ça marche' },
   { to: '/proposer-un-actif', label: 'Publier un actif' },
 ]
@@ -23,7 +21,8 @@ export default function Header() {
   const location = useLocation()
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
+    const handleScroll = () => setScrolled(window.scrollY > 40)
+    handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -40,7 +39,7 @@ export default function Header() {
   const isActive = (to) => location.pathname === to
 
   return (
-    <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
+    <header className={`header ${scrolled ? 'header--scrolled' : ''} ${menuOpen ? 'header--menu-open' : ''}`}>
       <div className="header__inner">
 
         {/* Logo */}
@@ -79,20 +78,21 @@ export default function Header() {
         >
           <span></span>
           <span></span>
-          <span></span>
         </button>
 
       </div>
 
-      {/* Menu mobile */}
+      {/* Menu mobile fullscreen */}
       <div className={`header__mobile ${menuOpen ? 'header__mobile--open' : ''}`}>
         <nav className="header__mobile-nav">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.map((link, i) => (
             <Link
               key={link.to}
               to={link.to}
               className={`header__mobile-link ${isActive(link.to) ? 'header__mobile-link--active' : ''}`}
+              style={{ transitionDelay: menuOpen ? `${0.1 + i * 0.06}s` : '0s' }}
             >
+              <span className="header__mobile-link-num">0{i + 1}</span>
               {link.label}
             </Link>
           ))}
