@@ -1,0 +1,107 @@
+.hcta {
+  padding: var(--space-20) 0 var(--space-24);
+  border-top: 1px solid var(--border);
+}
+
+.hcta__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+
+.hcta__panel {
+  padding: var(--space-12);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.hcta__panel--seller {
+  background:
+    radial-gradient(ellipse 70% 80% at 0% 0%,
+      rgba(184,149,63,0.08) 0%, transparent 60%),
+    var(--bg-card);
+}
+
+.hcta__panel--buyer {
+  background:
+    radial-gradient(ellipse 70% 80% at 100% 100%,
+      rgba(26,50,96,0.3) 0%, transparent 60%),
+    var(--blue-dark);
+  border-color: var(--gold-border);
+}
+
+.hcta__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.hcta__title {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.hcta__title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hcta__desc {
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: var(--space-4);
+  flex: 1;
+}
+
+.hcta__btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 28px;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: all var(--transition);
+  width: fit-content;
+}
+
+.hcta__btn--primary {
+  background: var(--gold);
+  color: var(--bg-deep);
+}
+.hcta__btn--primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+.hcta__btn--ghost {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold-border);
+}
+.hcta__btn--ghost:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .hcta { padding: var(--space-16) 0; }
+  .hcta__grid { grid-template-columns: 1fr; }
+  .hcta__panel { padding: var(--space-8); }
+}
