@@ -1,0 +1,121 @@
+.hc {
+  padding: var(--space-24) 0;
+  border-top: 1px solid var(--border);
+}
+
+.hc__head {
+  max-width: 640px;
+  margin-bottom: var(--space-16);
+}
+
+.hc__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-5);
+}
+
+.hc__title {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-6);
+}
+.hc__title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hc__sub {
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 480px;
+}
+
+.hc__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+.hc__card {
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition);
+  background: var(--bg-card);
+}
+.hc__card:hover {
+  border-color: var(--gold-border);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hc__card-img {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+}
+.hc__card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.hc__card:hover .hc__card-img img {
+  transform: scale(1.06);
+}
+
+.hc__card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(9,9,11,0.7), transparent 60%);
+}
+
+.hc__card-body {
+  padding: var(--space-6);
+}
+
+.hc__card-label {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: var(--space-3);
+}
+
+.hc__card-desc {
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: var(--space-4);
+}
+
+.hc__card-link {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all var(--transition);
+}
+.hc__card:hover .hc__card-link {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 900px) {
+  .hc__grid { grid-template-columns: 1fr; }
+  .hc { padding: var(--space-16) 0; }
+}
