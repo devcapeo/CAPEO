@@ -1,0 +1,117 @@
+.hs {
+  padding: var(--space-24) 0;
+  position: relative;
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.hs__header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-20);
+}
+
+.hs__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-5);
+}
+
+.hs__title {
+  font-family: var(--font-serif);
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 400;
+  line-height: 1.0;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-6);
+}
+.hs__title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hs__sub {
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* Visualisation */
+.hs__viz {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 440px;
+}
+
+.hs__viz-inner {
+  position: relative;
+  width: 0;
+  height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hs__center {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  color: var(--gold);
+  z-index: 3;
+  box-shadow: 0 0 40px rgba(184,149,63,0.15);
+}
+.hs__center span {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hs__avatar {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  color: var(--text);
+  z-index: 2;
+}
+
+.hs__link-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-border), transparent);
+  transform-origin: left center;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .hs { padding: var(--space-16) 0; }
+  .hs__viz {
+    height: 360px;
+    transform: scale(0.75);
+  }
+  .hs__header { margin-bottom: var(--space-12); }
+}
