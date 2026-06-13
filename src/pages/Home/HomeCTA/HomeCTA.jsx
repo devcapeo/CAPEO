@@ -1,1 +1,3 @@
-export default function HomeCTA() { return <section /> }
+export default function HomeCTA() {
+  return <section></section>
+}
