@@ -25,9 +25,13 @@ function HomeHero() {
         yPercent: 110, duration: 1.1, ease: 'power4.out',
         stagger: 0.12, delay: 0.2,
       })
-      gsap.from(['.hh__eyebrow', '.hh__sub', '.hh__actions', '.hh__stats'], {
+      gsap.from(['.hh__tagline', '.hh__sub', '.hh__actions'], {
         opacity: 0, y: 24, duration: 1, ease: 'power3.out',
         stagger: 0.15, delay: 0.8,
+      })
+      gsap.from('.hh__trust-item', {
+        opacity: 0, y: 16, duration: 0.8, ease: 'power3.out',
+        stagger: 0.1, delay: 1.2,
       })
       gsap.to(photoRef.current, {
         yPercent: 18, ease: 'none',
@@ -52,51 +56,55 @@ function HomeHero() {
       </div>
 
       <div className="hh__content container">
-        <div className="hh__eyebrow">
-          <span className="hh__eyebrow-dot"></span>
-          Place de marché d'actifs premium
-        </div>
+        <div className="hh__tagline">Place de marché d'actifs premium</div>
+
         <h1 className="hh__title">
           <span className="hh__line"><span>Acquérir</span></span>
           <span className="hh__line"><span><em>l'exception,</em></span></span>
           <span className="hh__line"><span>à plusieurs.</span></span>
         </h1>
+
         <p className="hh__sub">
           CAPEO réunit des acquéreurs qualifiés autour d'un même
           bien immobilier pour permettre la co-acquisition,
           en toute discrétion.
         </p>
+
         <div className="hh__actions">
           <Link to="/actifs" className="hh__btn-primary">
-            <span>Explorer les biens</span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <span className="hh__btn-primary-text">Explorer les biens</span>
+            <span className="hh__btn-primary-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </Link>
           <Link to="/comment-ca-marche" className="hh__btn-ghost">
-            Comment ça marche
+            <span>Comment ça marche</span>
           </Link>
         </div>
-        <div className="hh__stats">
-          <div className="hh__stat">
-            <div className="hh__stat-value">0%</div>
-            <div className="hh__stat-label">Commission</div>
+      </div>
+
+      <div className="hh__trust">
+        <div className="hh__trust-inner container">
+          <div className="hh__trust-item">
+            <span className="hh__trust-value">0%</span>
+            <span className="hh__trust-label">de commission</span>
           </div>
-          <div className="hh__stat-sep"></div>
-          <div className="hh__stat">
-            <div className="hh__stat-value">KYC</div>
-            <div className="hh__stat-label">Vendeurs vérifiés</div>
+          <span className="hh__trust-dot"></span>
+          <div className="hh__trust-item">
+            <span className="hh__trust-value">Vendeurs vérifiés</span>
+            <span className="hh__trust-label">par procédure KYC</span>
           </div>
-          <div className="hh__stat-sep"></div>
-          <div className="hh__stat">
-            <div className="hh__stat-value">EU 2019/1150</div>
-            <div className="hh__stat-label">Mise en relation</div>
+          <span className="hh__trust-dot"></span>
+          <div className="hh__trust-item">
+            <span className="hh__trust-value">Mise en relation</span>
+            <span className="hh__trust-label">règlement EU 2019/1150</span>
           </div>
         </div>
       </div>
 
       <div className="hh__scroll">
-        <span>Scroll</span>
         <div className="hh__scroll-line"></div>
       </div>
     </section>
@@ -104,25 +112,30 @@ function HomeHero() {
 }
 
 /* ============================================
-   ACTE 2 — PROBLÈME
+   ACTE 2 — LE CONSTAT (ticket divisé)
    ============================================ */
 function HomeProblem() {
   const ref = useRef(null)
-  const countRef = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.hp__line', {
+      gsap.from('.hp__head-el', {
         opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
         scrollTrigger: { trigger: ref.current, start: 'top 70%' },
       })
-      const counter = { val: 0 }
-      gsap.to(counter, {
-        val: 8500000, duration: 2, ease: 'power2.out',
-        scrollTrigger: { trigger: ref.current, start: 'top 60%' },
-        onUpdate: () => {
-          if (countRef.current) countRef.current.textContent = Math.floor(counter.val).toLocaleString('fr-FR') + ' €'
-        },
+      // Le bloc entier (600k) apparaît
+      gsap.from('.hp__whole', {
+        opacity: 0, scale: 0.94, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.hp__viz', start: 'top 72%' },
+      })
+      // Les parts se détachent
+      gsap.from('.hp__share', {
+        opacity: 0, y: 30, duration: 0.8, ease: 'back.out(1.4)', stagger: 0.12,
+        scrollTrigger: { trigger: '.hp__viz', start: 'top 60%' },
+      })
+      gsap.from('.hp__divide-line', {
+        scaleY: 0, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: '.hp__viz', start: 'top 62%' },
       })
     }, ref)
     return () => ctx.revert()
@@ -130,23 +143,53 @@ function HomeProblem() {
 
   return (
     <section className="hp" ref={ref}>
-      <div className="container hp__inner">
-        <div className="hp__text">
-          <div className="hp__line hp__eyebrow">Le constat</div>
-          <h2 className="hp__line hp__title">
-            Certains biens sont<br/>
-            <em>hors de portée.</em>
+      <div className="container">
+        <div className="hp__head">
+          <div className="hp__head-el hp__eyebrow">Le constat</div>
+          <h2 className="hp__head-el hp__title">
+            Seul, c'est hors de portée.<br/>
+            <em>À plusieurs, c'est accessible.</em>
           </h2>
-          <p className="hp__line hp__sub">
-            Un immeuble de rapport, un domaine d'exception, un bien
-            rare. Seul, ces opportunités restent inaccessibles
-            à la plupart des acquéreurs.
+          <p className="hp__head-el hp__sub">
+            La co-acquisition divise le ticket d'entrée. Un bien
+            inaccessible individuellement devient atteignable lorsque
+            plusieurs acquéreurs s'unissent autour du même projet.
           </p>
         </div>
-        <div className="hp__count-block hp__line">
-          <div className="hp__count-label">Prix moyen d'un actif premium</div>
-          <div className="hp__count" ref={countRef}>0 €</div>
-          <div className="hp__count-note">Un ticket que peu peuvent assumer individuellement.</div>
+
+        <div className="hp__viz">
+          {/* Bien entier */}
+          <div className="hp__whole">
+            <div className="hp__whole-label">Un bien à</div>
+            <div className="hp__whole-value">600 000 €</div>
+            <div className="hp__whole-note">Hors de portée pour beaucoup, seul.</div>
+          </div>
+
+          <div className="hp__divide">
+            <div className="hp__divide-line"></div>
+            <div className="hp__divide-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M4 10h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                <circle cx="10" cy="5" r="1.4" fill="currentColor"/>
+                <circle cx="10" cy="15" r="1.4" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+
+          {/* Parts divisées */}
+          <div className="hp__shares">
+            {[1, 2, 3, 4].map((n) => (
+              <div className="hp__share" key={n}>
+                <div className="hp__share-avatar">{['M', 'S', 'L', 'A'][n - 1]}</div>
+                <div className="hp__share-value">150 000 €</div>
+                <div className="hp__share-label">Acquéreur {n}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="hp__disclaimer hp__head-el">
+          Exemple illustratif. La répartition et la structuration dépendent de chaque projet.
         </div>
       </div>
     </section>
@@ -154,17 +197,18 @@ function HomeProblem() {
 }
 
 /* ============================================
-   ACTE 3 — SOLUTION
+   ACTE 3 — SOLUTION (convergence interactive)
    ============================================ */
 const ACQUEREURS = [
-  { id: 1, initials: 'M', x: -180, y: -120 },
-  { id: 2, initials: 'S', x: 180, y: -120 },
-  { id: 3, initials: 'L', x: -200, y: 60 },
-  { id: 4, initials: 'A', x: 200, y: 60 },
+  { id: 1, initials: 'M', x: -240, y: -130 },
+  { id: 2, initials: 'S', x: 240, y: -130 },
+  { id: 3, initials: 'L', x: -260, y: 90 },
+  { id: 4, initials: 'A', x: 260, y: 90 },
 ]
 
 function HomeSolution() {
   const ref = useRef(null)
+  const vizRef = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -172,20 +216,52 @@ function HomeSolution() {
         opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
         scrollTrigger: { trigger: ref.current, start: 'top 65%' },
       })
-      gsap.from('.hs__avatar', {
-        opacity: 0, scale: 0.5, duration: 1, ease: 'back.out(1.6)', stagger: 0.12,
-        scrollTrigger: { trigger: '.hs__viz', start: 'top 70%' },
-      })
-      gsap.from('.hs__link-line', {
-        scaleX: 0, duration: 0.8, ease: 'power2.out', stagger: 0.1,
-        scrollTrigger: { trigger: '.hs__viz', start: 'top 60%' },
-      })
       gsap.from('.hs__center', {
         opacity: 0, scale: 0.6, duration: 1.2, ease: 'power3.out',
-        scrollTrigger: { trigger: '.hs__viz', start: 'top 70%' },
+        scrollTrigger: { trigger: '.hs__viz', start: 'top 72%' },
+      })
+      gsap.from('.hs__line', {
+        scaleX: 0, duration: 0.9, ease: 'power2.out', stagger: 0.1,
+        scrollTrigger: { trigger: '.hs__viz', start: 'top 68%' },
+      })
+      gsap.from('.hs__avatar', {
+        opacity: 0, scale: 0.4, duration: 0.9, ease: 'back.out(1.7)', stagger: 0.1,
+        scrollTrigger: { trigger: '.hs__viz', start: 'top 72%' },
       })
     }, ref)
     return () => ctx.revert()
+  }, [])
+
+  // Parallax souris
+  useEffect(() => {
+    const viz = vizRef.current
+    if (!viz) return
+    const handleMove = (e) => {
+      const rect = viz.getBoundingClientRect()
+      const cx = rect.left + rect.width / 2
+      const cy = rect.top + rect.height / 2
+      const dx = (e.clientX - cx) / rect.width
+      const dy = (e.clientY - cy) / rect.height
+      viz.querySelectorAll('.hs__avatar').forEach((el, i) => {
+        const depth = 12 + i * 4
+        el.style.transform = `${el.dataset.base} translate(${dx * depth}px, ${dy * depth}px)`
+      })
+      const center = viz.querySelector('.hs__center')
+      if (center) center.style.transform = `translate(${dx * -8}px, ${dy * -8}px)`
+    }
+    const handleLeave = () => {
+      viz.querySelectorAll('.hs__avatar').forEach((el) => {
+        el.style.transform = el.dataset.base
+      })
+      const center = viz.querySelector('.hs__center')
+      if (center) center.style.transform = 'translate(0,0)'
+    }
+    viz.addEventListener('mousemove', handleMove)
+    viz.addEventListener('mouseleave', handleLeave)
+    return () => {
+      viz.removeEventListener('mousemove', handleMove)
+      viz.removeEventListener('mouseleave', handleLeave)
+    }
   }, [])
 
   return (
@@ -203,27 +279,44 @@ function HomeSolution() {
             réservés à une poignée d'initiés.
           </p>
         </div>
-        <div className="hs__viz">
-          <div className="hs__viz-inner">
+
+        <div className="hs__viz" ref={vizRef}>
+          <svg className="hs__lines" viewBox="-300 -200 600 400" preserveAspectRatio="xMidYMid meet">
             {ACQUEREURS.map((a) => (
-              <div key={`line-${a.id}`} className="hs__link-line"
-                style={{ width: Math.sqrt(a.x * a.x + a.y * a.y), transform: `rotate(${Math.atan2(a.y, a.x)}rad)` }}>
-              </div>
+              <line
+                key={`l-${a.id}`}
+                className="hs__line"
+                x1="0" y1="0" x2={a.x} y2={a.y}
+                stroke="url(#hsGrad)" strokeWidth="1"
+              />
             ))}
-            <div className="hs__center">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <rect x="5" y="12" width="18" height="13" rx="1" stroke="currentColor" strokeWidth="1.3"/>
-                <path d="M2 13L14 4l12 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-                <rect x="11" y="17" width="6" height="8" stroke="currentColor" strokeWidth="1.3"/>
-              </svg>
-              <span>Le bien</span>
-            </div>
-            {ACQUEREURS.map((a) => (
-              <div key={a.id} className="hs__avatar" style={{ transform: `translate(${a.x}px, ${a.y}px)` }}>
-                {a.initials}
-              </div>
-            ))}
+            <defs>
+              <linearGradient id="hsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.6"/>
+                <stop offset="100%" stopColor="var(--gold)" stopOpacity="0.05"/>
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <div className="hs__center">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <rect x="6" y="13" width="18" height="13" rx="1" stroke="currentColor" strokeWidth="1.3"/>
+              <path d="M3 14L15 5l12 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+              <rect x="12" y="18" width="6" height="8" stroke="currentColor" strokeWidth="1.3"/>
+            </svg>
+            <span>Le bien</span>
           </div>
+
+          {ACQUEREURS.map((a) => (
+            <div
+              key={a.id}
+              className="hs__avatar"
+              data-base={`translate(${a.x}px, ${a.y}px)`}
+              style={{ transform: `translate(${a.x}px, ${a.y}px)` }}
+            >
+              {a.initials}
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -280,7 +373,12 @@ function HomeCategories() {
               <div className="hc__card-body">
                 <div className="hc__card-label">{type.label}</div>
                 <div className="hc__card-desc">{type.desc}</div>
-                <div className="hc__card-link">Explorer →</div>
+                <div className="hc__card-link">
+                  <span>Explorer</span>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
               </div>
             </Link>
           ))}
@@ -291,12 +389,12 @@ function HomeCategories() {
 }
 
 /* ============================================
-   ACTE 5 — PROCESS
+   ACTE 5 — PROCESS (interactif au hover)
    ============================================ */
 const STEPS = [
-  { num: '01', title: 'Publication', desc: 'Le vendeur publie son bien gratuitement. Photos, description, documents. Il obtient le badge Vérifié CAPEO après vérification KYC.' },
-  { num: '02', title: 'Visibilité', desc: 'Le bien est diffusé auprès d\'acquéreurs qualifiés. Les membres CAPEO+ reçoivent une alerte si le bien correspond à leur profil.' },
-  { num: '03', title: 'Business Room', desc: 'Les acquéreurs intéressés rejoignent une room privée. Ils échangent, déclarent leurs intentions d\'apport et choisissent leur structure d\'acquisition.' },
+  { num: '01', title: 'Publication', desc: 'Le vendeur publie son bien gratuitement — photos, description, documents. Il obtient le badge Vérifié CAPEO après vérification KYC.' },
+  { num: '02', title: 'Visibilité', desc: 'Le bien est diffusé auprès des acquéreurs qualifiés inscrits sur la plateforme, à la recherche de projets de co-acquisition.' },
+  { num: '03', title: 'Business Room', desc: 'Les acquéreurs intéressés rejoignent une Business Room privée. Ils échangent, déclarent leurs intentions d\'apport et organisent leur projet commun.' },
   { num: '04', title: 'Transaction', desc: 'Vendeur et acquéreurs organisent librement la suite hors plateforme — devant notaire, en SCI ou en indivision. CAPEO ne participe pas à la transaction.' },
 ]
 
@@ -341,7 +439,9 @@ function HomeProcess() {
           </div>
           {STEPS.map((step, i) => (
             <div key={i} className="hpr__step">
-              <div className="hpr__step-dot">{step.num}</div>
+              <div className="hpr__step-dot">
+                <span>{step.num}</span>
+              </div>
               <div className="hpr__step-content">
                 <div className="hpr__step-title">{step.title}</div>
                 <div className="hpr__step-desc">{step.desc}</div>
@@ -351,7 +451,10 @@ function HomeProcess() {
         </div>
         <div className="hpr__cta-wrap hpr__head-el">
           <Link to="/comment-ca-marche" className="hpr__cta">
-            En savoir plus sur le fonctionnement →
+            <span>En savoir plus sur le fonctionnement</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </Link>
         </div>
       </div>
@@ -390,7 +493,10 @@ function HomeCTA() {
             commission sur la transaction.
           </p>
           <Link to="/proposer-un-actif" className="hcta__btn hcta__btn--primary">
-            Publier un bien →
+            <span>Publier un bien</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </Link>
         </div>
         <div className="hcta__panel hcta__panel--buyer">
@@ -405,7 +511,10 @@ function HomeCTA() {
             L'accès est gratuit pendant notre phase de lancement.
           </p>
           <Link to="/inscription" className="hcta__btn hcta__btn--ghost">
-            Devenir acquéreur →
+            <span>Devenir acquéreur</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </Link>
         </div>
       </div>
