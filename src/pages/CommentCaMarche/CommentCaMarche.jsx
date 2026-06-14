@@ -1,10 +1,9 @@
 /* ============================================
-   CAPEO — COMMENT ÇA MARCHE V3
-   Immobilier. V1 gratuit. Reveal via
-   IntersectionObserver (fiable hors Home).
+   CAPEO — COMMENT ÇA MARCHE V4
+   Structure calquée sur la page Actifs.
    ============================================ */
 
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './CommentCaMarche.css'
 
@@ -37,138 +36,107 @@ const FAQ = [
 
 export default function CommentCaMarche() {
   const [openFaq, setOpenFaq] = useState(null)
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.12 }
-    )
-    const els = ref.current?.querySelectorAll('.ccm-reveal')
-    els?.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
-
   const toggleFaq = (i) => setOpenFaq(openFaq === i ? null : i)
 
   return (
-    <div className="ccm" ref={ref}>
+    <div className="ccm-page">
 
-      {/* ── HERO ── */}
-      <div className="ccm__hero">
-        <div className="ccm__hero-bg"></div>
-        <div className="ccm__hero-inner container">
-          <div className="ccm-reveal ccm__eyebrow">Le fonctionnement</div>
-          <h1 className="ccm-reveal ccm__hero-title">
-            Comment fonctionne<br/>
-            <em>CAPEO.</em>
+      {/* ── EN-TÊTE (calqué sur actifs-page__header) ── */}
+      <div className="ccm-page__header">
+        <div className="ccm-page__header-inner">
+          <div className="ccm-page__eyebrow">Le fonctionnement</div>
+          <h1 className="ccm-page__title">
+            Comment fonctionne <em>CAPEO</em>
           </h1>
-          <p className="ccm-reveal ccm__hero-sub">
+          <p className="ccm-page__sub">
             Une place de marché entre acquéreurs qualifiés et vendeurs
             de biens immobiliers. Mise en relation, confidentialité, zéro
-            commission. Les transactions se concluent hors plateforme
-            entre les parties.
+            commission. Les transactions se concluent hors plateforme.
           </p>
         </div>
-        <div className="ccm__hero-line"></div>
       </div>
 
-      {/* ── COLONNES ÉTAPES ── */}
-      <div className="ccm__steps container">
-        <div className="ccm__steps-grid">
+      {/* ── CONTENU ── */}
+      <div className="ccm-content">
+        <div className="ccm-content__inner">
 
-          <div className="ccm__col ccm-reveal">
-            <div className="ccm__col-header">
-              <div className="ccm__col-label">Pour les vendeurs</div>
-              <h2 className="ccm__col-title">Publiez gratuitement.</h2>
-            </div>
-            <div className="ccm__col-steps">
-              {VENDEUR_STEPS.map((step, i) => (
-                <div key={i} className="ccm__step">
-                  <div className="ccm__step-num">{step.num}</div>
-                  <div className="ccm__step-content">
-                    <div className="ccm__step-title">{step.title}</div>
-                    <div className="ccm__step-desc">{step.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <Link to="/proposer-un-actif" className="ccm__col-cta">
-              Publier un bien →
-            </Link>
-          </div>
+          {/* COLONNES ÉTAPES */}
+          <div className="ccm-steps-grid">
 
-          <div className="ccm__col-sep"></div>
-
-          <div className="ccm__col ccm-reveal">
-            <div className="ccm__col-header">
-              <div className="ccm__col-label">Pour les acquéreurs</div>
-              <h2 className="ccm__col-title">Accédez aux biens.</h2>
-            </div>
-            <div className="ccm__col-steps">
-              {ACQUEREUR_STEPS.map((step, i) => (
-                <div key={i} className="ccm__step">
-                  <div className="ccm__step-num">{step.num}</div>
-                  <div className="ccm__step-content">
-                    <div className="ccm__step-title">{step.title}</div>
-                    <div className="ccm__step-desc">{step.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <Link to="/inscription" className="ccm__col-cta">
-              Rejoindre CAPEO →
-            </Link>
-          </div>
-
-        </div>
-      </div>
-
-      {/* ── FAQ ── */}
-      <div className="ccm__faq">
-        <div className="container">
-          <div className="ccm__faq-header ccm-reveal">
-            <div className="ccm__eyebrow">Questions fréquentes</div>
-            <h2 className="ccm__faq-title">FAQ.</h2>
-          </div>
-
-          <div className="ccm__faq-list ccm-reveal">
-            {FAQ.map((item, i) => (
-              <div key={i} className={`ccm__faq-item ${openFaq === i ? 'ccm__faq-item--open' : ''}`}>
-                <button className="ccm__faq-question" onClick={() => toggleFaq(i)}>
-                  <span>{item.q}</span>
-                  <div className="ccm__faq-icon">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d={openFaq === i ? 'M2 7h10' : 'M7 2v10M2 7h10'} stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                    </svg>
-                  </div>
-                </button>
-                {openFaq === i && <div className="ccm__faq-answer">{item.a}</div>}
+            <div className="ccm-col">
+              <div className="ccm-col__header">
+                <div className="ccm-col__label">Pour les vendeurs</div>
+                <h2 className="ccm-col__title">Publiez gratuitement.</h2>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
+              <div className="ccm-col__steps">
+                {VENDEUR_STEPS.map((step, i) => (
+                  <div key={i} className="ccm-step">
+                    <div className="ccm-step__num">{step.num}</div>
+                    <div className="ccm-step__content">
+                      <div className="ccm-step__title">{step.title}</div>
+                      <div className="ccm-step__desc">{step.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Link to="/proposer-un-actif" className="ccm-col__cta">Publier un bien →</Link>
+            </div>
 
-      {/* ── CTA FINAL ── */}
-      <div className="ccm__bottom container ccm-reveal">
-        <div className="ccm__bottom-inner">
-          <h2 className="ccm__bottom-title">Prêt à acquérir <em>l'exception</em> ?</h2>
-          <div className="ccm__bottom-actions">
-            <Link to="/actifs" className="ccm__btn-primary btn-gold-shimmer">
-              <span>Explorer les biens →</span>
-            </Link>
-            <Link to="/inscription" className="ccm__btn-ghost">
-              Créer un compte
-            </Link>
+            <div className="ccm-col__sep"></div>
+
+            <div className="ccm-col">
+              <div className="ccm-col__header">
+                <div className="ccm-col__label">Pour les acquéreurs</div>
+                <h2 className="ccm-col__title">Accédez aux biens.</h2>
+              </div>
+              <div className="ccm-col__steps">
+                {ACQUEREUR_STEPS.map((step, i) => (
+                  <div key={i} className="ccm-step">
+                    <div className="ccm-step__num">{step.num}</div>
+                    <div className="ccm-step__content">
+                      <div className="ccm-step__title">{step.title}</div>
+                      <div className="ccm-step__desc">{step.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Link to="/inscription" className="ccm-col__cta">Rejoindre CAPEO →</Link>
+            </div>
+
           </div>
+
+          {/* FAQ */}
+          <div className="ccm-faq">
+            <div className="ccm-faq__header">
+              <div className="ccm-page__eyebrow">Questions fréquentes</div>
+              <h2 className="ccm-faq__title">FAQ.</h2>
+            </div>
+            <div className="ccm-faq__list">
+              {FAQ.map((item, i) => (
+                <div key={i} className={`ccm-faq__item ${openFaq === i ? 'ccm-faq__item--open' : ''}`}>
+                  <button className="ccm-faq__question" onClick={() => toggleFaq(i)}>
+                    <span>{item.q}</span>
+                    <div className="ccm-faq__icon">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d={openFaq === i ? 'M2 7h10' : 'M7 2v10M2 7h10'} stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                      </svg>
+                    </div>
+                  </button>
+                  {openFaq === i && <div className="ccm-faq__answer">{item.a}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA FINAL */}
+          <div className="ccm-bottom">
+            <h2 className="ccm-bottom__title">Prêt à acquérir <em>l'exception</em> ?</h2>
+            <div className="ccm-bottom__actions">
+              <Link to="/actifs" className="ccm-btn-primary">Explorer les biens →</Link>
+              <Link to="/inscription" className="ccm-btn-ghost">Créer un compte</Link>
+            </div>
+          </div>
+
         </div>
       </div>
 
