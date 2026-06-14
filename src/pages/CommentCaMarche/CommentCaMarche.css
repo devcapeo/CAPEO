@@ -32,7 +32,14 @@
     radial-gradient(ellipse 40% 40% at 80% 30%, rgba(184,149,63,0.04) 0%, transparent 60%);
   z-index: 0;
 }
-.ccm__hero-inner { position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--space-5); max-width: 700px; }
+.ccm__hero-inner {
+  position: relative; z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-10);
+  display: flex; flex-direction: column; gap: var(--space-5);
+}
+.ccm__hero-inner > * { max-width: 700px; }
 .ccm__hero-title { font-family: var(--font-serif); font-size: clamp(44px, 6.5vw, 88px); font-weight: 400; line-height: 1.0; color: var(--text); letter-spacing: -0.02em; }
 .ccm__hero-title em { font-style: italic; color: var(--gold); }
 .ccm__hero-sub { font-size: var(--text-base); font-weight: 400; color: var(--text-muted); line-height: 1.8; max-width: 560px; }
@@ -104,6 +111,13 @@
   font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 400; text-decoration: none; transition: all var(--transition); white-space: nowrap;
 }
 .ccm__btn-ghost:hover { border-color: var(--gold-border); color: var(--text); }
+
+.ccm .container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-left: var(--space-10);
+  padding-right: var(--space-10);
+}
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
