@@ -112,7 +112,7 @@ function HomeHero() {
 }
 
 /* ============================================
-   ACTE 2 — LE CONSTAT (ticket divisé)
+   ACTE 2 — LE CONSTAT (carte qui s'agrandit)
    ============================================ */
 function HomeProblem() {
   const ref = useRef(null)
@@ -123,19 +123,9 @@ function HomeProblem() {
         opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
         scrollTrigger: { trigger: ref.current, start: 'top 70%' },
       })
-      // Le bloc entier (600k) apparaît
-      gsap.from('.hp__whole', {
-        opacity: 0, scale: 0.94, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.hp__viz', start: 'top 72%' },
-      })
-      // Les parts se détachent
-      gsap.from('.hp__share', {
-        opacity: 0, y: 30, duration: 0.8, ease: 'back.out(1.4)', stagger: 0.12,
-        scrollTrigger: { trigger: '.hp__viz', start: 'top 60%' },
-      })
-      gsap.from('.hp__divide-line', {
-        scaleY: 0, duration: 0.6, ease: 'power2.out',
-        scrollTrigger: { trigger: '.hp__viz', start: 'top 62%' },
+      gsap.from('.hp__card', {
+        opacity: 0, y: 50, scale: 0.96, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.hp__card', start: 'top 80%' },
       })
     }, ref)
     return () => ctx.revert()
@@ -157,34 +147,33 @@ function HomeProblem() {
           </p>
         </div>
 
-        <div className="hp__viz">
-          {/* Bien entier */}
-          <div className="hp__whole">
-            <div className="hp__whole-label">Un bien à</div>
-            <div className="hp__whole-value">600 000 €</div>
-            <div className="hp__whole-note">Hors de portée pour beaucoup, seul.</div>
-          </div>
-
-          <div className="hp__divide">
-            <div className="hp__divide-line"></div>
-            <div className="hp__divide-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M4 10h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-                <circle cx="10" cy="5" r="1.4" fill="currentColor"/>
-                <circle cx="10" cy="15" r="1.4" fill="currentColor"/>
-              </svg>
-            </div>
-          </div>
-
-          {/* Parts divisées */}
-          <div className="hp__shares">
-            {[1, 2, 3, 4].map((n) => (
-              <div className="hp__share" key={n}>
-                <div className="hp__share-avatar">{['M', 'S', 'L', 'A'][n - 1]}</div>
-                <div className="hp__share-value">150 000 €</div>
-                <div className="hp__share-label">Acquéreur {n}</div>
+        <div className="hp__card-wrap">
+          {/* Carte interactive : survol = révélation des parts */}
+          <div className="hp__card">
+            <div className="hp__card-top">
+              <div className="hp__card-label">Un bien à</div>
+              <div className="hp__card-value">600 000 €</div>
+              <div className="hp__card-hint">
+                <span>Survolez pour diviser</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M7 3v8M3 7h8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                </svg>
               </div>
-            ))}
+            </div>
+
+            <div className="hp__card-reveal">
+              <div className="hp__card-divide">
+                <span>÷ 4 acquéreurs</span>
+              </div>
+              <div className="hp__card-shares">
+                {['M', 'S', 'L', 'A'].map((initial, i) => (
+                  <div className="hp__card-share" key={i}>
+                    <div className="hp__card-share-avatar">{initial}</div>
+                    <div className="hp__card-share-value">150 000 €</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -197,7 +186,7 @@ function HomeProblem() {
 }
 
 /* ============================================
-   ACTE 3 — SOLUTION (convergence interactive)
+   ACTE 3 — LA SOLUTION (la confiance)
    ============================================ */
 const ACQUEREURS = [
   { id: 1, initials: 'M', x: -240, y: -130 },
@@ -228,14 +217,18 @@ function HomeSolution() {
         opacity: 0, scale: 0.4, duration: 0.9, ease: 'back.out(1.7)', stagger: 0.1,
         scrollTrigger: { trigger: '.hs__viz', start: 'top 72%' },
       })
+      gsap.from('.hs__pill', {
+        opacity: 0, y: 20, duration: 0.8, ease: 'power3.out', stagger: 0.12,
+        scrollTrigger: { trigger: '.hs__pills', start: 'top 85%' },
+      })
     }, ref)
     return () => ctx.revert()
   }, [])
 
-  // Parallax souris
+  // Parallax souris (désactivé sur mobile/tactile)
   useEffect(() => {
     const viz = vizRef.current
-    if (!viz) return
+    if (!viz || window.matchMedia('(hover: none)').matches) return
     const handleMove = (e) => {
       const rect = viz.getBoundingClientRect()
       const cx = rect.left + rect.width / 2
@@ -250,9 +243,7 @@ function HomeSolution() {
       if (center) center.style.transform = `translate(${dx * -8}px, ${dy * -8}px)`
     }
     const handleLeave = () => {
-      viz.querySelectorAll('.hs__avatar').forEach((el) => {
-        el.style.transform = el.dataset.base
-      })
+      viz.querySelectorAll('.hs__avatar').forEach((el) => { el.style.transform = el.dataset.base })
       const center = viz.querySelector('.hs__center')
       if (center) center.style.transform = 'translate(0,0)'
     }
@@ -270,13 +261,13 @@ function HomeSolution() {
         <div className="hs__header">
           <div className="hs__text-el hs__eyebrow">La solution</div>
           <h2 className="hs__text-el hs__title">
-            À plusieurs,<br/>
-            <em>tout change.</em>
+            S'unir,<br/>
+            <em>en toute confiance.</em>
           </h2>
           <p className="hs__text-el hs__sub">
-            CAPEO réunit plusieurs acquéreurs qualifiés autour d'un
-            même bien. Ensemble, vous accédez à des actifs jusqu'ici
-            réservés à une poignée d'initiés.
+            S'associer à des inconnus pour un projet d'une telle ampleur
+            peut inquiéter. CAPEO sécurise chaque étape — identités
+            vérifiées, échanges privés, projet structuré.
           </p>
         </div>
 
@@ -317,6 +308,31 @@ function HomeSolution() {
               {a.initials}
             </div>
           ))}
+        </div>
+
+        {/* Piliers de confiance */}
+        <div className="hs__pills">
+          <div className="hs__pill">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 1l6 2.5v4C15 12 12.5 15.5 9 17c-3.5-1.5-6-5-6-9.5v-4L9 1z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+              <path d="M6.5 9l1.8 1.8L12 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>Identités vérifiées par KYC</span>
+          </div>
+          <div className="hs__pill">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <rect x="4" y="8" width="10" height="7" rx="1" stroke="currentColor" strokeWidth="1.2"/>
+              <path d="M6 8V6a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+            <span>Échanges privés en Business Room</span>
+          </div>
+          <div className="hs__pill">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M3 15V7l6-4 6 4v8" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+              <path d="M7 15v-4h4v4" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+            </svg>
+            <span>Projet structuré entre co-acquéreurs</span>
+          </div>
         </div>
       </div>
     </section>
@@ -389,7 +405,7 @@ function HomeCategories() {
 }
 
 /* ============================================
-   ACTE 5 — PROCESS (interactif au hover)
+   ACTE 5 — PROCESS (ronds qui s'allument)
    ============================================ */
 const STEPS = [
   { num: '01', title: 'Publication', desc: 'Le vendeur publie son bien gratuitement — photos, description, documents. Il obtient le badge Vérifié CAPEO après vérification KYC.' },
@@ -407,13 +423,24 @@ function HomeProcess() {
         opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
         scrollTrigger: { trigger: ref.current, start: 'top 70%' },
       })
-      gsap.from('.hpr__timeline-fill', {
-        scaleY: 0, ease: 'none',
-        scrollTrigger: { trigger: '.hpr__steps', start: 'top 60%', end: 'bottom 70%', scrub: 1 },
-      })
       gsap.from('.hpr__step', {
         opacity: 0, x: -30, duration: 0.8, ease: 'power3.out', stagger: 0.2,
-        scrollTrigger: { trigger: '.hpr__steps', start: 'top 65%' },
+        scrollTrigger: { trigger: '.hpr__steps', start: 'top 70%' },
+      })
+      // Ligne qui se trace
+      gsap.to('.hpr__timeline-fill', {
+        scaleY: 1, ease: 'none',
+        scrollTrigger: { trigger: '.hpr__steps', start: 'top 60%', end: 'bottom 65%', scrub: 0.8 },
+      })
+      // Chaque rond s'allume quand la ligne le dépasse
+      gsap.utils.toArray('.hpr__step').forEach((step) => {
+        const dot = step.querySelector('.hpr__step-dot')
+        ScrollTrigger.create({
+          trigger: step,
+          start: 'top 65%',
+          onEnter: () => dot.classList.add('hpr__step-dot--active'),
+          onLeaveBack: () => dot.classList.remove('hpr__step-dot--active'),
+        })
       })
     }, ref)
     return () => ctx.revert()
