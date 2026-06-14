@@ -116,6 +116,7 @@ function HomeHero() {
    ============================================ */
 function HomeProblem() {
   const ref = useRef(null)
+  const [cardOpen, setCardOpen] = useState(false)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -148,15 +149,17 @@ function HomeProblem() {
         </div>
 
         <div className="hp__card-wrap">
-          {/* Carte interactive : survol = révélation des parts */}
-          <div className="hp__card">
+          <div
+            className={`hp__card ${cardOpen ? 'hp__card--open' : ''}`}
+            onClick={() => setCardOpen(!cardOpen)}
+          >
             <div className="hp__card-top">
               <div className="hp__card-label">Un bien à</div>
               <div className="hp__card-value">600 000 €</div>
               <div className="hp__card-hint">
-                <span>Survolez pour diviser</span>
+                <span>{cardOpen ? 'Refermer' : 'Toucher pour diviser'}</span>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M7 3v8M3 7h8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                  <path d={cardOpen ? 'M3 7h8' : 'M7 3v8M3 7h8'} stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
                 </svg>
               </div>
             </div>
