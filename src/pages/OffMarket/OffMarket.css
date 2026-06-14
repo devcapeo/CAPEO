@@ -291,3 +291,22 @@
     padding: var(--space-16) var(--space-8);
   }
   .offmarket__disclaimer {
+    padding: var(--space-8) var(--space-8) var(--space-12);
+  }
+}
+
+@media (max-width: 768px) {
+  .offmarket__hero-inner {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+  }
+  .offmarket__locked-wrap {
+    padding: var(--space-12) var(--space-5);
+  }
+  .offmarket__locked {
+    padding: var(--space-8) var(--space-6);
+  }
+  .offmarket__disclaimer {
+    padding: var(--space-6) var(--space-5) var(--space-10);
+  }
+}
