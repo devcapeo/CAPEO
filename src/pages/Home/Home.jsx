@@ -3,13 +3,12 @@
    Lenis + GSAP ScrollTrigger. 6 actes.
    ============================================ */
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Home.css'
-import { useEffect, useRef, useState } from 'react'
 
 gsap.registerPlugin(ScrollTrigger)
 
