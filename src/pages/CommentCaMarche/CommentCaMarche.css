@@ -1,32 +1,30 @@
 /* ============================================
    CAPEO — COMMENT ÇA MARCHE V3 CSS
-   Cohérent home. Responsive.
    ============================================ */
 
-.ccm { min-height: 100vh; padding-top: var(--header-height); }
+.ccm { min-height: 100vh; padding-top: calc(var(--header-height) + var(--space-8)); }
+
+/* Reveal au scroll (IntersectionObserver) */
+.ccm-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.ccm-reveal.is-visible { opacity: 1; transform: translateY(0); }
 
 /* Eyebrow serif italique or */
 .ccm__eyebrow {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(18px, 2vw, 24px);
-  font-weight: 400;
-  color: var(--gold);
-  margin-bottom: var(--space-3);
+  font-family: var(--font-serif); font-style: italic; font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400; color: var(--gold); margin-bottom: var(--space-3);
 }
 
 /* Shimmer doré */
 .ccm .btn-gold-shimmer { position: relative; overflow: hidden; }
 .ccm .btn-gold-shimmer::before {
-  content: ''; position: absolute; top: 0; left: -100%;
-  width: 100%; height: 100%;
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
   transition: left 0.6s ease; pointer-events: none; z-index: 2;
 }
 .ccm .btn-gold-shimmer:hover::before { left: 100%; }
 
 /* ── HERO ── */
-.ccm__hero { position: relative; padding: var(--space-20) 0 var(--space-16); overflow: hidden; }
+.ccm__hero { position: relative; padding: var(--space-12) 0 var(--space-16); overflow: hidden; }
 .ccm__hero-bg {
   position: absolute; inset: 0;
   background:
@@ -115,7 +113,7 @@
 }
 
 @media (max-width: 768px) {
-  .ccm__hero { padding: var(--space-16) 0 var(--space-12); }
+  .ccm__hero { padding: var(--space-8) 0 var(--space-12); }
   .ccm__steps { padding: var(--space-10) var(--space-5); }
   .ccm__steps-grid { grid-template-columns: 1fr; gap: var(--space-12); }
   .ccm__col-sep { display: none; }
