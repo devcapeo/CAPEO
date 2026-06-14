@@ -1,15 +1,12 @@
 /* ============================================
    CAPEO — COMMENT ÇA MARCHE V3
-   Immobilier. V1 gratuit. Animations GSAP.
+   Immobilier. V1 gratuit. Reveal via
+   IntersectionObserver (fiable hors Home).
    ============================================ */
 
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './CommentCaMarche.css'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const VENDEUR_STEPS = [
   { num: '01', title: 'Créez votre compte vendeur', desc: 'Inscription gratuite. Validation de votre identité par vérification KYC.' },
@@ -28,38 +25,14 @@ const ACQUEREUR_STEPS = [
 ]
 
 const FAQ = [
-  {
-    q: 'Combien coûte CAPEO ?',
-    a: 'Pendant notre phase de lancement, l\'accès est entièrement gratuit, pour les vendeurs comme pour les acquéreurs. Notre objectif est d\'abord de constituer une communauté de qualité et de concrétiser les premiers projets de co-acquisition.',
-  },
-  {
-    q: 'CAPEO prélève-t-il une commission sur les transactions ?',
-    a: 'Non. CAPEO n\'est pas un prestataire de services de financement participatif (PSFP). Aucun flux financier ne transite par la plateforme. Les transactions sont formalisées hors plateforme entre les parties.',
-  },
-  {
-    q: 'Les informations affichées sont-elles vérifiées par CAPEO ?',
-    a: 'Non. Les informations présentées (surfaces, prix indicatifs, charges, etc.) sont fournies exclusivement par les vendeurs et ne sont pas vérifiées par CAPEO. Il appartient à chaque acquéreur de procéder à ses propres vérifications avec ses conseils.',
-  },
-  {
-    q: 'Comment fonctionne le badge Vérifié CAPEO ?',
-    a: 'Le badge Vérifié CAPEO atteste que l\'identité du vendeur a été vérifiée via notre processus KYC. Il ne constitue ni une garantie ni une recommandation sur la qualité du bien proposé.',
-  },
-  {
-    q: 'Qu\'est-ce qu\'une Business Room ?',
-    a: 'Une Business Room est un espace privé dédié à un bien spécifique. Elle réunit le vendeur et les acquéreurs intéressés pour échanger en confidentialité : discussion sécurisée, partage de documents, déclarations d\'intentions d\'apport entre co-acquéreurs.',
-  },
-  {
-    q: 'Qu\'est-ce que la co-acquisition ?',
-    a: 'La co-acquisition désigne le fait, pour plusieurs acquéreurs, de s\'unir pour acquérir ensemble un bien immobilier. CAPEO facilite la mise en relation des co-acquéreurs ; la structuration juridique et fiscale relève exclusivement des conseils des parties.',
-  },
-  {
-    q: 'CAPEO propose-t-il des simulations de rendement ?',
-    a: 'Non. Conformément au cadre réglementaire applicable, CAPEO ne propose aucune simulation de rendement, de plus-value ni de fiscalité.',
-  },
-  {
-    q: 'Quel est le cadre légal de CAPEO ?',
-    a: 'CAPEO est une plateforme de mise en relation au sens du règlement européen 2019/1150. CAPEO n\'est pas un PSFP, ne propose pas d\'offre au public d\'instruments financiers et n\'intervient pas dans le règlement des transactions.',
-  },
+  { q: 'Combien coûte CAPEO ?', a: 'Pendant notre phase de lancement, l\'accès est entièrement gratuit, pour les vendeurs comme pour les acquéreurs. Notre objectif est d\'abord de constituer une communauté de qualité et de concrétiser les premiers projets de co-acquisition.' },
+  { q: 'CAPEO prélève-t-il une commission sur les transactions ?', a: 'Non. CAPEO n\'est pas un prestataire de services de financement participatif (PSFP). Aucun flux financier ne transite par la plateforme. Les transactions sont formalisées hors plateforme entre les parties.' },
+  { q: 'Les informations affichées sont-elles vérifiées par CAPEO ?', a: 'Non. Les informations présentées (surfaces, prix indicatifs, charges, etc.) sont fournies exclusivement par les vendeurs et ne sont pas vérifiées par CAPEO. Il appartient à chaque acquéreur de procéder à ses propres vérifications avec ses conseils.' },
+  { q: 'Comment fonctionne le badge Vérifié CAPEO ?', a: 'Le badge Vérifié CAPEO atteste que l\'identité du vendeur a été vérifiée via notre processus KYC. Il ne constitue ni une garantie ni une recommandation sur la qualité du bien proposé.' },
+  { q: 'Qu\'est-ce qu\'une Business Room ?', a: 'Une Business Room est un espace privé dédié à un bien spécifique. Elle réunit le vendeur et les acquéreurs intéressés pour échanger en confidentialité : discussion sécurisée, partage de documents, déclarations d\'intentions d\'apport entre co-acquéreurs.' },
+  { q: 'Qu\'est-ce que la co-acquisition ?', a: 'La co-acquisition désigne le fait, pour plusieurs acquéreurs, de s\'unir pour acquérir ensemble un bien immobilier. CAPEO facilite la mise en relation des co-acquéreurs ; la structuration juridique et fiscale relève exclusivement des conseils des parties.' },
+  { q: 'CAPEO propose-t-il des simulations de rendement ?', a: 'Non. Conformément au cadre réglementaire applicable, CAPEO ne propose aucune simulation de rendement, de plus-value ni de fiscalité.' },
+  { q: 'Quel est le cadre légal de CAPEO ?', a: 'CAPEO est une plateforme de mise en relation au sens du règlement européen 2019/1150. CAPEO n\'est pas un PSFP, ne propose pas d\'offre au public d\'instruments financiers et n\'intervient pas dans le règlement des transactions.' },
 ]
 
 export default function CommentCaMarche() {
@@ -67,18 +40,20 @@ export default function CommentCaMarche() {
   const ref = useRef(null)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.ccm__hero-el', {
-        opacity: 0, y: 30, duration: 1, ease: 'power3.out', stagger: 0.12,
-      })
-      gsap.utils.toArray('.ccm__reveal').forEach((el) => {
-        gsap.from(el, {
-          opacity: 0, y: 40, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 85%' },
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            observer.unobserve(entry.target)
+          }
         })
-      })
-    }, ref)
-    return () => ctx.revert()
+      },
+      { threshold: 0.12 }
+    )
+    const els = ref.current?.querySelectorAll('.ccm-reveal')
+    els?.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
   }, [])
 
   const toggleFaq = (i) => setOpenFaq(openFaq === i ? null : i)
@@ -90,12 +65,12 @@ export default function CommentCaMarche() {
       <div className="ccm__hero">
         <div className="ccm__hero-bg"></div>
         <div className="ccm__hero-inner container">
-          <div className="ccm__hero-el ccm__eyebrow">Le fonctionnement</div>
-          <h1 className="ccm__hero-el ccm__hero-title">
+          <div className="ccm-reveal ccm__eyebrow">Le fonctionnement</div>
+          <h1 className="ccm-reveal ccm__hero-title">
             Comment fonctionne<br/>
             <em>CAPEO.</em>
           </h1>
-          <p className="ccm__hero-el ccm__hero-sub">
+          <p className="ccm-reveal ccm__hero-sub">
             Une place de marché entre acquéreurs qualifiés et vendeurs
             de biens immobiliers. Mise en relation, confidentialité, zéro
             commission. Les transactions se concluent hors plateforme
@@ -109,7 +84,7 @@ export default function CommentCaMarche() {
       <div className="ccm__steps container">
         <div className="ccm__steps-grid">
 
-          <div className="ccm__col ccm__reveal">
+          <div className="ccm__col ccm-reveal">
             <div className="ccm__col-header">
               <div className="ccm__col-label">Pour les vendeurs</div>
               <h2 className="ccm__col-title">Publiez gratuitement.</h2>
@@ -132,7 +107,7 @@ export default function CommentCaMarche() {
 
           <div className="ccm__col-sep"></div>
 
-          <div className="ccm__col ccm__reveal">
+          <div className="ccm__col ccm-reveal">
             <div className="ccm__col-header">
               <div className="ccm__col-label">Pour les acquéreurs</div>
               <h2 className="ccm__col-title">Accédez aux biens.</h2>
@@ -159,12 +134,12 @@ export default function CommentCaMarche() {
       {/* ── FAQ ── */}
       <div className="ccm__faq">
         <div className="container">
-          <div className="ccm__faq-header ccm__reveal">
+          <div className="ccm__faq-header ccm-reveal">
             <div className="ccm__eyebrow">Questions fréquentes</div>
             <h2 className="ccm__faq-title">FAQ.</h2>
           </div>
 
-          <div className="ccm__faq-list ccm__reveal">
+          <div className="ccm__faq-list ccm-reveal">
             {FAQ.map((item, i) => (
               <div key={i} className={`ccm__faq-item ${openFaq === i ? 'ccm__faq-item--open' : ''}`}>
                 <button className="ccm__faq-question" onClick={() => toggleFaq(i)}>
@@ -183,7 +158,7 @@ export default function CommentCaMarche() {
       </div>
 
       {/* ── CTA FINAL ── */}
-      <div className="ccm__bottom container ccm__reveal">
+      <div className="ccm__bottom container ccm-reveal">
         <div className="ccm__bottom-inner">
           <h2 className="ccm__bottom-title">Prêt à acquérir <em>l'exception</em> ?</h2>
           <div className="ccm__bottom-actions">
