@@ -224,3 +224,44 @@ body:has(.dash-root) {
 body:has(.page-light) {
   background: var(--app-bg);
 }
+/* ============================================
+   UTILITAIRES GLOBAUX (wrapping + reveal)
+   Répare toutes les pages qui en dépendent.
+   ============================================ */
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-left: var(--space-10);
+  padding-right: var(--space-10);
+}
+
+.section-label {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  color: var(--gold);
+  margin-bottom: var(--space-3);
+}
+
+/* Reveal au scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+@media (max-width: 1024px) {
+  .container { padding-left: var(--space-8); padding-right: var(--space-8); }
+}
+@media (max-width: 768px) {
+  .container { padding-left: var(--space-5); padding-right: var(--space-5); }
+}
