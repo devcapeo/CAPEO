@@ -829,6 +829,54 @@
       display: none;
     }
   }
+
+/* ============================================
+   AJOUTS V3 — eyebrow premium + conseils
+   ============================================ */
+
+/* Eyebrow serif italique or (cohérent home/actifs) */
+.proposer-header__eyebrow {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  color: var(--gold);
+  margin-bottom: var(--space-3);
+}
+
+/* Numéro de conseil (remplace l'ancienne icône SVG) */
+.proposer-sidebar__conseil-icon {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  opacity: 0.7;
+  flex-shrink: 0;
+  margin-top: 1px;
+  min-width: 20px;
+}
+
+/* Cohérence : weight 400 au lieu de 300 sur les textes courants */
+.proposer-header__sub,
+.proposer-card__sub,
+.proposer-dropzone__text,
+.proposer-checkbox,
+.proposer-cat,
+.proposer-recap__row,
+.proposer-sidebar__step-label,
+.proposer-sidebar__conseil,
+.proposer-sidebar__free-desc,
+.proposer-success__desc,
+.proposer-input,
+.proposer-textarea,
+.proposer-select {
+  font-weight: 400;
+}
+
+/* Les types de bien sont plus longs — texte aligné à gauche */
+.proposer-cat {
+  text-align: left;
+}
   
   @media (max-width: 768px) {
     .proposer-page__inner {
