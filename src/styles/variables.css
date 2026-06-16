@@ -50,7 +50,7 @@
   /* ── TYPOGRAPHIE ── */
   --font-serif:   'Cormorant Garamond', Georgia, serif;
   --font-sans:    'DM Sans', system-ui, sans-serif;
-  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+  --font-mono:    'DM Sans', system-ui, sans-serif;
 
   /* ── FONT SIZES ── */
   --text-xs:      12px;
