@@ -330,3 +330,192 @@ html.lenis, html.lenis body { height: auto; }
   .hs__viz { transform: scale(0.5); height: 280px; }
   .hs__title { font-size: clamp(36px, 12vw, 52px); }
 }
+/* ============================================
+   ACTE 2+3 FUSIONNÉS — CONSTAT & SOLUTION
+   ============================================ */
+
+.hps {
+  padding: var(--space-24) 0;
+  position: relative;
+}
+
+/* Eyebrow / titre / sub partagés */
+.hps__eyebrow {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  color: var(--gold);
+  margin-bottom: var(--space-4);
+}
+.hps__title {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-5);
+}
+.hps__title em { font-style: italic; color: var(--gold); }
+.hps__sub {
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+/* ── TEMPS 1 : CONSTAT ── */
+.hps__problem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.hps__p-head { display: flex; flex-direction: column; align-items: center; }
+
+.hps__card-wrap {
+  margin-top: var(--space-12);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.hps__card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-10);
+  width: 100%;
+  max-width: 520px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.hps__card:hover { border-color: var(--gold-border); }
+
+.hps__card-top { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.hps__card-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.hps__card-value { font-family: var(--font-serif); font-size: clamp(40px, 6vw, 64px); font-weight: 400; color: var(--text); line-height: 1; }
+.hps__card-hint {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  margin-top: var(--space-4); padding: 6px 16px;
+  border: 1px solid var(--gold-border); border-radius: var(--radius-full);
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--gold);
+  transition: all var(--transition);
+}
+
+.hps__card-reveal {
+  max-height: 0; opacity: 0; overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
+  margin-top: 0;
+}
+.hps__card--open .hps__card-reveal {
+  max-height: 400px; opacity: 1; margin-top: var(--space-8);
+}
+.hps__card-divide {
+  text-align: center; margin-bottom: var(--space-6);
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gold);
+}
+.hps__card-shares { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); }
+.hps__card-share { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.hps__card-share-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--gold-dim); border: 1px solid var(--gold-border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif); font-size: 16px; color: var(--gold);
+}
+.hps__card-share-value { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+
+.hps__disclaimer {
+  margin-top: var(--space-6);
+  font-size: 11px; font-style: italic; color: var(--text-dim);
+}
+
+/* ── PONT ── */
+.hps__bridge {
+  display: flex; align-items: center; gap: var(--space-5);
+  margin: var(--space-20) auto;
+  max-width: 700px;
+}
+.hps__bridge-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
+}
+.hps__bridge-text {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(15px, 2vw, 19px); color: var(--gold);
+  white-space: nowrap;
+}
+
+/* ── TEMPS 2 : SOLUTION ── */
+.hps__solution { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+/* ============================================
+   ACTE 3bis — VÉRIFICATION / KYC
+   ============================================ */
+.hk { padding: var(--space-24) 0; border-top: 1px solid var(--border); }
+.hk__head { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: var(--space-16); }
+.hk__eyebrow {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(18px, 2vw, 24px); font-weight: 400; color: var(--gold);
+  margin-bottom: var(--space-4);
+}
+.hk__title {
+  font-family: var(--font-serif); font-size: clamp(32px, 5vw, 60px);
+  font-weight: 400; color: var(--text); line-height: 1.08;
+  letter-spacing: -0.02em; margin-bottom: var(--space-5);
+}
+.hk__title em { font-style: italic; color: var(--gold); }
+.hk__sub {
+  font-size: var(--text-base); font-weight: 400; color: var(--text-muted);
+  line-height: 1.8; max-width: 620px;
+}
+
+.hk__grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5);
+  margin-bottom: var(--space-12);
+}
+.hk__card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: var(--space-8);
+  display: flex; flex-direction: column; gap: var(--space-3);
+  transition: all var(--transition);
+}
+.hk__card:hover { border-color: var(--gold-border); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.hk__card-num {
+  font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em;
+  color: var(--gold); opacity: 0.6; margin-bottom: var(--space-2);
+}
+.hk__card-title { font-family: var(--font-serif); font-size: var(--text-xl); font-weight: 400; color: var(--text); }
+.hk__card-desc { font-size: var(--text-sm); font-weight: 400; color: var(--text-muted); line-height: 1.7; }
+
+.hk__badge {
+  display: flex; align-items: flex-start; gap: var(--space-5);
+  max-width: 620px; margin: 0 auto;
+  padding: var(--space-6) var(--space-8);
+  background: var(--gold-dim); border: 1px solid var(--gold-border);
+  border-radius: var(--radius-md);
+}
+.hk__badge-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--bg-deep); border: 1px solid var(--gold-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); flex-shrink: 0;
+}
+.hk__badge-text { font-size: var(--text-sm); font-weight: 400; color: var(--text-muted); line-height: 1.7; }
+.hk__badge-text strong { display: block; font-family: var(--font-serif); font-size: var(--text-lg); font-weight: 400; color: var(--gold); margin-bottom: var(--space-1); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hps { padding: var(--space-16) 0; }
+  .hps__card { padding: var(--space-8); }
+  .hps__card-shares { gap: var(--space-2); }
+  .hps__card-share-avatar { width: 34px; height: 34px; font-size: 14px; }
+  .hps__bridge { margin: var(--space-12) auto; gap: var(--space-3); }
+  .hps__bridge-text { font-size: 14px; white-space: normal; text-align: center; }
+  .hk { padding: var(--space-16) 0; }
+  .hk__grid { grid-template-columns: 1fr; }
+  .hk__badge { flex-direction: column; align-items: center; text-align: center; gap: var(--space-3); }
+}
