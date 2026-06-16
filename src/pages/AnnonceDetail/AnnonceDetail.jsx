@@ -8,7 +8,6 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ActifDisclaimer from '../../components/annonces/ActifDisclaimer/ActifDisclaimer.jsx'
 import VerifiedBadge from '../../components/annonces/VerifiedBadge/VerifiedBadge.jsx'
-import RoomAccess from '../../components/room/RoomAccess/RoomAccess.jsx'
 import './AnnonceDetail.css'
 
 const ACTIFS_DATA = {
@@ -197,8 +196,13 @@ export default function AnnonceDetail() {
                 </div>
               </div>
 
-              {!hasRoomAccess ? (
-                <RoomAccess onAccess={() => setHasRoomAccess(true)} />
+{!hasRoomAccess ? (
+                <button className="detail-room-join" onClick={() => setHasRoomAccess(true)}>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  Rejoindre la Business Room
+                </button>
               ) : (
                 <div className="detail-room-unlocked">
                   <div className="detail-room-unlocked__icon">
@@ -212,6 +216,9 @@ export default function AnnonceDetail() {
                   <Link to={`/business-room/${actif.id}`} className="detail-room-unlocked__btn">Accéder à la Business Room →</Link>
                 </div>
               )}
+              <p className="detail-room-free">
+                Gratuit pendant notre phase de lancement. Inscription et vérification requises.
+              </p>
             </div>
 
             {/* Réassurance suite */}
