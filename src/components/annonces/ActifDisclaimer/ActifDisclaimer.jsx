@@ -31,10 +31,10 @@
            <p className="actif-disclaimer__text">
              Les informations présentées sur cette annonce sont fournies
              exclusivement par le vendeur. <strong>CAPEO ne les vérifie pas</strong>,
-             ne les valide pas et ne formule aucun conseil d'acquisition.
-             Les indicateurs de rendement ou de valeur sont des estimations
-             du vendeur, non contractuelles. Les utilisateurs sont seuls
-             responsables de leurs décisions d'acquisition.
+            ne les valide pas et ne formule aucun conseil d'acquisition.
+            Les données financières affichées sont déclarées par le vendeur
+            et non contractuelles. Les utilisateurs sont seuls
+            responsables de leurs décisions d'acquisition.
              La transaction se formalise hors plateforme, entre les parties.
            </p>
          </div>
