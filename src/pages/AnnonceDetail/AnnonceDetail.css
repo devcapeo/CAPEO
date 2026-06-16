@@ -630,6 +630,16 @@
   text-transform: uppercase;
   color: var(--gold);
 }
+
+/* Fix bouton retour cliquable (passait sous l'overlay) */
+.detail-carousel__back { z-index: 5; }
+.detail-carousel__overlay { pointer-events: none; }
+
+/* Fix lisibilité du disclaimer légal */
+.detail-left .actif-disclaimer,
+.detail-left [class*="disclaimer"] {
+  color: var(--text-muted);
+}
   
   /* ── RESPONSIVE ── */
   @media (max-width: 1200px) {
