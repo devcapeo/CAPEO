@@ -1,7 +1,6 @@
 /* ============================================
    CAPEO — COMMENT ÇA MARCHE V5
-   + Section "La confiance CAPEO" (vérification
-   humaine, filtrage, réassurance co-acquéreurs).
+   Étapes + section confiance + FAQ.
    ============================================ */
 
 import { useState } from 'react'
