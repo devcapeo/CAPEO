@@ -259,6 +259,14 @@ body:has(.page-light) {
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 
+/* Labels ex-mono : rendu premium en sans-serif espacé */
+[class*="__eyebrow"],
+[class*="__label"],
+[class*="-label"],
+[class*="__num"] {
+  font-feature-settings: "tnum";
+}
+
 @media (max-width: 1024px) {
   .container { padding-left: var(--space-8); padding-right: var(--space-8); }
 }
