@@ -1,8 +1,7 @@
 /* ============================================
-   CAPEO — HEADER V4
-   Transparent au sommet, opaque au scroll.
-   Largeur contrainte. Logo CAP(E)O avec E doré.
-   Burger mobile fullscreen.
+   CAPEO — HEADER V5
+   Transparent au sommet sur la HOME uniquement.
+   Opaque partout ailleurs.
    ============================================ */
 
 import { useState, useEffect } from 'react'
@@ -19,6 +18,9 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
+
+  // La home est la seule page avec un header transparent au sommet
+  const isHome = location.pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40)
@@ -38,16 +40,16 @@ export default function Header() {
 
   const isActive = (to) => location.pathname === to
 
-  return (
-    <header className={`header ${scrolled ? 'header--scrolled' : ''} ${menuOpen ? 'header--menu-open' : ''}`}>
-      <div className="header__inner">
+  // Opaque si : pas la home, OU scrollé, OU menu ouvert
+  const solid = !isHome || scrolled
 
-        {/* Logo */}
+  return (
+    <header className={`header ${solid ? 'header--scrolled' : ''} ${menuOpen ? 'header--menu-open' : ''}`}>
+      <div className="header__inner">
         <Link to="/" className="header__logo">
           CAP<span>E</span>O
         </Link>
 
-        {/* Nav desktop */}
         <nav className="header__nav">
           {NAV_LINKS.map((link) => (
             <Link
@@ -60,17 +62,11 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Actions desktop */}
         <div className="header__actions">
-          <Link to="/connexion" className="header__login">
-            Connexion
-          </Link>
-          <Link to="/inscription" className="header__cta">
-            Rejoindre CAPEO
-          </Link>
+          <Link to="/connexion" className="header__login">Connexion</Link>
+          <Link to="/inscription" className="header__cta">Rejoindre CAPEO</Link>
         </div>
 
-        {/* Burger mobile */}
         <button
           className={`header__burger ${menuOpen ? 'header__burger--open' : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -79,10 +75,8 @@ export default function Header() {
           <span></span>
           <span></span>
         </button>
-
       </div>
 
-      {/* Menu mobile fullscreen */}
       <div className={`header__mobile ${menuOpen ? 'header__mobile--open' : ''}`}>
         <nav className="header__mobile-nav">
           {NAV_LINKS.map((link, i) => (
@@ -98,15 +92,10 @@ export default function Header() {
           ))}
         </nav>
         <div className="header__mobile-actions">
-          <Link to="/connexion" className="header__mobile-login">
-            Connexion
-          </Link>
-          <Link to="/inscription" className="header__mobile-cta">
-            Rejoindre CAPEO
-          </Link>
+          <Link to="/connexion" className="header__mobile-login">Connexion</Link>
+          <Link to="/inscription" className="header__mobile-cta">Rejoindre CAPEO</Link>
         </div>
       </div>
-
     </header>
   )
 }
