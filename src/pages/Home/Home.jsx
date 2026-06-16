@@ -112,84 +112,7 @@ function HomeHero() {
 }
 
 /* ============================================
-   ACTE 2 — LE CONSTAT (carte qui s'agrandit)
-   ============================================ */
-function HomeProblem() {
-  const ref = useRef(null)
-  const [cardOpen, setCardOpen] = useState(false)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.hp__head-el', {
-        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: ref.current, start: 'top 70%' },
-      })
-      gsap.from('.hp__card', {
-        opacity: 0, y: 50, scale: 0.96, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.hp__card', start: 'top 80%' },
-      })
-    }, ref)
-    return () => ctx.revert()
-  }, [])
-
-  return (
-    <section className="hp" ref={ref}>
-      <div className="container">
-        <div className="hp__head">
-          <div className="hp__head-el hp__eyebrow">Le constat</div>
-          <h2 className="hp__head-el hp__title">
-            Seul, c'est hors de portée.<br/>
-            <em>À plusieurs, c'est accessible.</em>
-          </h2>
-          <p className="hp__head-el hp__sub">
-            La co-acquisition divise le ticket d'entrée. Un bien
-            inaccessible individuellement devient atteignable lorsque
-            plusieurs acquéreurs s'unissent autour du même projet.
-          </p>
-        </div>
-
-        <div className="hp__card-wrap">
-          <div
-            className={`hp__card ${cardOpen ? 'hp__card--open' : ''}`}
-            onClick={() => setCardOpen(!cardOpen)}
-          >
-            <div className="hp__card-top">
-              <div className="hp__card-label">Un bien à</div>
-              <div className="hp__card-value">600 000 €</div>
-              <div className="hp__card-hint">
-                <span>{cardOpen ? 'Refermer' : 'Toucher pour diviser'}</span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d={cardOpen ? 'M3 7h8' : 'M7 3v8M3 7h8'} stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-                </svg>
-              </div>
-            </div>
-
-            <div className="hp__card-reveal">
-              <div className="hp__card-divide">
-                <span>÷ 4 acquéreurs</span>
-              </div>
-              <div className="hp__card-shares">
-                {['M', 'S', 'L', 'A'].map((initial, i) => (
-                  <div className="hp__card-share" key={i}>
-                    <div className="hp__card-share-avatar">{initial}</div>
-                    <div className="hp__card-share-value">150 000 €</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="hp__disclaimer hp__head-el">
-          Exemple illustratif. La répartition et la structuration dépendent de chaque projet.
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ============================================
-   ACTE 3 — LA SOLUTION (la confiance)
+   ACTE 2+3 — CONSTAT & SOLUTION (fusionnés)
    ============================================ */
 const ACQUEREURS = [
   { id: 1, initials: 'M', x: -240, y: -130 },
@@ -198,27 +121,43 @@ const ACQUEREURS = [
   { id: 4, initials: 'A', x: 260, y: 90 },
 ]
 
-function HomeSolution() {
+function HomeProblemSolution() {
   const ref = useRef(null)
   const vizRef = useRef(null)
+  const [cardOpen, setCardOpen] = useState(false)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.hs__text-el', {
+      // Temps 1 — Constat
+      gsap.from('.hps__p-head-el', {
         opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: ref.current, start: 'top 65%' },
+        scrollTrigger: { trigger: ref.current, start: 'top 70%' },
+      })
+      gsap.from('.hps__card', {
+        opacity: 0, y: 50, scale: 0.96, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.hps__card', start: 'top 80%' },
+      })
+      // Le lien entre les deux temps
+      gsap.from('.hps__bridge', {
+        opacity: 0, y: 30, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.hps__bridge', start: 'top 85%' },
+      })
+      // Temps 2 — Solution
+      gsap.from('.hps__s-text-el', {
+        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
+        scrollTrigger: { trigger: '.hps__solution', start: 'top 70%' },
       })
       gsap.from('.hs__center', {
         opacity: 0, scale: 0.6, duration: 1.2, ease: 'power3.out',
-        scrollTrigger: { trigger: '.hs__viz', start: 'top 72%' },
+        scrollTrigger: { trigger: '.hs__viz', start: 'top 75%' },
       })
       gsap.from('.hs__line', {
         scaleX: 0, duration: 0.9, ease: 'power2.out', stagger: 0.1,
-        scrollTrigger: { trigger: '.hs__viz', start: 'top 68%' },
+        scrollTrigger: { trigger: '.hs__viz', start: 'top 72%' },
       })
       gsap.from('.hs__avatar', {
         opacity: 0, scale: 0.4, duration: 0.9, ease: 'back.out(1.7)', stagger: 0.1,
-        scrollTrigger: { trigger: '.hs__viz', start: 'top 72%' },
+        scrollTrigger: { trigger: '.hs__viz', start: 'top 75%' },
       })
       gsap.from('.hs__pill', {
         opacity: 0, y: 20, duration: 0.8, ease: 'power3.out', stagger: 0.12,
@@ -228,7 +167,7 @@ function HomeSolution() {
     return () => ctx.revert()
   }, [])
 
-  // Parallax souris (désactivé sur mobile/tactile)
+  // Parallax souris sur la viz solution
   useEffect(() => {
     const viz = vizRef.current
     if (!viz || window.matchMedia('(hover: none)').matches) return
@@ -259,82 +198,205 @@ function HomeSolution() {
   }, [])
 
   return (
-    <section className="hs" ref={ref}>
+    <section className="hps" ref={ref}>
       <div className="container">
-        <div className="hs__header">
-          <div className="hs__text-el hs__eyebrow">La solution</div>
-          <h2 className="hs__text-el hs__title">
-            S'unir,<br/>
-            <em>en toute confiance.</em>
+
+        {/* ── TEMPS 1 : LE CONSTAT ── */}
+        <div className="hps__problem">
+          <div className="hps__p-head">
+            <div className="hps__p-head-el hps__eyebrow">Le constat</div>
+            <h2 className="hps__p-head-el hps__title">
+              Seul, c'est hors de portée.<br/>
+              <em>À plusieurs, c'est accessible.</em>
+            </h2>
+            <p className="hps__p-head-el hps__sub">
+              La co-acquisition divise le ticket d'entrée. Un bien
+              inaccessible individuellement devient atteignable lorsque
+              plusieurs acquéreurs s'unissent autour du même projet.
+            </p>
+          </div>
+
+          <div className="hps__card-wrap">
+            <div
+              className={`hps__card ${cardOpen ? 'hps__card--open' : ''}`}
+              onClick={() => setCardOpen(!cardOpen)}
+            >
+              <div className="hps__card-top">
+                <div className="hps__card-label">Un bien à</div>
+                <div className="hps__card-value">600 000 €</div>
+                <div className="hps__card-hint">
+                  <span>{cardOpen ? 'Refermer' : 'Toucher pour diviser'}</span>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d={cardOpen ? 'M3 7h8' : 'M7 3v8M3 7h8'} stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div className="hps__card-reveal">
+                <div className="hps__card-divide"><span>÷ 4 acquéreurs</span></div>
+                <div className="hps__card-shares">
+                  {['M', 'S', 'L', 'A'].map((initial, i) => (
+                    <div className="hps__card-share" key={i}>
+                      <div className="hps__card-share-avatar">{initial}</div>
+                      <div className="hps__card-share-value">150 000 €</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="hps__disclaimer hps__p-head-el">
+            Exemple illustratif. La répartition et la structuration dépendent de chaque projet.
+          </div>
+        </div>
+
+        {/* ── PONT ENTRE LES DEUX ── */}
+        <div className="hps__bridge">
+          <div className="hps__bridge-line"></div>
+          <div className="hps__bridge-text">Mais s'unir suppose la confiance</div>
+          <div className="hps__bridge-line"></div>
+        </div>
+
+        {/* ── TEMPS 2 : LA SOLUTION ── */}
+        <div className="hps__solution">
+          <div className="hs__header">
+            <div className="hps__s-text-el hps__eyebrow">La solution</div>
+            <h2 className="hps__s-text-el hps__title">
+              S'unir,<br/>
+              <em>en toute confiance.</em>
+            </h2>
+            <p className="hps__s-text-el hps__sub">
+              S'associer à des inconnus pour un projet d'une telle ampleur
+              peut inquiéter. CAPEO sécurise chaque étape — identités
+              vérifiées, échanges privés, projet structuré.
+            </p>
+          </div>
+
+          <div className="hs__viz" ref={vizRef}>
+            <svg className="hs__lines" viewBox="-300 -200 600 400" preserveAspectRatio="xMidYMid meet">
+              {ACQUEREURS.map((a) => (
+                <line key={`l-${a.id}`} className="hs__line" x1="0" y1="0" x2={a.x} y2={a.y} stroke="url(#hsGrad)" strokeWidth="1"/>
+              ))}
+              <defs>
+                <linearGradient id="hsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.6"/>
+                  <stop offset="100%" stopColor="var(--gold)" stopOpacity="0.05"/>
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <div className="hs__center">
+              <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <rect x="6" y="13" width="18" height="13" rx="1" stroke="currentColor" strokeWidth="1.3"/>
+                <path d="M3 14L15 5l12 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                <rect x="12" y="18" width="6" height="8" stroke="currentColor" strokeWidth="1.3"/>
+              </svg>
+              <span>Le bien</span>
+            </div>
+
+            {ACQUEREURS.map((a) => (
+              <div key={a.id} className="hs__avatar" data-base={`translate(${a.x}px, ${a.y}px)`} style={{ transform: `translate(${a.x}px, ${a.y}px)` }}>
+                {a.initials}
+              </div>
+            ))}
+          </div>
+
+          <div className="hs__pills">
+            <div className="hs__pill">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M9 1l6 2.5v4C15 12 12.5 15.5 9 17c-3.5-1.5-6-5-6-9.5v-4L9 1z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+                <path d="M6.5 9l1.8 1.8L12 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>Identités vérifiées par KYC</span>
+            </div>
+            <div className="hs__pill">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <rect x="4" y="8" width="10" height="7" rx="1" stroke="currentColor" strokeWidth="1.2"/>
+                <path d="M6 8V6a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+              </svg>
+              <span>Échanges privés en Business Room</span>
+            </div>
+            <div className="hs__pill">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M3 15V7l6-4 6 4v8" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+                <path d="M7 15v-4h4v4" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+              </svg>
+              <span>Projet structuré entre co-acquéreurs</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+/* ============================================
+   ACTE 3bis — VÉRIFICATION / KYC
+   ============================================ */
+const KYC_ITEMS = [
+  { num: '01', title: 'Identité contrôlée', desc: 'Pièce d\'identité demandée à l\'inscription. Chaque profil est examiné manuellement par notre équipe — jamais par un simple algorithme.' },
+  { num: '02', title: 'Vendeurs & biens vérifiés', desc: 'Pour publier, le vendeur fournit un document attestant du bien. Nous contrôlons avant toute mise en ligne.' },
+  { num: '03', title: 'Acquéreurs filtrés', desc: 'Rejoindre une Business Room exige un profil vérifié. Pas de curieux, pas de démarchage — uniquement des acquéreurs sérieux.' },
+]
+
+function HomeKYC() {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.hk__head-el', {
+        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
+        scrollTrigger: { trigger: ref.current, start: 'top 70%' },
+      })
+      gsap.from('.hk__card', {
+        opacity: 0, y: 50, duration: 1, ease: 'power3.out', stagger: 0.15,
+        scrollTrigger: { trigger: '.hk__grid', start: 'top 80%' },
+      })
+      gsap.from('.hk__badge', {
+        opacity: 0, scale: 0.7, duration: 1, ease: 'back.out(1.6)',
+        scrollTrigger: { trigger: '.hk__badge', start: 'top 85%' },
+      })
+    }, ref)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section className="hk" ref={ref}>
+      <div className="container">
+        <div className="hk__head">
+          <div className="hk__head-el hk__eyebrow">La vérification</div>
+          <h2 className="hk__head-el hk__title">
+            Un cercle vérifié,<br/>
+            <em>contrôlé par des humains.</em>
           </h2>
-          <p className="hs__text-el hs__sub">
-            S'associer à des inconnus pour un projet d'une telle ampleur
-            peut inquiéter. CAPEO sécurise chaque étape — identités
-            vérifiées, échanges privés, projet structuré.
+          <p className="hk__head-el hk__sub">
+            Ce qui distingue CAPEO d'une simple annonce : chaque vendeur,
+            chaque acquéreur et chaque bien passe par une vérification
+            humaine avant d'entrer dans le cercle.
           </p>
         </div>
 
-        <div className="hs__viz" ref={vizRef}>
-          <svg className="hs__lines" viewBox="-300 -200 600 400" preserveAspectRatio="xMidYMid meet">
-            {ACQUEREURS.map((a) => (
-              <line
-                key={`l-${a.id}`}
-                className="hs__line"
-                x1="0" y1="0" x2={a.x} y2={a.y}
-                stroke="url(#hsGrad)" strokeWidth="1"
-              />
-            ))}
-            <defs>
-              <linearGradient id="hsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.6"/>
-                <stop offset="100%" stopColor="var(--gold)" stopOpacity="0.05"/>
-              </linearGradient>
-            </defs>
-          </svg>
-
-          <div className="hs__center">
-            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-              <rect x="6" y="13" width="18" height="13" rx="1" stroke="currentColor" strokeWidth="1.3"/>
-              <path d="M3 14L15 5l12 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-              <rect x="12" y="18" width="6" height="8" stroke="currentColor" strokeWidth="1.3"/>
-            </svg>
-            <span>Le bien</span>
-          </div>
-
-          {ACQUEREURS.map((a) => (
-            <div
-              key={a.id}
-              className="hs__avatar"
-              data-base={`translate(${a.x}px, ${a.y}px)`}
-              style={{ transform: `translate(${a.x}px, ${a.y}px)` }}
-            >
-              {a.initials}
+        <div className="hk__grid">
+          {KYC_ITEMS.map((item, i) => (
+            <div key={i} className="hk__card">
+              <div className="hk__card-num">{item.num}</div>
+              <div className="hk__card-title">{item.title}</div>
+              <div className="hk__card-desc">{item.desc}</div>
             </div>
           ))}
         </div>
 
-        {/* Piliers de confiance */}
-        <div className="hs__pills">
-          <div className="hs__pill">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M9 1l6 2.5v4C15 12 12.5 15.5 9 17c-3.5-1.5-6-5-6-9.5v-4L9 1z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
-              <path d="M6.5 9l1.8 1.8L12 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+        <div className="hk__badge">
+          <div className="hk__badge-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 1l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V4l7-3z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+              <path d="M7 10l2 2 4-4.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <span>Identités vérifiées par KYC</span>
           </div>
-          <div className="hs__pill">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <rect x="4" y="8" width="10" height="7" rx="1" stroke="currentColor" strokeWidth="1.2"/>
-              <path d="M6 8V6a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-            </svg>
-            <span>Échanges privés en Business Room</span>
-          </div>
-          <div className="hs__pill">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M3 15V7l6-4 6 4v8" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
-              <path d="M7 15v-4h4v4" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
-            </svg>
-            <span>Projet structuré entre co-acquéreurs</span>
+          <div className="hk__badge-text">
+            <strong>Badge Vérifié CAPEO</strong>
+            Attribué après contrôle manuel de l'identité. Gage de sérieux, sans garantie sur la qualité du bien.
           </div>
         </div>
       </div>
@@ -580,8 +642,8 @@ export default function Home() {
   return (
     <div className="home">
       <HomeHero />
-      <HomeProblem />
-      <HomeSolution />
+      <HomeProblemSolution />
+      <HomeKYC />
       <HomeCategories />
       <HomeProcess />
       <HomeCTA />
