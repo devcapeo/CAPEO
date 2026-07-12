@@ -7,7 +7,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Lenis from 'lenis'
-import { ShieldCheck, MessageSquareLock, FileSignature, ArrowUpRight } from 'lucide-react'
+import { ShieldCheck, Lock, FileSignature, ArrowUpRight } from 'lucide-react'
 import { createCapeoScene } from '../../three/CapeoScene'
 import './Home.css'
 
@@ -222,7 +222,7 @@ function SolutionSection() {
       desc: 'Chaque profil est examiné manuellement par notre équipe. Aucun robot, aucun automatisme.',
     },
     {
-      icon: <MessageSquareLock size={20} strokeWidth={1.4} />,
+      icon: <Lock size={20} strokeWidth={1.4} />,
       title: 'Échanges privés',
       desc: "Une Business Room dédiée réunit les co-acquéreurs et le vendeur, à l'abri du marché ouvert.",
     },
