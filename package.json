@@ -16,10 +16,12 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "lenis": "^1.1.13",
+    "lucide-react": "^0.400.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^7.15.0",
-    "reactflow": "^11.11.4"
+    "reactflow": "^11.11.4",
+    "three": "^0.160.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
