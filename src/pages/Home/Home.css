@@ -473,3 +473,20 @@
     letter-spacing: 0.14em;
   }
 }
+/* ── FIX : Footer visible au-dessus du grain ── */
+.footer {
+  position: relative;
+  z-index: 60;
+}
+
+/* ── FIX : cartes de partage plus opaques ── */
+.home .share-part {
+  background: rgba(24, 24, 27, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--capeo-border-strong);
+}
+
+.home .share-single {
+  background: rgba(24, 24, 27, 0.92);
+  backdrop-filter: blur(8px);
+}
