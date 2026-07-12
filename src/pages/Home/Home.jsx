@@ -1,403 +1,379 @@
 /* ============================================
-   CAPEO — HOME SCROLLYTELLING (fichier unique)
-   Lenis + GSAP ScrollTrigger. 6 actes.
+   CAPEO — HOME CINÉMATIQUE
+   Scène Three.js + Lenis + 6 actes.
+   Header/Footer viennent de App.jsx.
    ============================================ */
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Lenis from 'lenis'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ShieldCheck, MessageSquareLock, FileSignature, ArrowUpRight } from 'lucide-react'
+import { createCapeoScene } from '../../three/CapeoScene'
 import './Home.css'
 
-gsap.registerPlugin(ScrollTrigger)
+/* ── Hook de révélation au scroll ── */
+function useReveal({ threshold = 0.2, stagger = 120 } = {}) {
+  const ref = useRef(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            const kids = entry.target.querySelectorAll('.reveal-line, .fade-up')
+            kids.forEach((k, i) => {
+              setTimeout(() => k.classList.add('is-visible'), i * stagger)
+            })
+            obs.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold, rootMargin: '0px 0px -80px 0px' }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [threshold, stagger])
+  return ref
+}
 
 /* ============================================
-   ACTE 1 — HERO
+   ACTE 0 — HERO
    ============================================ */
-function HomeHero() {
-  const heroRef = useRef(null)
-  const photoRef = useRef(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.hh__line span', {
-        yPercent: 110, duration: 1.1, ease: 'power4.out',
-        stagger: 0.12, delay: 0.2,
-      })
-      gsap.from(['.hh__tagline', '.hh__sub', '.hh__actions'], {
-        opacity: 0, y: 24, duration: 1, ease: 'power3.out',
-        stagger: 0.15, delay: 0.8,
-      })
-      gsap.from('.hh__trust-item', {
-        opacity: 0, y: 16, duration: 0.8, ease: 'power3.out',
-        stagger: 0.1, delay: 1.2,
-      })
-      gsap.to(photoRef.current, {
-        yPercent: 18, ease: 'none',
-        scrollTrigger: { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: 1 },
-      })
-      gsap.to('.hh__content', {
-        opacity: 0, y: -40, ease: 'none',
-        scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '60% top', scrub: 1 },
-      })
-    }, heroRef)
-    return () => ctx.revert()
-  }, [])
+function Hero() {
+  const ref = useReveal({ threshold: 0.1, stagger: 160 })
 
   return (
-    <section className="hh" ref={heroRef}>
-      <div className="hh__photo-wrap">
-        <div className="hh__photo" ref={photoRef}>
-          <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1600&q=80" alt="" loading="eager" />
+    <section id="hero" className="hero" ref={ref}>
+      <div style={{ maxWidth: 980, position: 'relative', zIndex: 3 }}>
+        <div className="fade-up" style={{ marginBottom: 40 }}>
+          <span className="eyebrow">Marketplace de co-acquisition premium</span>
         </div>
-        <div className="hh__photo-overlay"></div>
-        <div className="hh__photo-grain"></div>
-      </div>
 
-      <div className="hh__content container">
-        <div className="hh__tagline">Place de marché d'actifs premium</div>
-
-        <h1 className="hh__title">
-          <span className="hh__line"><span>Acquérir</span></span>
-          <span className="hh__line"><span><em>l'exception,</em></span></span>
-          <span className="hh__line"><span>à plusieurs.</span></span>
+        <h1
+          className="font-serif"
+          style={{
+            fontSize: 'clamp(48px, 8.2vw, 128px)',
+            lineHeight: 0.98,
+            margin: '0 0 30px',
+            fontWeight: 400,
+            letterSpacing: '-0.02em',
+          }}
+        >
+          <span className="reveal-line"><span>Acquérir</span></span>
+          <span className="reveal-line"><span><em className="gold-italic">l'exception</em>,</span></span>
+          <span className="reveal-line"><span>à plusieurs.</span></span>
         </h1>
 
-        <p className="hh__sub">
-          CAPEO réunit des acquéreurs qualifiés autour d'un même
-          bien immobilier pour permettre la co-acquisition,
-          en toute discrétion.
+        <p
+          className="fade-up"
+          style={{
+            maxWidth: 560,
+            color: 'var(--capeo-muted)',
+            fontSize: 'clamp(15px, 1.5vw, 18px)',
+            lineHeight: 1.7,
+            margin: '0 0 42px',
+          }}
+        >
+          Une propriété hors de portée seule devient accessible lorsque
+          plusieurs acquéreurs vérifiés s'unissent. Nous connectons,
+          nous vérifions, nous structurons.
         </p>
 
-        <div className="hh__actions">
-          <Link to="/actifs" className="hh__btn-primary">
-            <span className="hh__btn-primary-text">Explorer les biens</span>
-            <span className="hh__btn-primary-icon">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-          </Link>
-          <Link to="/comment-ca-marche" className="hh__btn-ghost">
-            <span>Comment ça marche</span>
-          </Link>
+        <div className="fade-up" style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 52 }}>
+          <Link to="/actifs" className="btn-gold">Explorer les biens</Link>
+          <Link to="/proposer-un-actif" className="btn-ghost">Publier un bien</Link>
+        </div>
+
+        <div
+          className="fade-up hero-trust-line"
+          style={{
+            color: 'var(--capeo-muted)',
+            fontSize: 12,
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+          }}
+        >
+          <span>· 0% de commission</span>
+          <span>· Profils vérifiés</span>
+          <span>· Mise en relation privée</span>
         </div>
       </div>
 
-      <div className="hh__trust">
-        <div className="hh__trust-inner container">
-          <div className="hh__trust-item">
-            <span className="hh__trust-value">0%</span>
-            <span className="hh__trust-label">de commission</span>
-          </div>
-          <span className="hh__trust-dot"></span>
-          <div className="hh__trust-item">
-            <span className="hh__trust-value">Vendeurs vérifiés</span>
-            <span className="hh__trust-label">par procédure KYC</span>
-          </div>
-          <span className="hh__trust-dot"></span>
-          <div className="hh__trust-item">
-            <span className="hh__trust-value">Mise en relation</span>
-            <span className="hh__trust-label">règlement EU 2019/1150</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="hh__scroll">
-        <div className="hh__scroll-line"></div>
+      <div className="scroll-indicator">
+        <span>Découvrir</span>
+        <div className="scroll-indicator__line" />
       </div>
     </section>
   )
 }
 
 /* ============================================
-   ACTE 2+3 — CONSTAT & SOLUTION (fusionnés)
+   ACTE I — LE CONSTAT
    ============================================ */
-const ACQUEREURS = [
-  { id: 1, initials: 'M', x: -240, y: -130 },
-  { id: 2, initials: 'S', x: 240, y: -130 },
-  { id: 3, initials: 'L', x: -260, y: 90 },
-  { id: 4, initials: 'A', x: 260, y: 90 },
-]
-
-function HomeProblemSolution() {
-  const ref = useRef(null)
-  const vizRef = useRef(null)
-  const [cardOpen, setCardOpen] = useState(false)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Temps 1 — Constat
-      gsap.from('.hps__p-head-el', {
-        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: ref.current, start: 'top 70%' },
-      })
-      gsap.from('.hps__card', {
-        opacity: 0, y: 50, scale: 0.96, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.hps__card', start: 'top 80%' },
-      })
-      // Le lien entre les deux temps
-      gsap.from('.hps__bridge', {
-        opacity: 0, y: 30, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.hps__bridge', start: 'top 85%' },
-      })
-      // Temps 2 — Solution
-      gsap.from('.hps__s-text-el', {
-        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: '.hps__solution', start: 'top 70%' },
-      })
-      gsap.from('.hs__center', {
-        opacity: 0, scale: 0.6, duration: 1.2, ease: 'power3.out',
-        scrollTrigger: { trigger: '.hs__viz', start: 'top 75%' },
-      })
-      gsap.from('.hs__line', {
-        scaleX: 0, duration: 0.9, ease: 'power2.out', stagger: 0.1,
-        scrollTrigger: { trigger: '.hs__viz', start: 'top 72%' },
-      })
-      gsap.from('.hs__avatar', {
-        opacity: 0, scale: 0.4, duration: 0.9, ease: 'back.out(1.7)', stagger: 0.1,
-        scrollTrigger: { trigger: '.hs__viz', start: 'top 75%' },
-      })
-      gsap.from('.hs__pill', {
-        opacity: 0, y: 20, duration: 0.8, ease: 'power3.out', stagger: 0.12,
-        scrollTrigger: { trigger: '.hs__pills', start: 'top 85%' },
-      })
-    }, ref)
-    return () => ctx.revert()
-  }, [])
-
-  // Parallax souris sur la viz solution
-  useEffect(() => {
-    const viz = vizRef.current
-    if (!viz || window.matchMedia('(hover: none)').matches) return
-    const handleMove = (e) => {
-      const rect = viz.getBoundingClientRect()
-      const cx = rect.left + rect.width / 2
-      const cy = rect.top + rect.height / 2
-      const dx = (e.clientX - cx) / rect.width
-      const dy = (e.clientY - cy) / rect.height
-      viz.querySelectorAll('.hs__avatar').forEach((el, i) => {
-        const depth = 12 + i * 4
-        el.style.transform = `${el.dataset.base} translate(${dx * depth}px, ${dy * depth}px)`
-      })
-      const center = viz.querySelector('.hs__center')
-      if (center) center.style.transform = `translate(${dx * -8}px, ${dy * -8}px)`
-    }
-    const handleLeave = () => {
-      viz.querySelectorAll('.hs__avatar').forEach((el) => { el.style.transform = el.dataset.base })
-      const center = viz.querySelector('.hs__center')
-      if (center) center.style.transform = 'translate(0,0)'
-    }
-    viz.addEventListener('mousemove', handleMove)
-    viz.addEventListener('mouseleave', handleLeave)
-    return () => {
-      viz.removeEventListener('mousemove', handleMove)
-      viz.removeEventListener('mouseleave', handleLeave)
-    }
-  }, [])
+function ProblemSection() {
+  const ref = useReveal({ threshold: 0.2, stagger: 140 })
 
   return (
-    <section className="hps" ref={ref}>
-      <div className="container">
+    <section id="problem" className="section" ref={ref}>
+      <div className="container-narrow">
+        <div className="fade-up" style={{ marginBottom: 30 }}>
+          <span className="eyebrow">Acte I — Le constat</span>
+        </div>
 
-        {/* ── TEMPS 1 : LE CONSTAT ── */}
-        <div className="hps__problem">
-          <div className="hps__p-head">
-            <div className="hps__p-head-el hps__eyebrow">Le constat</div>
-            <h2 className="hps__p-head-el hps__title">
-              Seul, c'est hors de portée.<br/>
-              <em>À plusieurs, c'est accessible.</em>
-            </h2>
-            <p className="hps__p-head-el hps__sub">
-              La co-acquisition divise le ticket d'entrée. Un bien
-              inaccessible individuellement devient atteignable lorsque
-              plusieurs acquéreurs s'unissent autour du même projet.
-            </p>
+        <h2
+          className="font-serif"
+          style={{
+            fontSize: 'clamp(38px, 5.6vw, 78px)',
+            lineHeight: 1.02,
+            margin: '0 0 30px',
+            fontWeight: 400,
+            letterSpacing: '-0.015em',
+          }}
+        >
+          <span className="reveal-line">
+            <span><em className="gold-italic">Seul,</em> c'est hors de portée.</span>
+          </span>
+          <span className="reveal-line">
+            <span>À plusieurs, c'est accessible.</span>
+          </span>
+        </h2>
+
+        <p
+          className="fade-up"
+          style={{
+            color: 'var(--capeo-muted)',
+            fontSize: 17,
+            lineHeight: 1.75,
+            maxWidth: 620,
+            margin: '0 0 80px',
+          }}
+        >
+          Le marché premium se joue au-delà de 500 000 €. Beaucoup
+          d'acquéreurs sérieux en sont exclus, non par manque de projet,
+          mais par un plafond individuel. La co-acquisition change l'équation.
+        </p>
+
+        <div className="share-viz fade-up">
+          <div className="share-single">
+            <div className="share-single__num">600 000 €</div>
+            <div className="share-single__label">Un bien exceptionnel</div>
+            <div style={{ marginTop: 24, fontSize: 12, color: 'var(--capeo-muted)', lineHeight: 1.6 }}>
+              Immeuble haussmannien · 3ᵉ arrondissement
+              <br />
+              Un ticket d'entrée réservé à quelques-uns.
+            </div>
           </div>
 
-          <div className="hps__card-wrap">
+          <div>
             <div
-              className={`hps__card ${cardOpen ? 'hps__card--open' : ''}`}
-              onClick={() => setCardOpen(!cardOpen)}
+              style={{
+                textAlign: 'center',
+                marginBottom: 20,
+                fontSize: 11,
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                color: 'var(--capeo-gold)',
+              }}
             >
-              <div className="hps__card-top">
-                <div className="hps__card-label">Un bien à</div>
-                <div className="hps__card-value">600 000 €</div>
-                <div className="hps__card-hint">
-                  <span>{cardOpen ? 'Refermer' : 'Toucher pour diviser'}</span>
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d={cardOpen ? 'M3 7h8' : 'M7 3v8M3 7h8'} stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-                  </svg>
-                </div>
-              </div>
-              <div className="hps__card-reveal">
-                <div className="hps__card-divide"><span>÷ 4 acquéreurs</span></div>
-                <div className="hps__card-shares">
-                  {['M', 'S', 'L', 'A'].map((initial, i) => (
-                    <div className="hps__card-share" key={i}>
-                      <div className="hps__card-share-avatar">{initial}</div>
-                      <div className="hps__card-share-value">150 000 €</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              Réparti entre 4 acquéreurs
             </div>
-          </div>
 
-          <div className="hps__disclaimer hps__p-head-el">
-            Exemple illustratif. La répartition et la structuration dépendent de chaque projet.
-          </div>
-        </div>
-
-        {/* ── PONT ENTRE LES DEUX ── */}
-        <div className="hps__bridge">
-          <div className="hps__bridge-line"></div>
-          <div className="hps__bridge-text">Mais s'unir suppose la confiance</div>
-          <div className="hps__bridge-line"></div>
-        </div>
-
-        {/* ── TEMPS 2 : LA SOLUTION ── */}
-        <div className="hps__solution">
-          <div className="hs__header">
-            <div className="hps__s-text-el hps__eyebrow">La solution</div>
-            <h2 className="hps__s-text-el hps__title">
-              S'unir,<br/>
-              <em>en toute confiance.</em>
-            </h2>
-            <p className="hps__s-text-el hps__sub">
-              S'associer à des inconnus pour un projet d'une telle ampleur
-              peut inquiéter. CAPEO sécurise chaque étape — identités
-              vérifiées, échanges privés, projet structuré.
-            </p>
-          </div>
-
-          <div className="hs__viz" ref={vizRef}>
-            <svg className="hs__lines" viewBox="-300 -200 600 400" preserveAspectRatio="xMidYMid meet">
-              {ACQUEREURS.map((a) => (
-                <line key={`l-${a.id}`} className="hs__line" x1="0" y1="0" x2={a.x} y2={a.y} stroke="url(#hsGrad)" strokeWidth="1"/>
+            <div className="share-split">
+              {[1, 2, 3, 4].map((n) => (
+                <div key={n} className="share-part">
+                  <div className="share-part__avatar" />
+                  <div className="share-part__num">150 000 €</div>
+                  <div className="share-part__label">Acquéreur {n}</div>
+                </div>
               ))}
-              <defs>
-                <linearGradient id="hsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.6"/>
-                  <stop offset="100%" stopColor="var(--gold)" stopOpacity="0.05"/>
-                </linearGradient>
-              </defs>
-            </svg>
-
-            <div className="hs__center">
-              <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                <rect x="6" y="13" width="18" height="13" rx="1" stroke="currentColor" strokeWidth="1.3"/>
-                <path d="M3 14L15 5l12 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-                <rect x="12" y="18" width="6" height="8" stroke="currentColor" strokeWidth="1.3"/>
-              </svg>
-              <span>Le bien</span>
             </div>
 
-            {ACQUEREURS.map((a) => (
-              <div key={a.id} className="hs__avatar" data-base={`translate(${a.x}px, ${a.y}px)`} style={{ transform: `translate(${a.x}px, ${a.y}px)` }}>
-                {a.initials}
-              </div>
-            ))}
-          </div>
-
-          <div className="hs__pills">
-            <div className="hs__pill">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M9 1l6 2.5v4C15 12 12.5 15.5 9 17c-3.5-1.5-6-5-6-9.5v-4L9 1z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
-                <path d="M6.5 9l1.8 1.8L12 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span>Identités vérifiées par KYC</span>
-            </div>
-            <div className="hs__pill">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <rect x="4" y="8" width="10" height="7" rx="1" stroke="currentColor" strokeWidth="1.2"/>
-                <path d="M6 8V6a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-              </svg>
-              <span>Échanges privés en Business Room</span>
-            </div>
-            <div className="hs__pill">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M3 15V7l6-4 6 4v8" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
-                <path d="M7 15v-4h4v4" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
-              </svg>
-              <span>Projet structuré entre co-acquéreurs</span>
+            <div
+              style={{
+                textAlign: 'center',
+                marginTop: 22,
+                fontSize: 11,
+                color: 'var(--capeo-muted)',
+                fontStyle: 'italic',
+                letterSpacing: '0.05em',
+              }}
+            >
+              * Exemple illustratif. Aucune promesse de rendement.
             </div>
           </div>
         </div>
-
       </div>
     </section>
   )
 }
 
 /* ============================================
-   ACTE 3bis — VÉRIFICATION / KYC
+   ACTE II — LA MÉTHODE (moment signature 3D)
    ============================================ */
-const KYC_ITEMS = [
-  { num: '01', title: 'Identité contrôlée', desc: 'Pièce d\'identité demandée à l\'inscription. Chaque profil est examiné manuellement par notre équipe — jamais par un simple algorithme.' },
-  { num: '02', title: 'Vendeurs & biens vérifiés', desc: 'Pour publier, le vendeur fournit un document attestant du bien. Nous contrôlons avant toute mise en ligne.' },
-  { num: '03', title: 'Acquéreurs filtrés', desc: 'Rejoindre une Business Room exige un profil vérifié. Pas de curieux, pas de démarchage — uniquement des acquéreurs sérieux.' },
-]
+function SolutionSection() {
+  const ref = useReveal({ threshold: 0.2, stagger: 140 })
 
-function HomeKYC() {
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.hk__head-el', {
-        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: ref.current, start: 'top 70%' },
-      })
-      gsap.from('.hk__card', {
-        opacity: 0, y: 50, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: '.hk__grid', start: 'top 80%' },
-      })
-      gsap.from('.hk__badge', {
-        opacity: 0, scale: 0.7, duration: 1, ease: 'back.out(1.6)',
-        scrollTrigger: { trigger: '.hk__badge', start: 'top 85%' },
-      })
-    }, ref)
-    return () => ctx.revert()
-  }, [])
+  const pillars = [
+    {
+      icon: <ShieldCheck size={20} strokeWidth={1.4} />,
+      title: 'Identités vérifiées',
+      desc: 'Chaque profil est examiné manuellement par notre équipe. Aucun robot, aucun automatisme.',
+    },
+    {
+      icon: <MessageSquareLock size={20} strokeWidth={1.4} />,
+      title: 'Échanges privés',
+      desc: "Une Business Room dédiée réunit les co-acquéreurs et le vendeur, à l'abri du marché ouvert.",
+    },
+    {
+      icon: <FileSignature size={20} strokeWidth={1.4} />,
+      title: 'Projet structuré',
+      desc: "Nous cadrons l'organisation de l'acquisition en commun, aux côtés de vos notaires et conseils.",
+    },
+  ]
 
   return (
-    <section className="hk" ref={ref}>
-      <div className="container">
-        <div className="hk__head">
-          <div className="hk__head-el hk__eyebrow">La vérification</div>
-          <h2 className="hk__head-el hk__title">
-            Un cercle vérifié,<br/>
-            <em>contrôlé par des humains.</em>
-          </h2>
-          <p className="hk__head-el hk__sub">
-            Ce qui distingue CAPEO d'une simple annonce : chaque vendeur,
-            chaque acquéreur et chaque bien passe par une vérification
-            humaine avant d'entrer dans le cercle.
-          </p>
+    <section id="solution" className="section" ref={ref} style={{ minHeight: '110vh' }}>
+      <div className="container-narrow" style={{ textAlign: 'center' }}>
+        <div className="fade-up" style={{ marginBottom: 30 }}>
+          <span className="eyebrow" style={{ justifyContent: 'center' }}>Acte II — La méthode</span>
         </div>
 
-        <div className="hk__grid">
-          {KYC_ITEMS.map((item, i) => (
-            <div key={i} className="hk__card">
-              <div className="hk__card-num">{item.num}</div>
-              <div className="hk__card-title">{item.title}</div>
-              <div className="hk__card-desc">{item.desc}</div>
+        <h2
+          className="font-serif"
+          style={{
+            fontSize: 'clamp(42px, 6.6vw, 96px)',
+            lineHeight: 0.98,
+            margin: '0 0 30px',
+            fontWeight: 400,
+            letterSpacing: '-0.02em',
+          }}
+        >
+          <span className="reveal-line"><span><em className="gold-italic">S'unir,</em></span></span>
+          <span className="reveal-line"><span>en toute confiance.</span></span>
+        </h2>
+
+        <p
+          className="fade-up"
+          style={{
+            color: 'var(--capeo-muted)',
+            fontSize: 17,
+            lineHeight: 1.75,
+            maxWidth: 620,
+            margin: '0 auto 40px',
+          }}
+        >
+          Quatre acquéreurs sérieux convergent vers un même bien d'exception.
+          Notre plateforme les identifie, les vérifie, et structure leur mise en relation.
+        </p>
+
+        {/* Espace pour laisser respirer le moment signature Three.js */}
+        <div style={{ height: '38vh' }} aria-hidden="true" />
+
+        <div className="pillars fade-up">
+          {pillars.map((p, i) => (
+            <div className="pillar" key={i}>
+              <div className="pillar__icon">{p.icon}</div>
+              <h4 className="pillar__title">{p.title}</h4>
+              <div className="pillar__desc">{p.desc}</div>
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  )
+}
 
-        <div className="hk__badge">
-          <div className="hk__badge-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 1l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V4l7-3z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
-              <path d="M7 10l2 2 4-4.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <div className="hk__badge-text">
-            <strong>Badge Vérifié CAPEO</strong>
-            Attribué après contrôle manuel de l'identité. Gage de sérieux, sans garantie sur la qualité du bien.
-          </div>
+/* ============================================
+   ACTE III — LA CONFIANCE
+   ============================================ */
+function TrustSection() {
+  const ref = useReveal({ threshold: 0.2, stagger: 140 })
+
+  const cards = [
+    {
+      n: '01',
+      title: "Contrôle d'identité humain",
+      desc: "Pièce d'identité, adresse, cohérence du projet. Chaque dossier est ouvert et refermé par un membre de notre équipe. Jamais un algorithme.",
+    },
+    {
+      n: '02',
+      title: 'Vendeurs & biens authentifiés',
+      desc: 'Titre de propriété, mandat, éléments déclarés. Nous validons la réalité du bien avant toute mise en visibilité privée.',
+    },
+    {
+      n: '03',
+      title: 'Acquéreurs filtrés',
+      desc: 'Sérieux, cohérence, disponibilité. Les Business Rooms ne réunissent que des interlocuteurs qualifiés — pas de curieux, pas de bruit.',
+    },
+  ]
+
+  return (
+    <section
+      id="trust"
+      className="section"
+      ref={ref}
+      style={{
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(9,9,11,0.55) 20%, rgba(9,9,11,0.85) 100%)',
+      }}
+    >
+      <div className="container">
+        <div className="fade-up" style={{ marginBottom: 30 }}>
+          <span className="eyebrow">Acte III — La confiance</span>
+        </div>
+
+        <h2
+          className="font-serif"
+          style={{
+            fontSize: 'clamp(38px, 5.4vw, 74px)',
+            lineHeight: 1.02,
+            margin: '0 0 30px',
+            fontWeight: 400,
+            letterSpacing: '-0.015em',
+            maxWidth: 920,
+          }}
+        >
+          <span className="reveal-line"><span>Un <em className="gold-italic">cercle vérifié,</em></span></span>
+          <span className="reveal-line"><span>contrôlé par des humains.</span></span>
+        </h2>
+
+        <p
+          className="fade-up"
+          style={{
+            color: 'var(--capeo-muted)',
+            fontSize: 17,
+            lineHeight: 1.75,
+            maxWidth: 620,
+            margin: '0 0 80px',
+          }}
+        >
+          La technologie accélère les rencontres. Le jugement humain les valide.
+          Chaque profil qui entre dans une Business Room a été revu, un par un,
+          par notre équipe.
+        </p>
+
+        <div className="pillars">
+          {cards.map((c, i) => (
+            <div className="capeo-card fade-up" key={i}>
+              <span className="num-badge">{c.n}</span>
+              <h3
+                className="font-serif"
+                style={{
+                  fontSize: 28,
+                  margin: '6px 0 14px',
+                  fontWeight: 500,
+                  color: 'var(--capeo-text)',
+                  lineHeight: 1.15,
+                }}
+              >
+                {c.title}
+              </h3>
+              <p style={{ color: 'var(--capeo-muted)', fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                {c.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -405,61 +381,69 @@ function HomeKYC() {
 }
 
 /* ============================================
-   ACTE 4 — CATÉGORIES (immobilier)
+   ACTE IV — LES BIENS
    ============================================ */
-const TYPES = [
-  { label: 'Immeubles de rapport', desc: 'Acquérir un immeuble locatif entier à plusieurs, et partager les revenus.', img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=80' },
-  { label: "Biens d'exception", desc: 'Villas, propriétés et résidences de prestige en co-acquisition.', img: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=900&q=80' },
-  { label: 'Immobilier commercial', desc: 'Locaux, bureaux et murs commerciaux à fort potentiel.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80' },
+const CATS = [
+  {
+    num: '01',
+    title: 'Immeubles de rapport',
+    desc: "Ensembles historiques et haussmanniens, patrimoine bâti d'exception.",
+    img: 'https://images.unsplash.com/photo-1568252542512-9fe8fe9c87bb?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    num: '02',
+    title: "Biens d'exception",
+    desc: 'Villas contemporaines, hôtels particuliers, propriétés rares.',
+    img: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    num: '03',
+    title: 'Immobilier commercial',
+    desc: 'Actifs commerciaux premium, murs et locaux prestigieux.',
+    img: 'https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&w=1400&q=80',
+  },
 ]
 
-function HomeCategories() {
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.hc__head-el', {
-        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: ref.current, start: 'top 70%' },
-      })
-      gsap.from('.hc__card', {
-        opacity: 0, y: 60, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: '.hc__grid', start: 'top 80%' },
-      })
-    }, ref)
-    return () => ctx.revert()
-  }, [])
+function CategoriesSection() {
+  const ref = useReveal({ threshold: 0.15, stagger: 160 })
 
   return (
-    <section className="hc" ref={ref}>
+    <section
+      id="categories"
+      className="section"
+      ref={ref}
+      style={{
+        background: 'linear-gradient(to bottom, rgba(9,9,11,0.85) 0%, rgba(9,9,11,0.95) 100%)',
+      }}
+    >
       <div className="container">
-        <div className="hc__head">
-          <div className="hc__head-el hc__eyebrow">Le catalogue</div>
-          <h2 className="hc__head-el hc__title">
-            L'immobilier,<br/>
-            <em>en co-acquisition.</em>
-          </h2>
-          <p className="hc__head-el hc__sub">
-            CAPEO démarre avec l'immobilier — le terrain naturel de
-            la co-acquisition. D'autres catégories d'actifs suivront.
-          </p>
+        <div className="fade-up" style={{ marginBottom: 30 }}>
+          <span className="eyebrow">Acte IV — Les biens</span>
         </div>
-        <div className="hc__grid">
-          {TYPES.map((type, i) => (
-            <Link to="/actifs" key={i} className="hc__card">
-              <div className="hc__card-img">
-                <img src={type.img} alt={type.label} loading="lazy" />
-                <div className="hc__card-overlay"></div>
-              </div>
-              <div className="hc__card-body">
-                <div className="hc__card-label">{type.label}</div>
-                <div className="hc__card-desc">{type.desc}</div>
-                <div className="hc__card-link">
-                  <span>Explorer</span>
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
+
+        <h2
+          className="font-serif"
+          style={{
+            fontSize: 'clamp(38px, 5.4vw, 74px)',
+            lineHeight: 1.02,
+            margin: '0 0 60px',
+            fontWeight: 400,
+            letterSpacing: '-0.015em',
+            maxWidth: 780,
+          }}
+        >
+          <span className="reveal-line"><span>Trois <em className="gold-italic">terrains</em></span></span>
+          <span className="reveal-line"><span>où l'exception se joue.</span></span>
+        </h2>
+
+        <div className="cats">
+          {CATS.map((c, i) => (
+            <Link to="/actifs" className="cat-card fade-up" key={i}>
+              <img src={c.img} alt={c.title} loading="lazy" />
+              <div className="cat-card__content">
+                <div className="cat-card__num">{c.num}</div>
+                <div className="cat-card__title">{c.title}</div>
+                <div className="cat-card__desc">{c.desc}</div>
               </div>
             </Link>
           ))}
@@ -470,144 +454,66 @@ function HomeCategories() {
 }
 
 /* ============================================
-   ACTE 5 — PROCESS (ronds qui s'allument)
+   ACTE V — REJOINDRE
    ============================================ */
-const STEPS = [
-  { num: '01', title: 'Publication', desc: 'Le vendeur publie son bien gratuitement — photos, description, documents. Il obtient le badge Vérifié CAPEO après vérification KYC.' },
-  { num: '02', title: 'Visibilité', desc: 'Le bien est diffusé auprès des acquéreurs qualifiés inscrits sur la plateforme, à la recherche de projets de co-acquisition.' },
-  { num: '03', title: 'Business Room', desc: 'Les acquéreurs intéressés rejoignent une Business Room privée. Ils échangent, déclarent leurs intentions d\'apport et organisent leur projet commun.' },
-  { num: '04', title: 'Transaction', desc: 'Vendeur et acquéreurs organisent librement la suite hors plateforme — devant notaire, en SCI ou en indivision. CAPEO ne participe pas à la transaction.' },
-]
-
-function HomeProcess() {
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.hpr__head-el', {
-        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: ref.current, start: 'top 70%' },
-      })
-      gsap.from('.hpr__step', {
-        opacity: 0, x: -30, duration: 0.8, ease: 'power3.out', stagger: 0.2,
-        scrollTrigger: { trigger: '.hpr__steps', start: 'top 70%' },
-      })
-      // Ligne qui se trace
-      gsap.to('.hpr__timeline-fill', {
-        scaleY: 1, ease: 'none',
-        scrollTrigger: { trigger: '.hpr__steps', start: 'top 60%', end: 'bottom 65%', scrub: 0.8 },
-      })
-      // Chaque rond s'allume quand la ligne le dépasse
-      gsap.utils.toArray('.hpr__step').forEach((step) => {
-        const dot = step.querySelector('.hpr__step-dot')
-        ScrollTrigger.create({
-          trigger: step,
-          start: 'top 65%',
-          onEnter: () => dot.classList.add('hpr__step-dot--active'),
-          onLeaveBack: () => dot.classList.remove('hpr__step-dot--active'),
-        })
-      })
-    }, ref)
-    return () => ctx.revert()
-  }, [])
+function CTASection() {
+  const ref = useReveal({ threshold: 0.2, stagger: 150 })
 
   return (
-    <section className="hpr" ref={ref}>
+    <section id="cta" className="section" ref={ref} style={{ paddingBottom: 60 }}>
       <div className="container">
-        <div className="hpr__head">
-          <div className="hpr__head-el hpr__eyebrow">Le processus</div>
-          <h2 className="hpr__head-el hpr__title">
-            Comment fonctionne<br/>
-            <em>CAPEO.</em>
-          </h2>
-          <p className="hpr__head-el hpr__sub">
-            Une mécanique simple et transparente. CAPEO facilite
-            la rencontre — la transaction reste entre vous.
-          </p>
-        </div>
-        <div className="hpr__steps">
-          <div className="hpr__timeline">
-            <div className="hpr__timeline-fill"></div>
+        <div style={{ textAlign: 'center', marginBottom: 70 }}>
+          <div className="fade-up" style={{ marginBottom: 26 }}>
+            <span className="eyebrow" style={{ justifyContent: 'center' }}>Acte V — Rejoindre</span>
           </div>
-          {STEPS.map((step, i) => (
-            <div key={i} className="hpr__step">
-              <div className="hpr__step-dot">
-                <span>{step.num}</span>
-              </div>
-              <div className="hpr__step-content">
-                <div className="hpr__step-title">{step.title}</div>
-                <div className="hpr__step-desc">{step.desc}</div>
-              </div>
-            </div>
-          ))}
+          <h2
+            className="font-serif"
+            style={{
+              fontSize: 'clamp(40px, 6vw, 82px)',
+              lineHeight: 1.02,
+              margin: 0,
+              fontWeight: 400,
+              letterSpacing: '-0.015em',
+            }}
+          >
+            <span className="reveal-line">
+              <span>Le seuil <em className="gold-italic">de l'exception.</em></span>
+            </span>
+          </h2>
         </div>
-        <div className="hpr__cta-wrap hpr__head-el">
-          <Link to="/comment-ca-marche" className="hpr__cta">
-            <span>En savoir plus sur le fonctionnement</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </Link>
-        </div>
-      </div>
-    </section>
-  )
-}
 
-/* ============================================
-   ACTE 6 — CTA
-   ============================================ */
-function HomeCTA() {
-  const ref = useRef(null)
+        <div className="cta-split fade-up">
+          <div className="cta-panel">
+            <div className="eyebrow" style={{ marginBottom: 20 }}>Vendeurs</div>
+            <h3>
+              Publiez <em className="gold-italic">gratuitement</em>
+              <br />
+              votre bien.
+            </h3>
+            <p>
+              Confidentialité totale, acquéreurs qualifiés, aucune commission
+              côté vendeur. Un canal discret vers un cercle restreint.
+            </p>
+            <Link to="/proposer-un-actif" className="btn-gold">
+              Publier un bien
+              <ArrowUpRight size={16} strokeWidth={1.6} />
+            </Link>
+          </div>
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.hcta__panel', {
-        opacity: 0, y: 50, duration: 1, ease: 'power3.out', stagger: 0.15,
-        scrollTrigger: { trigger: ref.current, start: 'top 75%' },
-      })
-    }, ref)
-    return () => ctx.revert()
-  }, [])
-
-  return (
-    <section className="hcta" ref={ref}>
-      <div className="container hcta__grid">
-        <div className="hcta__panel hcta__panel--seller">
-          <div className="hcta__label">Vendeurs</div>
-          <h3 className="hcta__title">
-            Publiez votre bien<br/>
-            <em>gratuitement.</em>
-          </h3>
-          <p className="hcta__desc">
-            Décrochez le badge Vérifié CAPEO après vérification KYC.
-            Touchez une audience d'acquéreurs qualifiés. Aucune
-            commission sur la transaction.
-          </p>
-          <Link to="/proposer-un-actif" className="hcta__btn hcta__btn--primary">
-            <span>Publier un bien</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </Link>
-        </div>
-        <div className="hcta__panel hcta__panel--buyer">
-          <div className="hcta__label">Acquéreurs</div>
-          <h3 className="hcta__title">
-            Rejoignez les<br/>
-            <em>Business Rooms.</em>
-          </h3>
-          <p className="hcta__desc">
-            Découvrez des biens d'exception et co-acquérez avec
-            d'autres acquéreurs qualifiés, en toute discrétion.
-            L'accès est gratuit pendant notre phase de lancement.
-          </p>
-          <Link to="/inscription" className="hcta__btn hcta__btn--ghost">
-            <span>Devenir acquéreur</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </Link>
+          <div className="cta-panel">
+            <div className="eyebrow" style={{ marginBottom: 20 }}>Acquéreurs</div>
+            <h3>
+              Rejoignez les <em className="gold-italic">Business Rooms.</em>
+            </h3>
+            <p>
+              Accédez à des biens que le marché ouvert ne verra jamais.
+              Rencontrez d'autres acquéreurs sérieux filtrés à la main.
+            </p>
+            <Link to="/inscription" className="btn-gold">
+              Créer un compte
+              <ArrowUpRight size={16} strokeWidth={1.6} />
+            </Link>
+          </div>
         </div>
       </div>
     </section>
@@ -615,38 +521,53 @@ function HomeCTA() {
 }
 
 /* ============================================
-   HOME — Assemblage + Lenis
+   HOME — Assemblage
    ============================================ */
 export default function Home() {
-  const lenisRef = useRef(null)
+  const canvasRef = useRef(null)
+  const sceneRef = useRef(null)
 
   useEffect(() => {
+    if (!canvasRef.current) return
+
+    sceneRef.current = createCapeoScene(canvasRef.current)
+
     const lenis = new Lenis({
-      duration: 1.1,
+      duration: 1.35,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.4,
     })
-    lenisRef.current = lenis
-    lenis.on('scroll', ScrollTrigger.update)
-    const raf = (time) => { lenis.raf(time * 1000) }
-    gsap.ticker.add(raf)
-    gsap.ticker.lagSmoothing(0)
+
+    let rafId
+    const raf = (time) => {
+      lenis.raf(time)
+      const scrollTop = window.scrollY || window.pageYOffset
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0
+      sceneRef.current?.setScrollProgress(progress)
+      rafId = requestAnimationFrame(raf)
+    }
+    rafId = requestAnimationFrame(raf)
+
     return () => {
-      gsap.ticker.remove(raf)
+      cancelAnimationFrame(rafId)
       lenis.destroy()
-      ScrollTrigger.getAll().forEach((t) => t.kill())
+      sceneRef.current?.dispose()
     }
   }, [])
 
   return (
     <div className="home">
-      <HomeHero />
-      <HomeProblemSolution />
-      <HomeKYC />
-      <HomeCategories />
-      <HomeProcess />
-      <HomeCTA />
+      <canvas id="capeo-canvas" ref={canvasRef} />
+
+      <Hero />
+      <ProblemSection />
+      <SolutionSection />
+      <TrustSection />
+      <CategoriesSection />
+      <CTASection />
     </div>
   )
 }
