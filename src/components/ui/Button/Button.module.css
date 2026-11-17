@@ -1,0 +1,104 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
+}
+
+.button:active { transform: translateY(1px) scale(0.99); }
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Tailles ── */
+.sm { height: 36px; padding: 0 var(--space-4); font-size: var(--fs-sm); }
+.md { height: 46px; padding: 0 var(--space-5); font-size: var(--fs-sm); }
+.lg { height: 56px; padding: 0 var(--space-6); font-size: var(--fs-base); }
+
+.fullWidth { width: 100%; }
+
+/* ── Or satiné : action principale ── */
+.gold {
+  color: var(--text-on-gold);
+  background: linear-gradient(135deg, var(--gold-soft) 0%, var(--gold) 45%, var(--gold-deep) 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset;
+}
+
+/* Reflet satiné qui balaie le bouton au survol */
+.gold::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.gold:hover:not(:disabled) { box-shadow: var(--shadow-gold); transform: translateY(-1px); }
+.gold:hover:not(:disabled)::after { transform: translateX(120%); }
+
+/* ── Verre : action secondaire ── */
+.glass {
+  color: var(--text);
+  background: var(--glass-bg-strong);
+  border-color: var(--glass-border-strong);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.glass:hover:not(:disabled) {
+  border-color: var(--gold-border);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Ghost : action tertiaire ── */
+.ghost {
+  color: var(--text-muted);
+  background: transparent;
+  border-color: var(--glass-border);
+}
+
+.ghost:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--glass-border-strong);
+}
+
+/* ── Icône ── */
+.icon {
+  display: inline-flex;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.button:hover .icon { transform: translateX(3px); }
+
+/* ── Chargement ── */
+.loading .label { opacity: 0.6; }
+
+.loading::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -1,101 +1,67 @@
-/* ============================================
-   CAPEO — HEADER V5
-   Transparent au sommet sur la HOME uniquement.
-   Opaque partout ailleurs.
-   ============================================ */
+'use client'
 
-import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import './Header.css'
-
-const NAV_LINKS = [
-  { to: '/actifs',            label: 'Actifs' },
-  { to: '/comment-ca-marche', label: 'Comment ça marche' },
-  { to: '/proposer-un-actif', label: 'Publier un actif' },
-]
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { NAV_LINKS, AUTH_LINKS } from '@/config/site'
+import { cx } from '@/lib/cx'
+import Logo from '@/components/layout/Logo/Logo'
+import MobileMenu from '@/components/layout/MobileMenu/MobileMenu'
+import Button from '@/components/ui/Button/Button'
+import { isLinkActive, useHeaderState } from './header.logic'
+import styles from './Header.module.css'
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const location = useLocation()
+  const pathname = usePathname()
+  const { solid, menuOpen, toggleMenu, closeMenu } = useHeaderState(pathname)
 
-  // La home est la seule page avec un header transparent au sommet
-  const isHome = location.pathname === '/'
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40)
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => {
-    setMenuOpen(false)
-  }, [location])
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [menuOpen])
-
-  const isActive = (to) => location.pathname === to
-
-  // Opaque si : pas la home, OU scrollé, OU menu ouvert
-  const solid = !isHome || scrolled
-
+  /* Le menu mobile est rendu hors du <header> : le backdrop-filter du header
+     créerait sinon un bloc conteneur qui piège le position: fixed du menu. */
   return (
-    <header className={`header ${solid ? 'header--scrolled' : ''} ${menuOpen ? 'header--menu-open' : ''}`}>
-      <div className="header__inner">
-        <Link to="/" className="header__logo">
-          CAP<span>E</span>O
-        </Link>
+    <>
+      <header className={cx(styles.header, solid && styles.solid)}>
+        <div className={cx('container', styles.inner)}>
+          <Logo onClick={closeMenu} />
 
-        <nav className="header__nav">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={`header__link ${isActive(link.to) ? 'header__link--active' : ''}`}
-            >
-              {link.label}
+          <nav className={styles.nav} aria-label="Navigation principale">
+            {NAV_LINKS.map((link) => {
+              const active = isLinkActive(pathname, link.href)
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cx(styles.link, active && styles.active)}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
+          </nav>
+
+          <div className={styles.actions}>
+            <Link href={AUTH_LINKS.login.href} className={styles.login}>
+              {AUTH_LINKS.login.label}
             </Link>
-          ))}
-        </nav>
+            <Button href={AUTH_LINKS.register.href} size="sm">
+              {AUTH_LINKS.register.label}
+            </Button>
+          </div>
 
-        <div className="header__actions">
-          <Link to="/connexion" className="header__login">Connexion</Link>
-          <Link to="/inscription" className="header__cta">Rejoindre CAPEO</Link>
+          <button
+            type="button"
+            className={cx(styles.burger, menuOpen && styles.burgerOpen)}
+            onClick={toggleMenu}
+            aria-expanded={menuOpen}
+            aria-controls="menu-mobile"
+            aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+          >
+            <span />
+            <span />
+          </button>
         </div>
+      </header>
 
-        <button
-          className={`header__burger ${menuOpen ? 'header__burger--open' : ''}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
-        >
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-
-      <div className={`header__mobile ${menuOpen ? 'header__mobile--open' : ''}`}>
-        <nav className="header__mobile-nav">
-          {NAV_LINKS.map((link, i) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={`header__mobile-link ${isActive(link.to) ? 'header__mobile-link--active' : ''}`}
-              style={{ transitionDelay: menuOpen ? `${0.1 + i * 0.06}s` : '0s' }}
-            >
-              <span className="header__mobile-link-num">0{i + 1}</span>
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="header__mobile-actions">
-          <Link to="/connexion" className="header__mobile-login">Connexion</Link>
-          <Link to="/inscription" className="header__mobile-cta">Rejoindre CAPEO</Link>
-        </div>
-      </div>
-    </header>
+      <MobileMenu id="menu-mobile" open={menuOpen} pathname={pathname} onNavigate={closeMenu} />
+    </>
   )
 }

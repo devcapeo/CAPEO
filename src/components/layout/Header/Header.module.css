@@ -1,0 +1,109 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-header);
+  height: var(--header-height);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--dur-slow) var(--ease-out),
+    border-color var(--dur-slow) var(--ease-out),
+    backdrop-filter var(--dur-slow) var(--ease-out);
+}
+
+.solid {
+  background: var(--glass-bg-navy);
+  border-bottom-color: var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  height: 100%;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  margin-left: auto;
+}
+
+.link {
+  position: relative;
+  padding: var(--space-2) 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.link:hover { color: var(--text); }
+.link:hover::after,
+.active::after { transform: scaleX(1); }
+.active { color: var(--text); }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding-left: var(--space-6);
+  border-left: 1px solid var(--glass-border);
+}
+
+.login {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  transition: color var(--dur-base);
+}
+
+.login:hover { color: var(--text); }
+
+/* ── Burger (mobile) ── */
+.burger {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--glass-bg);
+}
+
+.burger span {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  height: 1.5px;
+  background: var(--text);
+  transition: transform var(--dur-base) var(--ease-out), top var(--dur-base) var(--ease-out);
+}
+
+.burger span:first-child { top: 17px; }
+.burger span:last-child { top: 25px; }
+
+.burgerOpen span:first-child { top: 21px; transform: rotate(45deg); }
+.burgerOpen span:last-child { top: 21px; transform: rotate(-45deg); }
+
+@media (max-width: 960px) {
+  .nav,
+  .actions { display: none; }
+  .burger { display: block; }
+}
