@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import AccountOverview from '@/components/account/AccountOverview/AccountOverview'
 import styles from './page.module.css'
 
@@ -10,7 +11,9 @@ export const metadata = {
 export default function AccountPage() {
   return (
     <div className={`container ${styles.page}`}>
-      <AccountOverview />
+      <Suspense fallback={null}>
+        <AccountOverview />
+      </Suspense>
     </div>
   )
 }

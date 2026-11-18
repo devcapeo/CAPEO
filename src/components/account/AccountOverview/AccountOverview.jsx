@@ -1,15 +1,17 @@
 'use client'
 
+import Link from 'next/link'
 import Badge from '@/components/ui/Badge/Badge'
 import Button from '@/components/ui/Button/Button'
 import Card from '@/components/ui/Card/Card'
 import Spinner from '@/components/ui/Spinner/Spinner'
 import SectionHeading from '@/components/common/SectionHeading/SectionHeading'
-import { KYC_LABELS, REVIEW_LABELS, useAccount } from './accountOverview.logic'
+import FormStatus from '@/components/auth/FormStatus/FormStatus'
+import { KYC_LABELS, LISTING_STATUS, REVIEW_LABELS, useAccount } from './accountOverview.logic'
 import styles from './AccountOverview.module.css'
 
 export default function AccountOverview() {
-  const { status, user, profile, counts, signOut } = useAccount()
+  const { status, user, profile, listings, favoritesCount, verification, startVerification, signOut } = useAccount()
 
   if (status !== 'authenticated') {
     return (
@@ -19,7 +21,9 @@ export default function AccountOverview() {
     )
   }
 
-  const kyc = KYC_LABELS[profile?.kyc_status ?? 'not_started']
+  const kycStatus = profile?.kyc_status ?? 'not_started'
+  const kyc = KYC_LABELS[kycStatus]
+  const canVerify = kycStatus === 'not_started' || kycStatus === 'rejected'
   const review = REVIEW_LABELS[profile?.review_status ?? 'pending']
 
   return (
@@ -36,6 +40,12 @@ export default function AccountOverview() {
             <Badge tone={kyc.tone} dot>{kyc.label}</Badge>
           </div>
           <p className={styles.text}>{kyc.text}</p>
+          {canVerify && (
+            <Button size="sm" onClick={startVerification} loading={verification.status === 'loading'}>
+              {kycStatus === 'rejected' ? 'Recommencer la vérification' : 'Vérifier mon identité'}
+            </Button>
+          )}
+          {verification.status === 'error' && <FormStatus tone="error">{verification.message}</FormStatus>}
         </Card>
 
         <Card padding="lg" className={styles.card}>
@@ -47,17 +57,40 @@ export default function AccountOverview() {
         </Card>
 
         <Card padding="lg" className={styles.card}>
-          <p className={styles.cardTitle}>Mes annonces</p>
-          <p className={styles.count}>{counts.assets ?? '—'}</p>
-          <Button href="/deposer-un-actif" variant="glass" size="sm">Publier un actif</Button>
-        </Card>
-
-        <Card padding="lg" className={styles.card}>
           <p className={styles.cardTitle}>Mes favoris</p>
-          <p className={styles.count}>{counts.favorites ?? '—'}</p>
+          <p className={styles.count}>{favoritesCount ?? '—'}</p>
           <Button href="/actifs" variant="glass" size="sm">Explorer les actifs</Button>
         </Card>
       </div>
+
+      <Card padding="lg" className={styles.details}>
+        <div className={styles.cardHead}>
+          <p className={styles.cardTitle}>Mes annonces</p>
+          <Button href="/deposer-un-actif" variant="glass" size="sm">Publier un actif</Button>
+        </div>
+        {listings === null && <Spinner size="sm" />}
+        {listings?.length === 0 && <p className={styles.text}>Vous n&apos;avez pas encore d&apos;annonce.</p>}
+        {listings?.length > 0 && (
+          <ul className={styles.listings}>
+            {listings.map((listing) => {
+              const listingStatus = LISTING_STATUS[listing.status]
+              return (
+                <li key={listing.id} className={styles.listing}>
+                  <div>
+                    {listing.status === 'published' ? (
+                      <Link href={`/actifs/${listing.slug}`} className={styles.listingTitle}>{listing.title}</Link>
+                    ) : (
+                      <p className={styles.listingTitle}>{listing.title}</p>
+                    )}
+                    <p className={styles.listingMeta}>{listing.city}</p>
+                  </div>
+                  <Badge tone={listingStatus.tone} dot>{listingStatus.label}</Badge>
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </Card>
 
       <Card padding="lg" className={styles.details}>
         <p className={styles.cardTitle}>Mes informations</p>

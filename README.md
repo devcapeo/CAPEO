@@ -53,6 +53,27 @@ Projet `capeo` (référence `nuqbhaufouezojhhcdwh`, région Paris `eu-west-3`), 
 - `CATALOG_SOURCE=supabase` fait lire les annonces publiées en base ; par défaut, le catalogue d'exemple est utilisé.
 - L'authentification (inscription, connexion, confirmation, mot de passe oublié) tourne dans le navigateur : aucune fonction serverless.
 
+## Fonctions serverless (4 au maximum)
+
+| Fonction | Rôle | État |
+|---|---|---|
+| `api/compte` | Vérification d'identité Stripe Identity (`?action=verification`) et webhook Stripe (`?action=stripe-webhook`) | en place |
+| `api/annonces` | Annonces payantes / mise en avant (Stripe Checkout) | à venir |
+| `api/contact` | E-mails transactionnels (Resend) | à venir |
+| `api/admin` | Back-office : modération, publication | à venir |
+
+### Variables d'environnement (Vercel > Settings > Environment Variables)
+
+| Variable | Usage | Exposée au navigateur |
+|---|---|---|
+| `STRIPE_SECRET_KEY` | Création des sessions Stripe Identity | non |
+| `STRIPE_WEBHOOK_SECRET` | Vérification de la signature du webhook | non |
+| `SUPABASE_SECRET_KEY` | Mise à jour du statut KYC par le serveur (clé secrète `sb_secret_…`) | non |
+| `RESEND_API_KEY` | E-mails transactionnels (à venir) | non |
+| `CATALOG_SOURCE` | `demo` (défaut) ou `supabase` | non |
+
+Webhook Stripe à déclarer : `https://<domaine>/api/compte?action=stripe-webhook`, événements `identity.verification_session.*`.
+
 ## Crédits
 
 - Carte du globe (`public/textures/world-land.png`) : générée à partir des données [Natural Earth](https://www.naturalearthdata.com/) (domaine public), via le paquet `world-atlas`.
