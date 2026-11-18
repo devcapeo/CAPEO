@@ -42,3 +42,8 @@ src/
 La page `/styleguide` (non indexée) présente le kit UI.
 
 L'ancienne version Vite (dont les maquettes de la Business Room) est archivée sur la branche `archive/vite-coacquisition`.
+
+## Crédits
+
+- Carte du globe (`public/textures/world-land.png`) : générée à partir des données [Natural Earth](https://www.naturalearthdata.com/) (domaine public), via le paquet `world-atlas`.
+- Principe du globe en points (masque de carte lu dans une texture) : inspiré du travail de Ksenia Kondrashova (CodePen, licence MIT), réécrit pour CAPEO.

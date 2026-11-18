@@ -128,7 +128,12 @@ export function useHeroStage(containerRef) {
         try {
           const { createHeroScene } = await import('./scene/createHeroScene')
           if (disposed) return
-          scene = createHeroScene(container, { reducedMotion, tier: detectTier() })
+          const created = await createHeroScene(container, { reducedMotion, tier: detectTier() })
+          if (disposed) {
+            created.dispose()
+            return
+          }
+          scene = created
           scene.setProgress(readProgress(section), true)
           syncRunning()
           setStatus('ready')

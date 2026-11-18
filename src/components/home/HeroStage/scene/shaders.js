@@ -1,129 +1,93 @@
 /* ============================================
-   Shaders GLSL de la scène du hero.
-   Couleurs injectées en uniforms depuis la charte (navy, cobalt, or).
+   Shaders GLSL du globe.
+   Le principe du globe en points (masque de carte lu dans une texture) s'inspire
+   du travail de Ksenia Kondrashova (CodePen, licence MIT) ; il est réécrit pour CAPEO.
    ============================================ */
 
-/* ── Liaisons : se tracent d'un nœud à l'autre, parcourues par des impulsions dorées ── */
-export const edgeVertex = /* glsl */ `
-  attribute float aT;
-  attribute float aReveal;
+/* ── Points du globe : or sur les terres, voile cobalt discret sur les océans ── */
+export const dotVertex = /* glsl */ `
+  uniform sampler2D uLandMap;
+  uniform float uDotSize;
+  uniform float uTime;
   attribute float aSeed;
-  varying float vT;
-  varying float vReveal;
-  varying float vSeed;
-  varying float vDepth;
+  varying float vAlpha;
+  varying float vLand;
 
   void main() {
-    vT = aT;
-    vReveal = aReveal;
-    vSeed = aSeed;
+    vLand = step(0.5, texture2D(uLandMap, uv).r);
+
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    vDepth = -mv.z;
     gl_Position = projectionMatrix * mv;
+
+    /* Les points s'estompent vers le bord du disque et disparaissent à l'arrière */
+    vec3 normalView = normalize(normalMatrix * position);
+    float facing = dot(normalView, normalize(-mv.xyz));
+    float twinkle = 0.82 + 0.18 * sin(uTime * 1.2 + aSeed * 40.0);
+    vAlpha = smoothstep(0.0, 0.4, facing) * twinkle;
+
+    gl_PointSize = mix(0.45, 1.0, vLand) * uDotSize / -mv.z;
   }
 `
 
-export const edgeFragment = /* glsl */ `
-  uniform float uBuild;
-  uniform float uTime;
-  uniform float uGlow;
+export const dotFragment = /* glsl */ `
+  uniform vec3 uGold;
   uniform vec3 uCobalt;
-  uniform vec3 uGold;
-  varying float vT;
-  varying float vReveal;
-  varying float vSeed;
-  varying float vDepth;
+  uniform float uGlow;
+  varying float vAlpha;
+  varying float vLand;
 
   void main() {
-    float grow = clamp((uBuild - vReveal) / 0.07, 0.0, 1.0);
-    if (vT > grow) discard;
-
-    float pulsePos = fract(uTime * (0.12 + vSeed * 0.1) + vSeed);
-    float pulse = smoothstep(0.1, 0.0, abs(vT - pulsePos)) * step(0.55, vSeed);
-    float head = smoothstep(0.12, 0.0, abs(vT - grow)) * (1.0 - step(0.999, grow));
-    float near = smoothstep(2.0, 5.0, vDepth);
-    float far = smoothstep(70.0, 14.0, vDepth);
-
-    vec3 color = mix(uCobalt * 2.2, uGold, clamp(0.18 + pulse + head, 0.0, 1.0));
-    float alpha = (0.18 + 0.6 * pulse + 0.6 * head) * near * far * uGlow;
-    gl_FragColor = vec4(color * (1.0 + pulse * 1.5 + head), alpha);
+    float d = length(gl_PointCoord - 0.5);
+    if (d > 0.5) discard;
+    float disc = 1.0 - smoothstep(0.32, 0.5, d);
+    vec3 color = mix(uCobalt * 3.2, uGold, vLand);
+    float strength = mix(0.3, 0.95, vLand);
+    gl_FragColor = vec4(color, disc * vAlpha * strength * uGlow);
   }
 `
 
-/* ── Nœuds : poussière diffuse au départ, puis points dorés qui scintillent ── */
-export const nodeVertex = /* glsl */ `
-  attribute float aReveal;
-  attribute float aSeed;
-  attribute float aSize;
-  uniform float uBuild;
-  uniform float uTime;
-  uniform float uPixelRatio;
-  varying float vAlpha;
-  varying float vLit;
+/* ── Corps du globe : sphère sombre qui masque l'arrière, liseré cobalt ── */
+export const bodyVertex = /* glsl */ `
+  varying vec3 vNormal;
+  varying vec3 vView;
 
   void main() {
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    vNormal = normalize(normalMatrix * normal);
+    vView = normalize(-mv.xyz);
     gl_Position = projectionMatrix * mv;
-
-    float lit = smoothstep(aReveal - 0.04, aReveal + 0.02, uBuild);
-    float twinkle = 0.78 + 0.22 * sin(uTime * 1.6 + aSeed * 40.0);
-    vLit = lit;
-    vAlpha = mix(0.12, 1.0, lit) * twinkle * smoothstep(1.5, 4.0, -mv.z);
-    gl_PointSize = aSize * mix(0.55, 1.0, lit) * uPixelRatio * (34.0 / -mv.z);
   }
 `
 
-export const nodeFragment = /* glsl */ `
-  uniform vec3 uGold;
-  uniform vec3 uMist;
+export const bodyFragment = /* glsl */ `
+  uniform vec3 uNavy;
+  uniform vec3 uCobalt;
+  varying vec3 vNormal;
+  varying vec3 vView;
+
+  void main() {
+    float rim = pow(1.0 - max(dot(vNormal, vView), 0.0), 3.0);
+    gl_FragColor = vec4(uNavy + uCobalt * rim * 0.9, 1.0);
+  }
+`
+
+/* ── Atmosphère : halo autour du disque (sphère plus grande, faces arrière) ── */
+export const atmosphereFragment = /* glsl */ `
+  uniform vec3 uCobalt;
   uniform float uGlow;
-  varying float vAlpha;
-  varying float vLit;
+  varying vec3 vNormal;
+  varying vec3 vView;
 
   void main() {
-    float d = length(gl_PointCoord - 0.5);
-    if (d > 0.5) discard;
-    float core = pow(smoothstep(0.5, 0.0, d), 2.4);
-    vec3 color = mix(uMist, uGold * 1.5, vLit);
-    gl_FragColor = vec4(color, core * vAlpha * uGlow);
+    /* Faces arrière : facing vaut ≈ -0.5 au ras du globe et 0 au bord extérieur du halo */
+    float facing = dot(vNormal, vView);
+    float halo = pow(clamp(-facing / 0.5, 0.0, 1.0), 2.5);
+    gl_FragColor = vec4(uCobalt * 2.4, halo * 0.32 * uGlow);
   }
 `
 
-/* ── Poussière dorée : dérive lente vers le haut ── */
-export const dustVertex = /* glsl */ `
-  attribute float aSpeed;
-  attribute float aSeed;
-  attribute float aSize;
-  uniform float uTime;
-  uniform float uPixelRatio;
-  varying float vAlpha;
-
-  void main() {
-    vec3 p = position;
-    p.y = mod(p.y + uTime * aSpeed + 20.0, 40.0) - 20.0;
-    p.x += sin(uTime * 0.25 + aSeed * 6.2831) * 0.6;
-    vec4 mv = modelViewMatrix * vec4(p, 1.0);
-    gl_Position = projectionMatrix * mv;
-    vAlpha = (0.35 + 0.65 * fract(aSeed * 13.7)) * smoothstep(1.0, 6.0, -mv.z) * smoothstep(75.0, 25.0, -mv.z);
-    gl_PointSize = aSize * uPixelRatio * (22.0 / -mv.z);
-  }
-`
-
-export const dustFragment = /* glsl */ `
-  uniform vec3 uGold;
-  uniform float uGlow;
-  varying float vAlpha;
-
-  void main() {
-    float d = length(gl_PointCoord - 0.5);
-    if (d > 0.5) discard;
-    float core = pow(smoothstep(0.5, 0.0, d), 1.8);
-    gl_FragColor = vec4(uGold * 1.2, core * vAlpha * 0.45 * uGlow);
-  }
-`
-
-/* ── Cercle de confiance : un anneau d'or qui se trace ── */
-export const ringVertex = /* glsl */ `
+/* ── Arc : la tête trace la parabole, la traîne s'estompe derrière elle ── */
+export const arcVertex = /* glsl */ `
   varying vec2 vUv;
   void main() {
     vUv = uv;
@@ -131,51 +95,67 @@ export const ringVertex = /* glsl */ `
   }
 `
 
-export const ringFragment = /* glsl */ `
-  uniform float uDraw;
-  uniform float uTime;
+export const arcFragment = /* glsl */ `
+  uniform float uHead;
+  uniform float uTail;
   uniform float uOpacity;
   uniform vec3 uGold;
   varying vec2 vUv;
 
   void main() {
-    if (vUv.x > uDraw) discard;
-    float head = smoothstep(0.035, 0.0, uDraw - vUv.x) * (1.0 - step(0.999, uDraw));
-    float shimmer = 0.75 + 0.25 * sin(vUv.x * 60.0 - uTime * 1.5);
-    gl_FragColor = vec4(uGold * (1.2 + head * 2.5), (0.55 * shimmer + head) * uOpacity);
+    float x = vUv.x;
+    if (x > uHead || x < uTail) discard;
+    float k = (x - uTail) / max(uHead - uTail, 0.0001);
+    float body = pow(k, 1.8);
+    float spark = smoothstep(0.035, 0.0, uHead - x) * (1.0 - step(0.999, uHead));
+    vec3 color = uGold * (1.0 + body * 1.4 + spark * 3.0);
+    gl_FragColor = vec4(color, (0.1 + 0.9 * body + spark) * uOpacity);
   }
 `
 
-/* ── Verre : facettes à effet Fresnel (bords lumineux, cœur transparent) ── */
-export const glassVertex = /* glsl */ `
-  varying vec3 vNormal;
-  varying vec3 vView;
-  varying float vHeight;
+/* ── Onde d'arrivée : un anneau qui s'élargit et s'efface au point d'atterrissage ── */
+export const impactVertex = arcVertex
+
+export const impactFragment = /* glsl */ `
+  uniform float uProgress;
+  uniform float uOpacity;
+  uniform vec3 uGold;
+  varying vec2 vUv;
+
+  void main() {
+    float d = length(vUv - 0.5) * 2.0;
+    float ring = smoothstep(0.12, 0.0, abs(d - uProgress));
+    float core = smoothstep(0.25, 0.0, d) * (1.0 - uProgress);
+    float alpha = (ring * (1.0 - uProgress) + core) * uOpacity;
+    if (alpha < 0.002) discard;
+    gl_FragColor = vec4(uGold * 1.6, alpha);
+  }
+`
+
+/* ── Places d'affaires : points lumineux fixes ── */
+export const hubVertex = /* glsl */ `
+  uniform float uSize;
+  uniform float uTime;
+  varying float vAlpha;
 
   void main() {
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    vNormal = normalize(normalMatrix * normal);
-    vView = normalize(-mv.xyz);
-    vHeight = position.y;
     gl_Position = projectionMatrix * mv;
+    vec3 normalView = normalize(normalMatrix * position);
+    float facing = dot(normalView, normalize(-mv.xyz));
+    vAlpha = smoothstep(0.05, 0.35, facing) * (0.75 + 0.25 * sin(uTime * 2.0 + position.x * 20.0));
+    gl_PointSize = uSize / -mv.z;
   }
 `
 
-export const glassFragment = /* glsl */ `
-  uniform float uOpacity;
-  uniform float uTime;
-  uniform vec3 uCobalt;
+export const hubFragment = /* glsl */ `
   uniform vec3 uGold;
-  varying vec3 vNormal;
-  varying vec3 vView;
-  varying float vHeight;
+  varying float vAlpha;
 
   void main() {
-    float facing = abs(dot(normalize(vNormal), normalize(vView)));
-    float fresnel = pow(1.0 - facing, 2.2);
-    float sheen = smoothstep(0.6, 1.0, sin(vHeight * 1.4 + uTime * 0.6) * 0.5 + 0.5) * 0.25;
-    vec3 color = mix(uCobalt * 1.5, uGold, fresnel + sheen);
-    float alpha = (0.05 + fresnel * 0.42 + sheen * 0.22) * uOpacity;
-    gl_FragColor = vec4(color, alpha);
+    float d = length(gl_PointCoord - 0.5);
+    if (d > 0.5) discard;
+    float core = pow(1.0 - smoothstep(0.0, 0.5, d), 2.0);
+    gl_FragColor = vec4(uGold * 1.8, core * vAlpha);
   }
 `
