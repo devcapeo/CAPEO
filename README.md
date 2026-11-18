@@ -1,6 +1,10 @@
 # CAPEO — Capital & Opportunities
 
-Marketplace d'annonces d'actifs d'exception. **V1 : petites annonces et mise en relation uniquement** — aucun achat collectif, aucune collecte de fonds, et le prix des actifs ne transite jamais par la plateforme. Stripe sert uniquement aux annonces payantes et à la mise en avant vendeur.
+Place de marché d'actifs rares : immobilier, entreprises à céder, startups, objets d'exception. Le catalogue V1 démarre en immobilier.
+
+**Cadre (ligne rouge)** : CAPEO est une plateforme de mise en relation (règlement UE 2019/1150), pas un PSFP. Aucun fonds lié à l'acquisition d'un actif ne transite par CAPEO ; les transactions se concluent hors plateforme. La co-acquisition passe par la Business Room : mise en relation entre co-acquéreurs vérifiés, intentions d'apport non contractuelles, jamais de collecte organisée par CAPEO. Stripe sert uniquement aux annonces payantes et à la mise en avant vendeur.
+
+**Vocabulaire** : acquisition / acquéreur / actif — jamais investissement / investisseur. Interdits partout : barre de progression financière, simulation de rendement, plus-value ou fiscalité, indice public basé sur les intentions. Tout indicateur financier porte la mention « fourni par le vendeur, non vérifié par CAPEO ».
 
 Stack : Next.js (App Router) · Supabase · Stripe · Resend · Vercel.
 
@@ -37,4 +41,4 @@ src/
 
 La page `/styleguide` (non indexée) présente le kit UI.
 
-L'ancienne version Vite (avec le volet co-acquisition prévu pour la V2) est archivée sur la branche `archive/vite-coacquisition`.
+L'ancienne version Vite (dont les maquettes de la Business Room) est archivée sur la branche `archive/vite-coacquisition`.

@@ -1,0 +1,62 @@
+.stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--navy-950);
+}
+
+/* Repli décoratif (avant chargement, sans WebGL) : halo cobalt et noyau doré */
+.fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 62% 46%, rgba(201, 168, 76, 0.22) 0, rgba(201, 168, 76, 0) 9%),
+    radial-gradient(circle at 62% 46%, rgba(42, 84, 150, 0.45) 0, rgba(27, 58, 107, 0) 38%),
+    radial-gradient(ellipse 60% 50% at 62% 46%, rgba(27, 58, 107, 0.35), transparent 70%);
+}
+
+.fallback::after {
+  content: '';
+  position: absolute;
+  left: 62%;
+  top: 46%;
+  width: min(62vh, 52vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  transform: translate(-50%, -50%) rotateX(64deg);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease-out);
+}
+
+.canvas[data-status='ready'] { opacity: 1; }
+
+.canvas :global(canvas) {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Lisibilité du texte : voile à gauche, fondu bas vers la page */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(7, 11, 24, 0.82) 0%, rgba(7, 11, 24, 0.45) 38%, rgba(7, 11, 24, 0) 62%),
+    linear-gradient(180deg, rgba(7, 11, 24, 0) 70%, rgba(7, 11, 24, 0.9) 100%);
+}
+
+@media (max-width: 768px) {
+  .fallback::after { left: 50%; top: 34%; width: 80vw; }
+
+  .vignette {
+    background:
+      linear-gradient(180deg, rgba(7, 11, 24, 0.1) 0%, rgba(7, 11, 24, 0.2) 35%, rgba(7, 11, 24, 0.9) 75%, var(--navy-950) 100%);
+  }
+}

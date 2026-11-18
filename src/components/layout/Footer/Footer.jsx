@@ -47,7 +47,9 @@ export default function Footer() {
         <div className={styles.brand}>
           <Logo />
           <p className={styles.meaning}>{SITE.meaning}</p>
-          <p className={styles.tagline}>Place de marché d&apos;actifs d&apos;exception. Mise en relation privée entre vendeurs et acquéreurs vérifiés.</p>
+          <p className={styles.tagline}>
+            Place de marché d&apos;actifs rares. Un cercle de confiance vérifié : mise en relation pure, zéro commission.
+          </p>
           <div className={styles.social}>
             {SOCIAL_LINKS.map((social) => (
               <a

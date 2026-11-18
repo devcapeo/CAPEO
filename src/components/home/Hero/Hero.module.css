@@ -1,0 +1,215 @@
+/* Section haute (5 écrans) : la scène reste collée pendant la descente. */
+.hero {
+  --hero-progress: 0;
+  position: relative;
+  height: 500svh;
+  background: var(--navy-950);
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.layer {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+/* ── Étapes : une seule visible à la fois ── */
+.step {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  top: 50%;
+  max-width: 600px;
+  opacity: 0;
+  transform: translateY(calc(-50% + 28px));
+  filter: blur(6px);
+  pointer-events: none;
+  transition:
+    opacity 0.7s var(--ease-out),
+    transform 0.9s var(--ease-out),
+    filter 0.7s var(--ease-out);
+}
+
+.step[data-active] {
+  opacity: 1;
+  transform: translateY(-50%);
+  filter: none;
+  pointer-events: auto;
+}
+
+.intro { max-width: 720px; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.title {
+  font-size: var(--fs-hero);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.accent {
+  display: block;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  background: linear-gradient(120deg, var(--gold-soft) 10%, var(--gold) 50%, var(--gold-deep) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lead {
+  max-width: 560px;
+  margin-top: var(--space-6);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.stepTitle {
+  font-size: clamp(2rem, 4.4vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.stepText {
+  max-width: 480px;
+  margin-top: var(--space-5);
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-7);
+}
+
+.trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  margin: var(--space-7) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.trust li::before {
+  content: '·';
+  margin-right: var(--space-2);
+  color: var(--gold);
+}
+
+/* ── Rail de progression de la descente (repère de lecture, pas un indicateur financier) ── */
+.rail {
+  position: absolute;
+  right: var(--gutter);
+  top: 50%;
+  z-index: 1;
+  width: 1px;
+  height: 180px;
+  transform: translateY(-50%);
+  background: var(--glass-border-strong);
+}
+
+.railFill {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: calc(var(--hero-progress) * 100%);
+  background: var(--gold);
+  box-shadow: 0 0 10px var(--gold);
+}
+
+.railTick {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--tick) * 100%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-border);
+  background: var(--navy-950);
+  transform: translate(-50%, -50%);
+}
+
+/* ── Indice de défilement (disparaît dès la première étape) ── */
+.scrollHint {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-6);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transform: translateX(-50%);
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+
+.hero:not([data-step='0']) .scrollHint { opacity: 0; }
+
+.scrollLine {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  animation: scrollCue 2.2s var(--ease-inout) infinite;
+  transform-origin: top;
+}
+
+@keyframes scrollCue {
+  0% { transform: scaleY(0); opacity: 1; }
+  60% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .step {
+    top: auto;
+    bottom: calc(var(--space-8) + 12px);
+    transform: translateY(28px);
+  }
+
+  .step[data-active] { transform: none; }
+
+  .title { font-size: clamp(2.8rem, 13vw, 4rem); }
+  .lead { margin-top: var(--space-4); }
+  .actions { margin-top: var(--space-5); }
+  .trust { display: none; }
+  .rail { display: none; }
+  .scrollHint { display: none; }
+}
