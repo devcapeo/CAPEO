@@ -111,7 +111,7 @@ function slerp(a, b, t, scale) {
 }
 
 const MIN_ARC = 14 * DEG
-const MAX_ARC = 118 * DEG
+const MAX_ARC = 105 * DEG
 
 /**
  * Tire un trajet entre deux places, ni trop court ni trop long, avec un léger décalage
@@ -130,7 +130,8 @@ export function pickArc(random) {
     const omega = angleBetween(a, b)
     if (omega < MIN_ARC || omega > MAX_ARC) continue
 
-    const height = 1 + 0.08 + (omega / Math.PI) * 0.62
+    /* Hauteur maîtrisée : les arcs ne s'éloignent pas de plus d'un quart de rayon du globe (voir ARC_REACH) */
+    const height = 1 + 0.05 + (omega / Math.PI) * 0.38
     return {
       controls: [a, slerp(a, b, 0.25, height), slerp(a, b, 0.75, height), b],
       length: omega,
@@ -139,5 +140,5 @@ export function pickArc(random) {
   /* Repli : Paris → New York */
   const a = latLonToVector(HUBS[0].lat, HUBS[0].lon, 1.002)
   const b = latLonToVector(HUBS[20].lat, HUBS[20].lon, 1.002)
-  return { controls: [a, slerp(a, b, 0.25, 1.4), slerp(a, b, 0.75, 1.4), b], length: angleBetween(a, b) }
+  return { controls: [a, slerp(a, b, 0.25, 1.25), slerp(a, b, 0.75, 1.25), b], length: angleBetween(a, b) }
 }

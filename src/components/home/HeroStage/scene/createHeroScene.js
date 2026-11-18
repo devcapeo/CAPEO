@@ -9,7 +9,11 @@
      dans une onde, puis s'efface — la mise en relation entre acquéreurs, partout
    - halo atmosphérique et bloom (halo lumineux) en post-traitement
 
-   API (après résolution) : setProgress(p, immediate) · setPointer(x, y) · start() · stop() · dispose()
+   Cadrage : la page fournit la zone libre de l'écran (setSafeArea) ; la scène y inscrit
+   le globe ET la portée de ses arcs, sans jamais déborder sur le texte.
+
+   API (après résolution) : setProgress(p, immediate) · setSafeArea(zone) · setPointer(x, y)
+                            start() · stop() · dispose()
    ============================================ */
 
 import * as THREE from 'three'
@@ -45,6 +49,12 @@ const TIERS = {
 const START_LONGITUDE = 8
 const AUTO_ROTATION_SPEED = 0.045
 const ARC_RADIUS = 0.0034
+const FOV = 35
+/* Portée maximale des arcs, en rayons du globe : le globe est dimensionné pour que les arcs restent dans la zone */
+const ARC_REACH = 1.27
+/* Taille de référence des points (px CSS) pour un globe de 420 px de rayon */
+const DOT_PX = 3.4
+const HUB_PX = 8.5
 const IMPACT_SIZE = 0.1
 /* En mode « moins d'animations » : arcs figés, temps arrêté */
 const STILL_ARCS = 7
@@ -81,7 +91,7 @@ export async function createHeroScene(container, { reducedMotion = false, tier =
   container.appendChild(renderer.domElement)
 
   const scene = new THREE.Scene()
-  const camera = new THREE.PerspectiveCamera(45, 1, 0.05, 20)
+  const camera = new THREE.PerspectiveCamera(FOV, 1, 0.05, 80)
 
   /* pivot : inclinaison vers le nord · spinner : rotation autour de l'axe des pôles */
   const pivot = new THREE.Group()
@@ -265,16 +275,51 @@ export async function createHeroScene(container, { reducedMotion = false, tier =
   let lastTime = 0
   const baseSpin = spinToFace(START_LONGITUDE)
 
+  /* ── Cadrage : centre et rayon du globe en pixels CSS, lissés vers la cible ── */
+  let safeArea = null
+  const framingTarget = { cx: 0, cy: 0, r: 0 }
+  const framing = { cx: 0, cy: 0, r: 0 }
+
+  function computeFramingTarget() {
+    const width = container.clientWidth || 1
+    const height = container.clientHeight || 1
+    const area = safeArea ?? { x: width * 0.5, y: 0, width: width * 0.5, height }
+    framingTarget.r = Math.max(40, Math.min(area.width, area.height) / 2 / ARC_REACH)
+    framingTarget.cx = area.x + area.width / 2
+    framingTarget.cy = area.y + area.height / 2
+  }
+
+  function snapFraming() {
+    Object.assign(framing, framingTarget)
+  }
+
+  /* Distance de caméra telle que le disque du globe mesure exactement `framing.r` pixels */
+  function applyFraming() {
+    const width = container.clientWidth || 1
+    const height = container.clientHeight || 1
+    const focal = height / 2 / Math.tan(THREE.MathUtils.degToRad(FOV / 2))
+    const distance = Math.sqrt(1 + (focal / framing.r) ** 2)
+
+    camera.position.set(0, 0, distance)
+    camera.lookAt(0, 0, 0)
+    camera.setViewOffset(width, height, width / 2 - framing.cx, height / 2 - framing.cy, width, height)
+    camera.updateProjectionMatrix()
+
+    /* Les points suivent la taille du globe (avec un plancher pour rester lisibles) */
+    const scale = renderer.getPixelRatio() * Math.max(0.6, framing.r / 420) * (distance - 1)
+    uDotSize.value = DOT_PX * scale
+    uHubSize.value = HUB_PX * scale
+  }
+
   function applyState(state) {
     uGlow.value = state.glow
     pivot.rotation.x = state.tilt + pointer.y * 0.05
     spinner.rotation.y = baseSpin + state.spin + autoRotation + pointer.x * 0.08
-    camera.position.set(0, 0, state.distance)
-    camera.lookAt(0, 0, 0)
     bloom.strength = 0.55 + state.glow * 0.25
   }
 
   function renderFrame() {
+    applyFraming()
     applyState(sampleChoreography(progress))
     composer.render()
   }
@@ -283,19 +328,10 @@ export async function createHeroScene(container, { reducedMotion = false, tier =
     const width = container.clientWidth || 1
     const height = container.clientHeight || 1
     camera.aspect = width / height
-    const portrait = camera.aspect < 0.9
-    camera.fov = portrait ? 62 : 45
-    /* Globe décentré : à droite et légèrement bas (desktop), en haut (mobile) */
-    if (portrait) camera.setViewOffset(width, height, 0, height * 0.2, width, height)
-    else camera.setViewOffset(width, height, -width * 0.2, -height * 0.07, width, height)
-    camera.updateProjectionMatrix()
-
     renderer.setSize(width, height, false)
     composer.setSize(width, height)
-
-    const scale = renderer.getPixelRatio() * (height / 900)
-    uDotSize.value = 6 * scale
-    uHubSize.value = 15 * scale
+    computeFramingTarget()
+    snapFraming()
     if (reducedMotion || !running) renderFrame()
   }
 
@@ -314,6 +350,9 @@ export async function createHeroScene(container, { reducedMotion = false, tier =
     progress += (targetProgress - progress) * follow
     pointer.x += (pointerTarget.x - pointer.x) * follow * 0.4
     pointer.y += (pointerTarget.y - pointer.y) * follow * 0.4
+    framing.cx += (framingTarget.cx - framing.cx) * follow * 0.6
+    framing.cy += (framingTarget.cy - framing.cy) * follow * 0.6
+    framing.r += (framingTarget.r - framing.r) * follow * 0.6
 
     /* Lancement des arcs selon le rythme de l'étape en cours */
     spawnBudget += delta * sampleChoreography(progress).rate
@@ -338,6 +377,15 @@ export async function createHeroScene(container, { reducedMotion = false, tier =
       if (immediate || reducedMotion) {
         progress = targetProgress
         if (reducedMotion || !running) renderFrame()
+      }
+    },
+    /* Zone libre de l'écran pour le globe : { x, y, width, height } en pixels CSS */
+    setSafeArea(area, immediate = false) {
+      safeArea = area
+      computeFramingTarget()
+      if (immediate || reducedMotion || !running) {
+        snapFraming()
+        renderFrame()
       }
     },
     setPointer(x, y) {

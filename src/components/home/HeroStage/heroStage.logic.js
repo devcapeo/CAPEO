@@ -32,6 +32,59 @@ export function readProgress(section) {
   return travel > 0 ? clamp01(-rect.top / travel) : 0
 }
 
+/* ── Zone libre pour le globe ── */
+
+const MOBILE_BREAKPOINT = 768
+const TEXT_GAP = 32
+const RAIL_SPACE = 56
+/* Portée des arcs en rayons du globe (même valeur que la scène) */
+const ARC_REACH = 1.27
+
+function headerHeight() {
+  return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 76
+}
+
+/* Boîte d'un bloc de texte dans le repère de la scène, sans tenir compte de son animation (transform) */
+function boxOf(element, stageRect) {
+  const parentRect = element.offsetParent.getBoundingClientRect()
+  return {
+    left: parentRect.left - stageRect.left + element.offsetLeft,
+    top: parentRect.top - stageRect.top + element.offsetTop,
+    width: element.offsetWidth,
+    height: element.offsetHeight,
+  }
+}
+
+/**
+ * Zone de l'écran où le globe et ses arcs peuvent s'inscrire sans toucher le texte :
+ * - desktop / tablette paysage : à droite du bloc de texte le plus large (toutes étapes confondues,
+ *   pour que le globe ne change pas de taille d'une étape à l'autre) ;
+ * - mobile : entre le header et le haut du texte de l'étape affichée.
+ */
+export function measureSafeArea(stage, steps, activeIndex) {
+  const width = stage.clientWidth
+  const height = stage.clientHeight
+  const top = headerHeight() + 12
+  const stageRect = stage.getBoundingClientRect()
+  const boxes = steps.map((element) => boxOf(element, stageRect))
+
+  if (width > MOBILE_BREAKPOINT) {
+    const x = Math.max(...boxes.map((box) => box.left + box.width)) + TEXT_GAP
+    return { x, y: top, width: Math.max(0, width - RAIL_SPACE - x), height: Math.max(0, height - top - 28) }
+  }
+
+  const active = boxes[activeIndex] ?? boxes[0]
+  return { x: 12, y: top, width: width - 24, height: Math.max(0, active.top - 20 - top) }
+}
+
+/* Variables CSS du fond de repli : même disque que la scène */
+function applyFallbackFraming(section, area) {
+  const radius = Math.min(area.width, area.height) / 2 / ARC_REACH
+  section.style.setProperty('--globe-x', `${(area.x + area.width / 2).toFixed(1)}px`)
+  section.style.setProperty('--globe-y', `${(area.y + area.height / 2).toFixed(1)}px`)
+  section.style.setProperty('--globe-r', `${radius.toFixed(1)}px`)
+}
+
 /* Attend que la page soit affichée et que le navigateur soit au repos */
 function whenIdle(callback) {
   let idleId = null
@@ -76,12 +129,19 @@ export function useHeroStage(containerRef) {
     let ticking = false
     let currentStep = -1
 
+    const syncFraming = (immediate = false) => {
+      const area = measureSafeArea(container, steps, Math.max(0, currentStep))
+      applyFallbackFraming(section, area)
+      scene?.setSafeArea(area, immediate)
+    }
+
     const syncStep = (progress) => {
       const step = stepFromProgress(progress)
       if (step === currentStep) return
       currentStep = step
       section.dataset.step = String(step)
       steps.forEach((element) => element.toggleAttribute('data-active', Number(element.dataset.heroStep) === step))
+      syncFraming()
     }
 
     const update = () => {
@@ -114,9 +174,16 @@ export function useHeroStage(containerRef) {
     })
     observer.observe(section)
 
+    const onResize = () => {
+      onScroll()
+      syncFraming(true)
+    }
+
     update()
+    syncFraming(true)
+    document.fonts?.ready.then(() => !disposed && syncFraming(true))
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
+    window.addEventListener('resize', onResize)
     window.addEventListener('pointermove', onPointerMove, { passive: true })
     document.addEventListener('visibilitychange', syncRunning)
 
@@ -135,6 +202,7 @@ export function useHeroStage(containerRef) {
           }
           scene = created
           scene.setProgress(readProgress(section), true)
+          syncFraming(true)
           syncRunning()
           setStatus('ready')
         } catch (error) {
@@ -149,7 +217,7 @@ export function useHeroStage(containerRef) {
       cancelIdle()
       observer.disconnect()
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
+      window.removeEventListener('resize', onResize)
       window.removeEventListener('pointermove', onPointerMove)
       document.removeEventListener('visibilitychange', syncRunning)
       scene?.dispose()
