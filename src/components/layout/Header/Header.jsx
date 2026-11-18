@@ -7,12 +7,14 @@ import { cx } from '@/lib/cx'
 import Logo from '@/components/layout/Logo/Logo'
 import MobileMenu from '@/components/layout/MobileMenu/MobileMenu'
 import Button from '@/components/ui/Button/Button'
+import { useAuth } from '@/components/auth/AuthProvider/auth.logic'
 import { isLinkActive, useHeaderState } from './header.logic'
 import styles from './Header.module.css'
 
 export default function Header() {
   const pathname = usePathname()
   const { solid, menuOpen, toggleMenu, closeMenu } = useHeaderState(pathname)
+  const signedIn = useAuth().status === 'authenticated'
 
   /* Le menu mobile est rendu hors du <header> : le backdrop-filter du header
      créerait sinon un bloc conteneur qui piège le position: fixed du menu. */
@@ -39,12 +41,20 @@ export default function Header() {
           </nav>
 
           <div className={styles.actions}>
-            <Link href={AUTH_LINKS.login.href} className={styles.login}>
-              {AUTH_LINKS.login.label}
-            </Link>
-            <Button href={AUTH_LINKS.register.href} size="sm">
-              {AUTH_LINKS.register.label}
-            </Button>
+            {signedIn ? (
+              <Button href={AUTH_LINKS.account.href} size="sm" variant="glass">
+                {AUTH_LINKS.account.label}
+              </Button>
+            ) : (
+              <>
+                <Link href={AUTH_LINKS.login.href} className={styles.login}>
+                  {AUTH_LINKS.login.label}
+                </Link>
+                <Button href={AUTH_LINKS.register.href} size="sm">
+                  {AUTH_LINKS.register.label}
+                </Button>
+              </>
+            )}
           </div>
 
           <button
@@ -61,7 +71,7 @@ export default function Header() {
         </div>
       </header>
 
-      <MobileMenu id="menu-mobile" open={menuOpen} pathname={pathname} onNavigate={closeMenu} />
+      <MobileMenu id="menu-mobile" open={menuOpen} pathname={pathname} signedIn={signedIn} onNavigate={closeMenu} />
     </>
   )
 }

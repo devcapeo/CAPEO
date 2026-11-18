@@ -43,6 +43,16 @@ La page `/styleguide` (non indexée) présente le kit UI.
 
 L'ancienne version Vite (dont les maquettes de la Business Room) est archivée sur la branche `archive/vite-coacquisition`.
 
+## Supabase
+
+Projet `capeo` (référence `nuqbhaufouezojhhcdwh`, région Paris `eu-west-3`), organisation du compte devcapeo.
+
+- Schéma versionné dans `supabase/migrations/` : tables `profiles`, `assets`, `favorites`, règles d'accès (RLS) et garde-fous.
+- Un vendeur ne peut ni publier, ni mettre en avant, ni valider lui-même ; une annonce publiée modifiée repasse en examen. Ces actions relèvent du back-office (clé service, côté serveur uniquement, jamais dans le code client).
+- `src/config/supabase.js` contient l'URL et la clé publiable (publique par conception). Les variables `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` ont priorité si elles sont définies.
+- `CATALOG_SOURCE=supabase` fait lire les annonces publiées en base ; par défaut, le catalogue d'exemple est utilisé.
+- L'authentification (inscription, connexion, confirmation, mot de passe oublié) tourne dans le navigateur : aucune fonction serverless.
+
 ## Crédits
 
 - Carte du globe (`public/textures/world-land.png`) : générée à partir des données [Natural Earth](https://www.naturalearthdata.com/) (domaine public), via le paquet `world-atlas`.

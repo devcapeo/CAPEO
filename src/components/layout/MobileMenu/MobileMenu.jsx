@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button/Button'
 import { isLinkActive } from '@/components/layout/Header/header.logic'
 import styles from './MobileMenu.module.css'
 
-export default function MobileMenu({ id, open, pathname, onNavigate }) {
+export default function MobileMenu({ id, open, pathname, signedIn, onNavigate }) {
   return (
     <div id={id} className={cx(styles.menu, open && styles.open)} aria-hidden={!open} inert={!open}>
       <nav className={styles.nav} aria-label="Navigation mobile">
@@ -26,12 +26,20 @@ export default function MobileMenu({ id, open, pathname, onNavigate }) {
       </nav>
 
       <div className={styles.actions}>
-        <Button href={AUTH_LINKS.register.href} size="lg" fullWidth onClick={onNavigate}>
-          {AUTH_LINKS.register.label}
-        </Button>
-        <Button href={AUTH_LINKS.login.href} variant="glass" size="lg" fullWidth onClick={onNavigate}>
-          {AUTH_LINKS.login.label}
-        </Button>
+        {signedIn ? (
+          <Button href={AUTH_LINKS.account.href} size="lg" fullWidth onClick={onNavigate}>
+            {AUTH_LINKS.account.label}
+          </Button>
+        ) : (
+          <>
+            <Button href={AUTH_LINKS.register.href} size="lg" fullWidth onClick={onNavigate}>
+              {AUTH_LINKS.register.label}
+            </Button>
+            <Button href={AUTH_LINKS.login.href} variant="glass" size="lg" fullWidth onClick={onNavigate}>
+              {AUTH_LINKS.login.label}
+            </Button>
+          </>
+        )}
       </div>
     </div>
   )

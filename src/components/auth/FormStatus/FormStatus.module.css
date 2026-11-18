@@ -1,0 +1,24 @@
+.status {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
+.error {
+  border-color: rgba(224, 108, 108, 0.45);
+  background: rgba(224, 108, 108, 0.08);
+  color: #F0A0A0;
+}
+
+.success {
+  border-color: var(--gold-border);
+  background: var(--gold-glow);
+  color: var(--gold-soft);
+}
+
+.info {
+  background: var(--glass-bg);
+  color: var(--text-muted);
+}
