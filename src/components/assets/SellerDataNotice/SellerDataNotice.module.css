@@ -1,0 +1,10 @@
+.notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+.notice svg { flex-shrink: 0; }

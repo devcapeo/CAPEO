@@ -27,3 +27,27 @@ export function formatSurface(value) {
   if (!value) return null
   return `${new Intl.NumberFormat('fr-FR').format(value)} m²`
 }
+
+/* Chiffre d'annonce selon son unité : 'eur' | 'm2' | 'ha' | 'percent' | 'count' | 'text' */
+export function formatFigure({ value, unit }) {
+  const number = new Intl.NumberFormat('fr-FR')
+  switch (unit) {
+    case 'eur':
+      return formatPrice(value)
+    case 'm2':
+      return formatSurface(value)
+    case 'ha':
+      return `${number.format(value)} ha`
+    case 'percent':
+      return `${number.format(value)} %`
+    case 'count':
+      return number.format(value)
+    default:
+      return String(value)
+  }
+}
+
+/* "2026-11-12" -> "12 novembre 2026" */
+export function formatDate(isoDate) {
+  return new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(isoDate))
+}

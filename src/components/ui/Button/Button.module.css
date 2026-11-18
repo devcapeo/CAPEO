@@ -31,7 +31,16 @@
 .md { height: 46px; padding: 0 var(--space-5); font-size: var(--fs-sm); }
 .lg { height: 56px; padding: 0 var(--space-6); font-size: var(--fs-base); }
 
-.fullWidth { width: 100%; }
+.fullWidth {
+  width: 100%;
+  height: auto;
+  min-height: 46px;
+  padding-block: var(--space-3);
+  white-space: normal;
+  text-align: center;
+}
+
+.lg.fullWidth { min-height: 56px; }
 
 /* ── Or satiné : action principale ── */
 .gold {

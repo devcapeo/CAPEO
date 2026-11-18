@@ -1,0 +1,13 @@
+.notice {
+  padding: var(--space-3) var(--space-5);
+  border: 1px dashed var(--gold-border);
+  border-radius: var(--radius-md);
+  background: rgba(201, 168, 76, 0.06);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.notice strong {
+  font-weight: 600;
+  color: var(--gold-soft);
+}

@@ -1,0 +1,240 @@
+/* ============================================
+   CAPEO — ANNONCES D'EXEMPLE (FICTIVES)
+
+   Données provisoires de démonstration, au format du futur schéma Supabase
+   (table `assets`). Elles sont signalées comme fictives à l'écran et exclues
+   de l'indexation tant que IS_DEMO_CATALOG vaut true.
+
+   Règles appliquées à chaque annonce :
+   - tous les chiffres sont fournis par le vendeur (mention affichée sur chacun) ;
+   - aucun rendement, aucune plus-value, aucun calcul fiscal ;
+   - vocabulaire : acquisition / acquéreur / actif.
+   ============================================ */
+
+export const IS_DEMO_CATALOG = true
+
+/*
+ * figures[].unit : 'eur' | 'm2' | 'ha' | 'percent' | 'count' | 'text'
+ * figures[].financial : true pour les indicateurs financiers
+ * coAcquisition : le vendeur accepte d'échanger avec plusieurs acquéreurs dans la Business Room
+ * featured : mise en avant payante (affichée en tête de liste, signalée « Mise en avant »)
+ */
+export const DEMO_ASSETS = [
+  {
+    id: 'demo-001',
+    slug: 'immeuble-haussmannien-lyon-6',
+    family: 'immobilier',
+    type: 'immeuble-de-rapport',
+    title: 'Immeuble haussmannien entièrement loué',
+    summary: "Immeuble en pierre de taille de 14 lots, entièrement loué, au cœur d'un quartier recherché.",
+    city: 'Lyon 6e',
+    region: 'Auvergne-Rhône-Alpes',
+    country: 'France',
+    price: 6900000,
+    publishedAt: '2026-11-12',
+    featured: true,
+    coAcquisition: true,
+    seller: { kind: 'Professionnel', verified: true },
+    figures: [
+      { label: 'Surface totale', value: 1280, unit: 'm2' },
+      { label: 'Nombre de lots', value: 14, unit: 'count' },
+      { label: 'Loyers annuels déclarés', value: 312000, unit: 'eur', financial: true },
+      { label: "Taux d'occupation déclaré", value: 100, unit: 'percent', financial: true },
+      { label: 'Année de construction', value: '1884', unit: 'text' },
+    ],
+    description: [
+      "Immeuble haussmannien en pierre de taille élevé sur cinq étages, avec ascenseur, cave et cour intérieure. Les parties communes ont été rénovées récemment.",
+      "L'immeuble compte douze appartements et deux locaux commerciaux en rez-de-chaussée. Il est vendu en bloc, avec ses baux en cours.",
+    ],
+    highlights: ['Pierre de taille, façade ravalée', 'Ascenseur', 'Deux commerces en pied d’immeuble', 'Vente en bloc'],
+    documents: ['États locatifs', 'Diagnostics techniques', 'Règlement et plans', 'Procès-verbaux des derniers travaux'],
+  },
+  {
+    id: 'demo-002',
+    slug: 'domaine-viticole-luberon',
+    family: 'immobilier',
+    type: 'domaine',
+    title: 'Domaine viticole et bastide du XVIIIe',
+    summary: 'Domaine de 42 hectares dont 18 de vignes en AOC, bastide restaurée et chai.',
+    city: 'Luberon',
+    region: "Provence-Alpes-Côte d'Azur",
+    country: 'France',
+    price: 8400000,
+    publishedAt: '2026-11-08',
+    featured: false,
+    coAcquisition: true,
+    seller: { kind: 'Particulier', verified: true },
+    figures: [
+      { label: 'Surface du domaine', value: 42, unit: 'ha' },
+      { label: 'Dont vignes', value: 18, unit: 'ha' },
+      { label: 'Surface habitable', value: 650, unit: 'm2' },
+      { label: "Chiffre d'affaires viticole déclaré", value: 540000, unit: 'eur', financial: true },
+    ],
+    description: [
+      "Bastide du XVIIIe siècle entièrement restaurée, dépendances, chai de vinification et caveau de dégustation, au milieu de 42 hectares de vignes, d'oliviers et de bois.",
+      'Le vignoble est conduit en agriculture biologique. Le matériel et le stock peuvent être cédés avec le domaine, selon des modalités à convenir entre les parties.',
+    ],
+    highlights: ['AOC, conduite en agriculture biologique', 'Chai et caveau', 'Bastide restaurée', 'Vue dégagée sur le massif'],
+    documents: ['Plan cadastral', 'Relevé parcellaire', 'Diagnostics', 'Inventaire du matériel'],
+  },
+  {
+    id: 'demo-003',
+    slug: 'villa-contemporaine-cap-antibes',
+    family: 'immobilier',
+    type: 'residence',
+    title: 'Villa contemporaine face à la mer',
+    summary: 'Villa d’architecte de 420 m² sur un terrain paysagé de 2 600 m², piscine à débordement.',
+    city: "Cap d'Antibes",
+    region: "Provence-Alpes-Côte d'Azur",
+    country: 'France',
+    price: 12500000,
+    publishedAt: '2026-11-05',
+    featured: false,
+    coAcquisition: false,
+    seller: { kind: 'Particulier', verified: true },
+    figures: [
+      { label: 'Surface habitable', value: 420, unit: 'm2' },
+      { label: 'Terrain', value: 2600, unit: 'm2' },
+      { label: 'Chambres', value: 6, unit: 'count' },
+      { label: 'Année de livraison', value: '2019', unit: 'text' },
+    ],
+    description: [
+      "Villa d'architecte livrée en 2019, ouverte sur la mer par de larges baies vitrées. Six suites, espace bien-être, piscine à débordement et jardin méditerranéen.",
+      'Accès privé à pied à une crique. Maison de gardien indépendante.',
+    ],
+    highlights: ['Vue mer panoramique', 'Piscine à débordement', 'Maison de gardien', 'Domotique complète'],
+    documents: ['Plans', 'Diagnostics', 'Permis de construire et conformité'],
+  },
+  {
+    id: 'demo-004',
+    slug: 'hotel-particulier-bordeaux',
+    family: 'immobilier',
+    type: 'residence',
+    title: 'Hôtel particulier avec jardin',
+    summary: 'Hôtel particulier de 780 m² entre cour et jardin, en plein centre historique.',
+    city: 'Bordeaux',
+    region: 'Nouvelle-Aquitaine',
+    country: 'France',
+    price: 4650000,
+    publishedAt: '2026-10-29',
+    featured: false,
+    coAcquisition: false,
+    seller: { kind: 'Particulier', verified: true },
+    figures: [
+      { label: 'Surface habitable', value: 780, unit: 'm2' },
+      { label: 'Jardin', value: 450, unit: 'm2' },
+      { label: 'Pièces', value: 16, unit: 'count' },
+    ],
+    description: [
+      "Hôtel particulier du XVIIIe siècle, entre cour pavée et jardin clos, au cœur du centre historique. Volumes de réception, boiseries et parquets d'origine.",
+    ],
+    highlights: ['Entre cour et jardin', 'Décors d’origine', 'Stationnement privatif'],
+    documents: ['Plans', 'Diagnostics'],
+  },
+  {
+    id: 'demo-005',
+    slug: 'murs-commerciaux-paris-8',
+    family: 'immobilier',
+    type: 'murs-commerciaux',
+    title: 'Murs de boutique sur avenue',
+    summary: 'Murs commerciaux de 340 m² sur une avenue prestigieuse, loués sous bail commercial.',
+    city: 'Paris 8e',
+    region: 'Île-de-France',
+    country: 'France',
+    price: 4200000,
+    publishedAt: '2026-10-24',
+    featured: false,
+    coAcquisition: true,
+    seller: { kind: 'Professionnel', verified: true },
+    figures: [
+      { label: 'Surface', value: 340, unit: 'm2' },
+      { label: 'Linéaire de vitrine', value: '14 m', unit: 'text' },
+      { label: 'Loyer annuel déclaré', value: 210000, unit: 'eur', financial: true },
+      { label: 'Bail', value: 'Commercial 3-6-9', unit: 'text' },
+    ],
+    description: [
+      "Murs d'une boutique en rez-de-chaussée et sous-sol, sur une avenue très fréquentée. Le local est loué à une enseigne sous bail commercial.",
+    ],
+    highlights: ['Emplacement n° 1', 'Locataire en place', 'Grand linéaire de vitrine'],
+    documents: ['Bail commercial', 'Diagnostics', 'Plans'],
+  },
+  {
+    id: 'demo-006',
+    slug: 'chalet-megeve',
+    family: 'immobilier',
+    type: 'residence',
+    title: 'Chalet skis aux pieds',
+    summary: 'Chalet de 380 m² au départ des pistes, six chambres, spa et vue sur le Mont-Blanc.',
+    city: 'Megève',
+    region: 'Auvergne-Rhône-Alpes',
+    country: 'France',
+    price: 5900000,
+    publishedAt: '2026-10-18',
+    featured: false,
+    coAcquisition: true,
+    seller: { kind: 'Particulier', verified: true },
+    figures: [
+      { label: 'Surface habitable', value: 380, unit: 'm2' },
+      { label: 'Chambres', value: 6, unit: 'count' },
+      { label: 'Altitude', value: '1 250 m', unit: 'text' },
+    ],
+    description: [
+      'Chalet traditionnel en vieux bois, accès direct aux pistes. Six chambres en suite, salon cathédrale, spa avec sauna et hammam.',
+    ],
+    highlights: ['Skis aux pieds', 'Vue Mont-Blanc', 'Spa'],
+    documents: ['Plans', 'Diagnostics'],
+  },
+  {
+    id: 'demo-007',
+    slug: 'hotel-quatre-etoiles-annecy',
+    family: 'immobilier',
+    type: 'hotellerie',
+    title: 'Hôtel 4 étoiles au bord du lac',
+    summary: 'Hôtel de 32 chambres face au lac, murs et fonds cédés ensemble.',
+    city: 'Annecy',
+    region: 'Auvergne-Rhône-Alpes',
+    country: 'France',
+    price: 9800000,
+    publishedAt: '2026-10-11',
+    featured: false,
+    coAcquisition: true,
+    seller: { kind: 'Professionnel', verified: true },
+    figures: [
+      { label: 'Chambres', value: 32, unit: 'count' },
+      { label: 'Surface bâtie', value: 2100, unit: 'm2' },
+      { label: "Chiffre d'affaires annuel déclaré", value: 2100000, unit: 'eur', financial: true },
+      { label: "Taux d'occupation déclaré", value: 74, unit: 'percent', financial: true },
+    ],
+    description: [
+      "Hôtel 4 étoiles de 32 chambres, restaurant et terrasse face au lac. Les murs et le fonds sont cédés ensemble ; l'équipe en place peut être reprise.",
+    ],
+    highlights: ['Pieds dans l’eau', 'Restaurant et terrasse', 'Équipe en place'],
+    documents: ['Bilans des trois derniers exercices', 'Diagnostics', 'Inventaire'],
+  },
+  {
+    id: 'demo-008',
+    slug: 'mas-provencal-alpilles',
+    family: 'immobilier',
+    type: 'domaine',
+    title: 'Mas provençal et oliveraie',
+    summary: 'Mas restauré de 310 m² sur 4 hectares d’oliviers, piscine et dépendances.',
+    city: 'Alpilles',
+    region: "Provence-Alpes-Côte d'Azur",
+    country: 'France',
+    price: 3750000,
+    publishedAt: '2026-10-03',
+    featured: false,
+    coAcquisition: false,
+    seller: { kind: 'Particulier', verified: true },
+    figures: [
+      { label: 'Surface habitable', value: 310, unit: 'm2' },
+      { label: 'Terrain', value: 4, unit: 'ha' },
+      { label: 'Oliviers', value: 600, unit: 'count' },
+    ],
+    description: [
+      "Mas en pierre restauré avec soin, au calme absolu, entouré d'une oliveraie de 600 arbres. Piscine, pool-house et bergerie aménageable.",
+    ],
+    highlights: ['Oliveraie de 600 arbres', 'Bergerie aménageable', 'Au calme absolu'],
+    documents: ['Plans', 'Diagnostics'],
+  },
+]

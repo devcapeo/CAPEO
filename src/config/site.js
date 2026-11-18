@@ -83,30 +83,49 @@ export const SOCIAL_LINKS = [
  * Familles d'actifs. Le catalogue V1 démarre en immobilier (available: true) ;
  * les autres familles sont affichées comme « bientôt » pour assumer le multi-actifs.
  * Entreprises et startups : cession (rachat) uniquement, jamais de levée de fonds.
+ * `types` : sous-catégories proposées dans les filtres et au dépôt d'annonce.
  */
 export const ASSET_FAMILIES = [
   {
     slug: 'immobilier',
     label: 'Immobilier',
-    description: 'Immeubles, domaines, murs commerciaux, résidences d’exception.',
+    description: 'Immeubles, domaines, murs commerciaux, résidences d\u2019exception.',
+    intro:
+      "Immeubles de rapport, domaines, murs commerciaux, hôtellerie, résidences d'exception : des biens rares, présentés par des vendeurs dont l'identité est vérifiée, et des annonces examinées une par une par notre équipe.",
     available: true,
+    types: [
+      { slug: 'immeuble-de-rapport', label: 'Immeuble de rapport' },
+      { slug: 'residence', label: 'Résidence d\u2019exception' },
+      { slug: 'domaine', label: 'Domaine & propriété' },
+      { slug: 'murs-commerciaux', label: 'Murs commerciaux' },
+      { slug: 'hotellerie', label: 'Hôtellerie' },
+    ],
   },
   {
     slug: 'entreprises',
     label: 'Entreprises à céder',
     description: 'Fonds de commerce, PME, sociétés en transmission.',
+    intro:
+      "Fonds de commerce, PME et sociétés en transmission : la même exigence de vérification, appliquée à la reprise d'entreprise. Il s'agit exclusivement de cessions, jamais de levées de fonds.",
     available: false,
+    types: [],
   },
   {
     slug: 'startups',
     label: 'Startups',
     description: 'Jeunes sociétés et projets technologiques à reprendre.',
+    intro:
+      "Jeunes sociétés, actifs technologiques, projets à reprendre : CAPEO mettra en relation cédants et repreneurs vérifiés. Il s'agit exclusivement de cessions, jamais de levées de fonds.",
     available: false,
+    types: [],
   },
   {
     slug: 'objets-rares',
     label: 'Objets rares',
     description: 'Collections, véhicules, œuvres et pièces atypiques.',
+    intro:
+      "Collections, véhicules d'exception, œuvres et pièces atypiques : des objets rares, présentés par des vendeurs identifiés, à des acquéreurs dont l'identité est vérifiée.",
     available: false,
+    types: [],
   },
 ]
