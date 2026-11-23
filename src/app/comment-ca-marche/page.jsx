@@ -11,7 +11,7 @@ import styles from './page.module.css'
 export const metadata = {
   title: 'Comment ça marche',
   description:
-    "Vérification humaine des profils et des annonces, identité contrôlée avant tout contact, Business Room privée par actif : comment CAPEO met en relation vendeurs et acquéreurs d'actifs rares, sans commission.",
+    "Vérification humaine des profils et des annonces, identité contrôlée avant tout contact, Business Room privée par actif : comment CAPEO met en relation vendeurs et acquéreurs d'actifs, sans commission.",
   alternates: { canonical: '/comment-ca-marche' },
 }
 
@@ -24,7 +24,7 @@ export default function HowItWorksPage() {
           eyebrow="Comment ça marche"
           title="Un cercle de confiance,"
           accent="pas un mur d'annonces."
-          intro="CAPEO réunit vendeurs et acquéreurs sérieux autour d'actifs rares. Chaque membre est vérifié, chaque annonce est examinée, chaque échange a lieu dans un espace tracé. La transaction, elle, se conclut hors plateforme, sans commission."
+          intro="CAPEO réunit vendeurs et acquéreurs sérieux autour d'actifs de toute nature. Chaque membre est vérifié, chaque annonce est examinée, chaque échange a lieu dans un espace tracé. La transaction, elle, se conclut hors plateforme, sans commission."
         />
         <div className={styles.introActions}>
           <Button href="#acquereur" variant="glass">Parcours acquéreur</Button>
@@ -48,7 +48,7 @@ export default function HowItWorksPage() {
 
       <section className={`container ${styles.section}`} aria-label="Familles d'actifs">
         <SectionHeading
-          eyebrow="Actifs rares"
+          eyebrow="Tous les actifs"
           title="Une place de marché"
           accent="multi-actifs."
           intro="Le catalogue ouvre avec l'immobilier. Les entreprises à céder, les startups et les objets rares suivront."

@@ -9,7 +9,7 @@ export const CGU = {
     {
       title: 'Objet',
       paragraphs: [
-        "Les présentes conditions régissent l'accès et l'utilisation de la plateforme CAPEO, place de marché d'actifs rares (immobilier, entreprises à céder, startups, objets rares). La création d'un compte vaut acceptation des présentes conditions.",
+        "Les présentes conditions régissent l'accès et l'utilisation de la plateforme CAPEO, place de marché d'actifs (immobilier, entreprises à céder, startups, objets rares). La création d'un compte vaut acceptation des présentes conditions.",
       ],
     },
     {

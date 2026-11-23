@@ -1,6 +1,6 @@
 # CAPEO — Capital & Opportunities
 
-Place de marché d'actifs rares : immobilier, entreprises à céder, startups, objets d'exception. Le catalogue V1 démarre en immobilier.
+Place de marché d'actifs, toutes catégories confondues : immobilier, entreprises à céder, startups, objets d'exception. Le catalogue V1 démarre en immobilier.
 
 **Cadre (ligne rouge)** : CAPEO est une plateforme de mise en relation (règlement UE 2019/1150), pas un PSFP. Aucun fonds lié à l'acquisition d'un actif ne transite par CAPEO ; les transactions se concluent hors plateforme. La co-acquisition passe par la Business Room : mise en relation entre co-acquéreurs vérifiés, intentions d'apport non contractuelles, jamais de collecte organisée par CAPEO. Stripe sert uniquement aux annonces payantes et à la mise en avant vendeur.
 

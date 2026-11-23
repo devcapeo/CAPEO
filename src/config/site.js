@@ -24,11 +24,11 @@ export const SITE = {
     lead: 'Acquérir',
     accent: "l'exception.",
   },
-  tagline: "Place de marché d'actifs rares",
+  tagline: "Place de marché d'actifs",
   pitch:
-    "CAPEO n'est pas un mur d'annonces : c'est un cercle de confiance vérifié où des acquéreurs sérieux se rencontrent pour acquérir, seuls ou ensemble, des actifs rares. Mise en relation pure, zéro commission.",
+    "CAPEO n'est pas un mur d'annonces : c'est un cercle de confiance vérifié où des acquéreurs sérieux se rencontrent pour acquérir des actifs, seuls ou ensemble. Mise en relation pure, zéro commission.",
   description:
-    "Place de marché d'actifs rares — immobilier, entreprises à céder, startups, objets d'exception. Profils et annonces vérifiés par notre équipe, identité contrôlée avant tout contact. Mise en relation pure, zéro commission.",
+    "Place de marché d'actifs — immobilier, entreprises à céder, startups, objets d'exception. Profils et annonces vérifiés par notre équipe, identité contrôlée avant tout contact. Mise en relation pure, zéro commission.",
 }
 
 export const NAV_LINKS = [
@@ -92,7 +92,7 @@ export const ASSET_FAMILIES = [
     label: 'Immobilier',
     description: 'Immeubles, domaines, murs commerciaux, résidences d\u2019exception.',
     intro:
-      "Immeubles de rapport, domaines, murs commerciaux, hôtellerie, résidences d'exception : des biens rares, présentés par des vendeurs dont l'identité est vérifiée, et des annonces examinées une par une par notre équipe.",
+      "Immeubles de rapport, domaines, murs commerciaux, hôtellerie, résidences d'exception : des biens présentés par des vendeurs dont l'identité est vérifiée, et des annonces examinées une par une par notre équipe.",
     available: true,
     types: [
       { slug: 'immeuble-de-rapport', label: 'Immeuble de rapport' },

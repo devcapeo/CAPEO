@@ -6,7 +6,7 @@ import SignUpForm from '@/components/auth/SignUpForm/SignUpForm'
 export const metadata = {
   title: 'Rejoindre CAPEO',
   description:
-    "Créez votre compte CAPEO : un cercle de confiance vérifié où des acquéreurs sérieux se rencontrent pour acquérir, seuls ou ensemble, des actifs rares. Sans commission.",
+    "Créez votre compte CAPEO : un cercle de confiance vérifié où des acquéreurs sérieux se rencontrent pour acquérir des actifs, seuls ou ensemble. Sans commission.",
   alternates: { canonical: '/inscription' },
 }
 

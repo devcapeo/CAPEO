@@ -100,7 +100,7 @@ export const FAQ = [
   {
     question: "Qu'est-ce que CAPEO ?",
     answer:
-      "Une place de marché d'actifs rares — immobilier, entreprises à céder, startups, objets d'exception. Ce n'est pas un mur d'annonces : c'est un cercle de confiance vérifié où des acquéreurs sérieux se rencontrent pour acquérir, seuls ou ensemble. Mise en relation pure, zéro commission.",
+      "Une place de marché d'actifs — immobilier, entreprises à céder, startups, objets d'exception. Ce n'est pas un mur d'annonces : c'est un cercle de confiance vérifié où des acquéreurs sérieux se rencontrent pour acquérir, seuls ou ensemble. Mise en relation pure, zéro commission.",
   },
   {
     question: 'CAPEO est-il une plateforme de financement participatif ?',

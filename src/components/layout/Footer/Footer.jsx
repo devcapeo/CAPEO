@@ -48,7 +48,7 @@ export default function Footer() {
           <Logo />
           <p className={styles.meaning}>{SITE.meaning}</p>
           <p className={styles.tagline}>
-            Place de marché d&apos;actifs rares. Un cercle de confiance vérifié : mise en relation pure, zéro commission.
+            Place de marché d&apos;actifs. Un cercle de confiance vérifié : mise en relation pure, zéro commission.
           </p>
           <div className={styles.social}>
             {SOCIAL_LINKS.map((social) => (

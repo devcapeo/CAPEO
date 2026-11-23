@@ -37,7 +37,7 @@ export default function HomePage() {
 
       <section className={`container ${styles.section}`} aria-label="Familles d'actifs">
         <SectionHeading
-          eyebrow="Actifs rares"
+          eyebrow="Tous les actifs"
           title="Immobilier, entreprises,"
           accent="startups, objets rares."
           intro="Le catalogue ouvre avec l'immobilier. Les autres familles d'actifs suivent, avec la même exigence de vérification."

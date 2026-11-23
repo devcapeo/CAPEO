@@ -6,7 +6,7 @@
 /* Étapes de la descente du hero. L'étape 0 porte le H1 de la page. */
 export const HERO_STEPS = [
   {
-    eyebrow: "Place de marché d'actifs rares",
+    eyebrow: "Place de marché d'actifs",
     lead:
       'Immobilier, entreprises à céder, startups, objets rares : un cercle de confiance vérifié où des acquéreurs sérieux se rencontrent pour acquérir, seuls ou ensemble.',
   },

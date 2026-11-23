@@ -30,7 +30,7 @@ export default async function AssetsPage() {
       <SectionHeading
         as="h1"
         eyebrow="Actifs disponibles"
-        title="Des actifs rares,"
+        title="Tous les actifs,"
         accent="des vendeurs vérifiés."
         intro="Chaque annonce est examinée par notre équipe avant publication. Pour contacter un vendeur ou rejoindre la Business Room d'un actif, votre identité doit être vérifiée."
         className={styles.heading}
