@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { getBrowserClient } from '@/lib/supabase/browserClient'
 import { useAuth } from '@/components/auth/AuthProvider/auth.logic'
+import { fetchMyRooms } from '@/lib/businessRoom/api'
 
 export const KYC_LABELS = {
   not_started: { tone: 'neutral', label: 'À faire', text: "Vérifiez votre identité pour pouvoir contacter les autres membres. Pièce d'identité et selfie, en quelques minutes, via notre prestataire Stripe Identity." },
@@ -36,6 +37,7 @@ export function useAccount() {
   const auth = useAuth()
   const [listings, setListings] = useState(null)
   const [favoritesCount, setFavoritesCount] = useState(null)
+  const [rooms, setRooms] = useState(null)
   const [verification, setVerification] = useState({ status: 'idle', message: null })
 
   useEffect(() => {
@@ -52,9 +54,11 @@ export function useAccount() {
         .eq('seller_id', auth.user.id)
         .order('updated_at', { ascending: false }),
       supabase.from('favorites').select('asset_id', { count: 'exact', head: true }),
-    ]).then(([assets, favorites]) => {
+      fetchMyRooms().catch(() => []),
+    ]).then(([assets, favorites, myRooms]) => {
       setListings(assets.data ?? [])
       setFavoritesCount(favorites.count ?? 0)
+      setRooms(myRooms)
     })
   }, [auth.status, auth.user])
 
@@ -86,5 +90,5 @@ export function useAccount() {
     setVerification({ status: 'error', message: body.error ?? 'Le service de vérification est indisponible pour le moment.' })
   }, [])
 
-  return { ...auth, listings, favoritesCount, verification, startVerification }
+  return { ...auth, listings, favoritesCount, rooms, verification, startVerification }
 }

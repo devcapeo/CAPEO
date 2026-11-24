@@ -7,11 +7,11 @@ import styles from './AssetContactPanel.module.css'
 
 /*
  * Panneau latéral d'une fiche : prix, vendeur, accès à la Business Room.
- * Tout contact passe par une identité vérifiée (KYC) : les boutons mènent à l'inscription.
+ * Tout contact passe par la Business Room, réservée aux identités vérifiées (KYC).
  * Co-acquisition : présentée comme une mise en relation, jamais comme une collecte.
  */
 export default function AssetContactPanel({ asset }) {
-  const next = encodeURIComponent(`/actifs/${asset.slug}`)
+  const room = `/business-room/${asset.slug}`
 
   return (
     <Card as="aside" padding="lg" accent className={styles.panel} aria-label="Contacter le vendeur">
@@ -27,8 +27,8 @@ export default function AssetContactPanel({ asset }) {
       </div>
 
       <div className={styles.actions}>
-        <Button href={`/inscription?suite=${next}`} fullWidth>Accéder à la Business Room</Button>
-        <Button href={`/inscription?suite=${next}`} variant="glass" fullWidth>Contacter le vendeur</Button>
+        <Button href={room} fullWidth>Accéder à la Business Room</Button>
+        <Button href={room} variant="glass" fullWidth>Contacter le vendeur</Button>
         <p className={styles.hint}>
           Votre identité doit être vérifiée avant toute prise de contact. Sans frais, sans commission.
         </p>

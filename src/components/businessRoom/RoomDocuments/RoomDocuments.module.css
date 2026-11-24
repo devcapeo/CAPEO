@@ -1,0 +1,72 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.eyebrow {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.notice,
+.hint {
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.expected {
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  color: var(--gold-soft);
+}
+
+.empty {
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--glass-border);
+}
+
+.file {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.file:hover,
+.file:focus-visible {
+  color: var(--gold-soft);
+  text-decoration: underline;
+}
+
+.meta {
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+}

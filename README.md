@@ -59,7 +59,7 @@ Projet `capeo` (référence `nuqbhaufouezojhhcdwh`, région Paris `eu-west-3`), 
 |---|---|---|
 | `api/compte` | Vérification d'identité Stripe Identity (`?action=verification`) et webhook Stripe (`?action=stripe-webhook`) | en place |
 | `api/annonces` | Annonces payantes / mise en avant (Stripe Checkout) | à venir |
-| `api/contact` | E-mails transactionnels (Resend) | à venir |
+| `api/contact` | Notifications e-mail de la Business Room via Resend (`?action=room-event`) | en place |
 | `api/admin` | Back-office : modération, publication | à venir |
 
 ### Variables d'environnement (Vercel > Settings > Environment Variables)
@@ -69,7 +69,7 @@ Projet `capeo` (référence `nuqbhaufouezojhhcdwh`, région Paris `eu-west-3`), 
 | `STRIPE_SECRET_KEY` | Création des sessions Stripe Identity | non |
 | `STRIPE_WEBHOOK_SECRET` | Vérification de la signature du webhook | non |
 | `SUPABASE_SECRET_KEY` | Mise à jour du statut KYC par le serveur (clé secrète `sb_secret_…`) | non |
-| `RESEND_API_KEY` | E-mails transactionnels (à venir) | non |
+| `RESEND_API_KEY` | E-mails transactionnels (Business Room) | oui |
 | `CATALOG_SOURCE` | `demo` (défaut) ou `supabase` | non |
 
 Webhook Stripe à déclarer : `https://<domaine>/api/compte?action=stripe-webhook`, événements `identity.verification_session.*`.

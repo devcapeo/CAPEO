@@ -10,6 +10,7 @@ const KEYS = {
   stripeSecretKey: 'STRIPE_SECRET_KEY',
   stripeWebhookSecret: 'STRIPE_WEBHOOK_SECRET',
   supabaseSecretKey: 'SUPABASE_SECRET_KEY',
+  resendApiKey: 'RESEND_API_KEY',
 }
 
 /* Renvoie les valeurs demandées, ou la liste des variables manquantes */

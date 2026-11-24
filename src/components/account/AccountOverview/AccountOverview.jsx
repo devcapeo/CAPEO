@@ -11,7 +11,7 @@ import { KYC_LABELS, LISTING_STATUS, REVIEW_LABELS, useAccount } from './account
 import styles from './AccountOverview.module.css'
 
 export default function AccountOverview() {
-  const { status, user, profile, listings, favoritesCount, verification, startVerification, signOut } = useAccount()
+  const { status, user, profile, listings, favoritesCount, rooms, verification, startVerification, signOut } = useAccount()
 
   if (status !== 'authenticated') {
     return (
@@ -62,6 +62,39 @@ export default function AccountOverview() {
           <Button href="/actifs" variant="glass" size="sm">Explorer les actifs</Button>
         </Card>
       </div>
+
+      <Card padding="lg" className={styles.details}>
+        <div className={styles.cardHead}>
+          <p className={styles.cardTitle}>Mes Business Rooms</p>
+        </div>
+        {rooms === null && <Spinner size="sm" />}
+        {rooms?.length === 0 && (
+          <p className={styles.text}>
+            Aucune Business Room pour l&apos;instant. Depuis une fiche d&apos;actif, demandez l&apos;accès pour échanger avec le vendeur.
+          </p>
+        )}
+        {rooms?.length > 0 && (
+          <ul className={styles.listings}>
+            {rooms.map((room) => (
+              <li key={room.asset_id} className={styles.listing}>
+                <div>
+                  <Link href={`/business-room/${room.slug}`} className={styles.listingTitle}>{room.title}</Link>
+                  <p className={styles.listingMeta}>
+                    {room.city} · {room.is_seller ? 'Votre annonce' : 'Acquéreur'}
+                  </p>
+                </div>
+                {room.is_seller ? (
+                  room.pending_requests > 0 && <Badge tone="gold" dot>{room.pending_requests} demande{room.pending_requests > 1 ? 's' : ''}</Badge>
+                ) : (
+                  <Badge tone={room.status === 'active' ? 'success' : 'cobalt'} dot>
+                    {room.status === 'active' ? 'Admis' : 'En attente'}
+                  </Badge>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
 
       <Card padding="lg" className={styles.details}>
         <div className={styles.cardHead}>
