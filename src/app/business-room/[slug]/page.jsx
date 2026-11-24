@@ -1,4 +1,5 @@
 import BusinessRoom from '@/components/businessRoom/BusinessRoom/BusinessRoom'
+import { isDemoCatalog } from '@/lib/assets/catalog'
 import styles from './page.module.css'
 
 export const metadata = {
@@ -11,7 +12,7 @@ export default async function BusinessRoomPage({ params }) {
   const { slug } = await params
   return (
     <div className={`container ${styles.page}`}>
-      <BusinessRoom slug={slug} />
+      <BusinessRoom slug={slug} showListingLink={!isDemoCatalog} />
     </div>
   )
 }

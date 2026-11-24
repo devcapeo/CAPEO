@@ -15,7 +15,7 @@ import { ROOM_INTRO } from '@/content/businessRoom'
 import { useAsyncAction, useBusinessRoom } from './businessRoom.logic'
 import styles from './BusinessRoom.module.css'
 
-export default function BusinessRoom({ slug }) {
+export default function BusinessRoom({ slug, showListingLink }) {
   const room = useBusinessRoom(slug)
   const leaving = useAsyncAction()
   const { phase, asset, user, isSeller, isVerified, actions } = room
@@ -39,7 +39,7 @@ export default function BusinessRoom({ slug }) {
       />
       {asset && (
         <div className={styles.headerActions}>
-          {asset.status === 'published' && (
+          {asset.status === 'published' && showListingLink && (
             <Link href={`/actifs/${asset.slug}`} className={styles.link}>Voir la fiche</Link>
           )}
           {phase === 'room' && !isSeller && (
