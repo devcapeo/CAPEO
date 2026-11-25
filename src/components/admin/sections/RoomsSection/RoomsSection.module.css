@@ -1,0 +1,21 @@
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 200px;
+}
+
+.title a {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.title a:hover {
+  color: var(--gold-soft);
+  text-decoration: underline;
+}
+
+.title small {
+  font-size: 11px;
+  color: var(--text-dim);
+}

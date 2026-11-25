@@ -1,0 +1,24 @@
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 240px;
+}
+
+.error {
+  color: var(--danger);
+  font-size: var(--fs-sm);
+}
+
+.retry {
+  padding: 6px var(--space-4);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: var(--fs-xs);
+  cursor: pointer;
+}

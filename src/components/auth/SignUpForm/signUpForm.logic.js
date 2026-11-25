@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { getBrowserClient } from '@/lib/supabase/browserClient'
 import { useAuthForm } from '@/lib/auth/useAuthForm'
 import { safeRedirect, validateSignUp } from '@/lib/auth/validation'
+import { trackAction } from '@/lib/analytics/tracker'
 
 const INITIAL_VALUES = {
   firstName: '',
@@ -35,6 +36,7 @@ export function useSignUp(next) {
         },
       })
       if (error) return { error }
+      trackAction('signup', { label: values.memberKind })
       return {
         message: `Un e-mail de confirmation vient d'être envoyé à ${values.email.trim()}. Cliquez sur le lien qu'il contient pour activer votre compte.`,
       }

@@ -1,0 +1,91 @@
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: var(--space-3) var(--space-5);
+  margin: 0;
+}
+
+.field dt {
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+}
+
+.field dd {
+  margin: 2px 0 0;
+  font-size: var(--fs-sm);
+  overflow-wrap: anywhere;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--glass-border);
+}
+
+.blockTitle {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.hint,
+.empty {
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+}
+
+.days {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.dayLabel {
+  margin-bottom: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0 0 0 var(--space-3);
+  border-left: 1px solid var(--gold-border);
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: 6px 0;
+  font-size: var(--fs-sm);
+}
+
+.step time {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+}
+
+.step strong {
+  font-weight: 500;
+}
+
+.step small {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+  overflow-wrap: anywhere;
+}

@@ -3,6 +3,7 @@
 import { useCallback, useMemo } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { applyFilters, hasActiveFilters, parseFilters, toQueryString } from '@/lib/assets/filters'
+import { trackAction } from '@/lib/analytics/tracker'
 
 /**
  * Filtres de la liste d'actifs, synchronisés avec l'URL (?type=…&region=…&budget=…) :
@@ -19,6 +20,7 @@ export function useAssetFilters(assets) {
 
   const setFilter = useCallback(
     (key, value) => {
+      trackAction('filter', { label: `${key}: ${value || 'tous'}` })
       router.replace(`${pathname}${toQueryString({ ...filters, [key]: value })}`, { scroll: false })
     },
     [router, pathname, filters]

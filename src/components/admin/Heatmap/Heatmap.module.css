@@ -1,0 +1,36 @@
+.scroller {
+  overflow-x: auto;
+}
+
+.grid {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: separate;
+  border-spacing: 3px;
+  table-layout: fixed;
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+/* colonne des jours */
+.grid th:first-child {
+  width: 34px;
+}
+
+.grid th {
+  font-weight: 400;
+  text-align: left;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.grid td {
+  padding: 0;
+}
+
+.cell {
+  display: block;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--gold);
+}

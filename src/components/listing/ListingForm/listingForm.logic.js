@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import { trackAction } from '@/lib/analytics/tracker'
 import { useRouter } from 'next/navigation'
 import { getBrowserClient } from '@/lib/supabase/browserClient'
 import { authErrorMessage } from '@/lib/auth/errors'
@@ -72,6 +73,7 @@ export function useListingForm() {
         return
       }
 
+      trackAction(submitting ? 'listing_submit' : 'listing_draft', { label: values.family })
       notify(
         submitting
           ? { title: 'Annonce soumise', message: 'Notre équipe va l’examiner avant publication.', tone: 'success' }

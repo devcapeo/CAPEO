@@ -18,6 +18,7 @@ export const CONFIDENTIALITE = {
         "Business Room : messages, documents partagés et intentions d'apport déclarées.",
         'Paiements des options payantes : traités par Stripe. CAPEO ne conserve aucune donnée de carte bancaire.',
         'Données techniques : journaux de connexion et de sécurité.',
+        "Mesure d'audience : pages consultées, temps passé, défilement, clics, type d'appareil, navigateur, pays et ville approximatifs. Aucune adresse IP n'est conservée ; un identifiant aléatoire est stocké dans votre navigateur (renouvelé tous les 13 mois). Lorsque vous êtes connecté, ces informations sont rattachées à votre compte.",
       ],
     },
     {
@@ -27,6 +28,7 @@ export const CONFIDENTIALITE = {
         "Vérifier l'identité des membres avant tout contact : intérêt légitime (sécurité et confiance du cercle).",
         'Examiner les profils et les annonces, prévenir la fraude : intérêt légitime.',
         'Facturer les options payantes et tenir la comptabilité : obligation légale.',
+        "Mesurer et améliorer la fréquentation et l'ergonomie du site : intérêt légitime. Vous pouvez vous y opposer à tout moment (réglage en bas de cette page).",
         "Vous envoyer des e-mails de service (notifications, sécurité) : exécution du contrat. Toute communication commerciale requiert votre consentement.",
       ],
     },
@@ -37,6 +39,7 @@ export const CONFIDENTIALITE = {
         "Résultat de la vérification d'identité : pendant toute la durée du compte, puis [À compléter].",
         'Pièces comptables : dix ans.',
         'Journaux techniques : douze mois maximum.',
+        "Mesure d'audience : vingt-cinq mois maximum.",
       ],
     },
     {
@@ -61,7 +64,7 @@ export const CONFIDENTIALITE = {
     {
       title: 'Cookies',
       paragraphs: [
-        "CAPEO n'utilise que les cookies strictement nécessaires au fonctionnement du service (session, authentification, sécurité). Aucun traceur publicitaire n'est déposé. Si une mesure d'audience est mise en place, elle sera configurée pour ne pas nécessiter de consentement, ou soumise à votre accord.",
+        "CAPEO n'utilise que les cookies strictement nécessaires au fonctionnement du service (session, authentification, sécurité). Aucun traceur publicitaire n'est déposé. La mesure d'audience est réalisée par CAPEO elle-même (identifiant aléatoire stocké dans votre navigateur, sans adresse IP ni transmission à un tiers) ; vous pouvez la refuser grâce au réglage en bas de cette page. Le signal « Global Privacy Control » de votre navigateur est respecté.",
       ],
     },
   ],

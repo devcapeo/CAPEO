@@ -1,0 +1,139 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.search {
+  flex: 1 1 220px;
+  max-width: 340px;
+  padding: 8px var(--space-3);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-sm);
+}
+
+.search:focus-visible {
+  outline: none;
+  border-color: var(--gold-border);
+}
+
+.count {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+}
+
+.export,
+.more {
+  padding: 6px var(--space-3);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: var(--fs-xs);
+  cursor: pointer;
+}
+
+.export:hover,
+.more:hover {
+  border-color: var(--gold-border);
+  color: var(--gold-soft);
+}
+
+.more {
+  align-self: center;
+}
+
+.scroller {
+  overflow-x: auto;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--glass-border);
+  background: var(--navy-900);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+  color: var(--text-dim);
+}
+
+.table td {
+  padding: 9px var(--space-3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:focus-visible {
+  outline: 1px solid var(--gold-border);
+  outline-offset: -1px;
+}
+
+.right {
+  text-align: right !important;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+
+.sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sort:hover,
+.sorted {
+  color: var(--gold-soft);
+}
+
+.empty {
+  padding: var(--space-5) 0;
+  font-size: var(--fs-sm);
+  text-align: center;
+  color: var(--text-dim);
+}

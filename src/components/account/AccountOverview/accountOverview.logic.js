@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { getBrowserClient } from '@/lib/supabase/browserClient'
 import { useAuth } from '@/components/auth/AuthProvider/auth.logic'
 import { fetchMyRooms } from '@/lib/businessRoom/api'
+import { flush as flushAnalytics, trackAction } from '@/lib/analytics/tracker'
 
 export const KYC_LABELS = {
   not_started: { tone: 'neutral', label: 'À faire', text: "Vérifiez votre identité pour pouvoir contacter les autres membres. Pièce d'identité et selfie, en quelques minutes, via notre prestataire Stripe Identity." },
@@ -84,6 +85,8 @@ export function useAccount() {
 
     const body = response ? await response.json().catch(() => ({})) : {}
     if (response?.ok && body.url) {
+      trackAction('kyc_start')
+      flushAnalytics(true)
       window.location.assign(body.url)
       return
     }

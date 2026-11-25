@@ -41,6 +41,7 @@ export const AUTH_LINKS = {
   login: { href: '/connexion', label: 'Connexion' },
   register: { href: '/inscription', label: 'Rejoindre CAPEO' },
   account: { href: '/espace', label: 'Mon espace' },
+  admin: { href: '/admin', label: 'Admin' },
 }
 
 export const FOOTER_COLUMNS = [

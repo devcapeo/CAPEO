@@ -12,8 +12,12 @@ import DemoNotice from '@/components/assets/DemoNotice/DemoNotice'
 import SellerFigure from '@/components/assets/SellerFigure/SellerFigure'
 import styles from './page.module.css'
 
-/* Fiches générées au build ; une annonce inconnue renvoie une 404. */
-export const dynamicParams = false
+/*
+ * Fiches générées au build ; une annonce publiée ensuite est générée à la première visite,
+ * puis régénérée à chaque décision de modération (api/admin?action=revalidate).
+ * Une annonce inconnue renvoie une 404.
+ */
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const slugs = await getAssetSlugs()

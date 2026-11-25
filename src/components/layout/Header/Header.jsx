@@ -14,7 +14,9 @@ import styles from './Header.module.css'
 export default function Header() {
   const pathname = usePathname()
   const { solid, menuOpen, toggleMenu, closeMenu } = useHeaderState(pathname)
-  const signedIn = useAuth().status === 'authenticated'
+  const { status, profile } = useAuth()
+  const signedIn = status === 'authenticated'
+  const isAdmin = profile?.role === 'admin'
 
   /* Le menu mobile est rendu hors du <header> : le backdrop-filter du header
      créerait sinon un bloc conteneur qui piège le position: fixed du menu. */
@@ -42,9 +44,16 @@ export default function Header() {
 
           <div className={styles.actions}>
             {signedIn ? (
-              <Button href={AUTH_LINKS.account.href} size="sm" variant="glass">
-                {AUTH_LINKS.account.label}
-              </Button>
+              <>
+                {isAdmin && (
+                  <Link href={AUTH_LINKS.admin.href} className={styles.login}>
+                    {AUTH_LINKS.admin.label}
+                  </Link>
+                )}
+                <Button href={AUTH_LINKS.account.href} size="sm" variant="glass">
+                  {AUTH_LINKS.account.label}
+                </Button>
+              </>
             ) : (
               <>
                 <Link href={AUTH_LINKS.login.href} className={styles.login}>
@@ -71,7 +80,7 @@ export default function Header() {
         </div>
       </header>
 
-      <MobileMenu id="menu-mobile" open={menuOpen} pathname={pathname} signedIn={signedIn} onNavigate={closeMenu} />
+      <MobileMenu id="menu-mobile" open={menuOpen} pathname={pathname} signedIn={signedIn} isAdmin={isAdmin} onNavigate={closeMenu} />
     </>
   )
 }

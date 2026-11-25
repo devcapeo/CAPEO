@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { getBrowserClient } from '@/lib/supabase/browserClient'
 import { useAuthForm } from '@/lib/auth/useAuthForm'
 import { safeRedirect, validateSignIn } from '@/lib/auth/validation'
+import { trackAction } from '@/lib/analytics/tracker'
 
 export function useSignIn(next) {
   const router = useRouter()
@@ -16,6 +17,7 @@ export function useSignIn(next) {
         password: values.password,
       })
       if (error) return { error }
+      trackAction('login')
       router.replace(safeRedirect(next))
       return { message: 'Connexion réussie.' }
     },

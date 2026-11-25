@@ -5,6 +5,7 @@ import { useAuth } from '@/components/auth/AuthProvider/auth.logic'
 import { DEMO_ASSETS } from '@/data/demoAssets'
 import * as roomApi from '@/lib/businessRoom/api'
 import { roomErrorMessage } from '@/lib/businessRoom/rules'
+import { trackAction } from '@/lib/analytics/tracker'
 
 const POLL_INTERVAL = 10000
 
@@ -105,21 +106,25 @@ export function useBusinessRoom(slug) {
       async requestAccess(intro) {
         await roomApi.requestAccess(asset.id, intro.trim())
         roomApi.notifyRoom(asset.id, 'request')
+        trackAction('room_request', { asset: asset.slug })
         setPhase('requested')
       },
       async decide(userId, accept) {
         await roomApi.decideRequest(asset.id, userId, accept)
         roomApi.notifyRoom(asset.id, 'decision', userId)
+        trackAction(accept ? 'room_admit' : 'room_decline', { asset: asset.slug })
         await reload()
       },
       async postMessage(body) {
         await roomApi.sendMessage(asset.id, body)
         roomApi.notifyRoom(asset.id, 'message')
+        trackAction('room_message', { asset: asset.slug })
         await reload()
       },
       async addDocument(file) {
         await roomApi.uploadDocument(asset.id, user.id, file)
         roomApi.notifyRoom(asset.id, 'document')
+        trackAction('room_document', { asset: asset.slug })
         await reload()
       },
       async openDocument(doc) {
@@ -128,6 +133,7 @@ export function useBusinessRoom(slug) {
       },
       async saveIntention(values, exists) {
         await roomApi.saveIntention(asset.id, values, exists)
+        trackAction('room_intention', { asset: asset.slug, label: values.mode })
         await reload()
       },
       async withdrawIntention() {
@@ -136,6 +142,7 @@ export function useBusinessRoom(slug) {
       },
       async leave() {
         await roomApi.leaveRoom(asset.id)
+        trackAction('room_leave', { asset: asset.slug })
         setPhase('request')
       },
     }),

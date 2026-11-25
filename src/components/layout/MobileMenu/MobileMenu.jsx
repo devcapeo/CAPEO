@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button/Button'
 import { isLinkActive } from '@/components/layout/Header/header.logic'
 import styles from './MobileMenu.module.css'
 
-export default function MobileMenu({ id, open, pathname, signedIn, onNavigate }) {
+export default function MobileMenu({ id, open, pathname, signedIn, isAdmin, onNavigate }) {
   return (
     <div id={id} className={cx(styles.menu, open && styles.open)} aria-hidden={!open} inert={!open}>
       <nav className={styles.nav} aria-label="Navigation mobile">
@@ -27,9 +27,16 @@ export default function MobileMenu({ id, open, pathname, signedIn, onNavigate })
 
       <div className={styles.actions}>
         {signedIn ? (
-          <Button href={AUTH_LINKS.account.href} size="lg" fullWidth onClick={onNavigate}>
-            {AUTH_LINKS.account.label}
-          </Button>
+          <>
+            <Button href={AUTH_LINKS.account.href} size="lg" fullWidth onClick={onNavigate}>
+              {AUTH_LINKS.account.label}
+            </Button>
+            {isAdmin && (
+              <Button href={AUTH_LINKS.admin.href} variant="glass" size="lg" fullWidth onClick={onNavigate}>
+                {AUTH_LINKS.admin.label}
+              </Button>
+            )}
+          </>
         ) : (
           <>
             <Button href={AUTH_LINKS.register.href} size="lg" fullWidth onClick={onNavigate}>

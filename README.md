@@ -59,8 +59,8 @@ Projet `capeo` (référence `nuqbhaufouezojhhcdwh`, région Paris `eu-west-3`), 
 |---|---|---|
 | `api/compte` | Vérification d'identité Stripe Identity (`?action=verification`) et webhook Stripe (`?action=stripe-webhook`) | en place |
 | `api/annonces` | Annonces payantes / mise en avant (Stripe Checkout) | à venir |
-| `api/contact` | Notifications e-mail de la Business Room via Resend (`?action=room-event`) | en place |
-| `api/admin` | Back-office : modération, publication | à venir |
+| `api/contact` | E-mails Resend : Business Room (`?action=room-event`) et décision de modération au vendeur (`?action=listing-review`) | en place |
+| `api/admin` | Mesure d'audience first-party (`?action=collect`) et régénération du catalogue après modération (`?action=revalidate`) | en place |
 
 ### Variables d'environnement (Vercel > Settings > Environment Variables)
 
@@ -78,3 +78,10 @@ Webhook Stripe à déclarer : `https://<domaine>/api/compte?action=stripe-webhoo
 
 - Carte du globe (`public/textures/world-land.png`) : générée à partir des données [Natural Earth](https://www.naturalearthdata.com/) (domaine public), via le paquet `world-atlas`.
 - Principe du globe en points (masque de carte lu dans une texture) : inspiré du travail de Ksenia Kondrashova (CodePen, licence MIT), réécrit pour CAPEO.
+
+
+## Espace admin
+
+`/admin`, réservé aux profils `role = 'admin'` (contrôlé en base par chaque fonction `admin_*`).
+Analyse : vue d'ensemble, audience, pages et fiches, clics et conversions, en direct. Gestion : membres (parcours complet), modération des annonces, Business Rooms (compteurs uniquement).
+Mesure d'audience : table `analytics_events`, sans IP ni service tiers, conservation 25 mois, opposition sur /confidentialite, visites des admins exclues, collecte active sur capeo.org uniquement.

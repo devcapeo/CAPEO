@@ -1,5 +1,6 @@
 import { CONFIDENTIALITE } from '@/content/legal/confidentialite'
 import LegalDocument from '@/components/legal/LegalDocument/LegalDocument'
+import AnalyticsOptOut from '@/components/analytics/AnalyticsOptOut/AnalyticsOptOut'
 
 /* Non indexée tant que le document n'est pas finalisé (mentions « À compléter »). */
 export const metadata = {
@@ -9,5 +10,10 @@ export const metadata = {
 }
 
 export default function ConfidentialitePage() {
-  return <LegalDocument document={CONFIDENTIALITE} currentHref="/confidentialite" />
+  return (
+    <>
+      <LegalDocument document={CONFIDENTIALITE} currentHref="/confidentialite" />
+      <AnalyticsOptOut />
+    </>
+  )
 }

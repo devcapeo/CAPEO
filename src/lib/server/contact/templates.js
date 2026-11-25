@@ -71,3 +71,22 @@ export function roomActivityEmail({ assetTitle, kind, url }) {
     }),
   }
 }
+
+export function listingReviewedEmail({ assetTitle, status, note, url }) {
+  const published = status === 'published'
+  const rejected = status === 'rejected'
+  const lines = published
+    ? [`Votre annonce « ${assetTitle} » a été examinée et publiée sur CAPEO.`, 'Les acquéreurs vérifiés peuvent désormais demander à rejoindre sa Business Room.']
+    : rejected
+      ? [`Votre annonce « ${assetTitle} » n'a pas pu être publiée en l'état.`, note ? `Motif : ${note}` : 'Modifiez-la depuis votre espace, puis soumettez-la à nouveau.', 'Une fois modifiée, elle repassera en examen.']
+      : [`Le statut de votre annonce « ${assetTitle} » a été mis à jour.`]
+  return {
+    subject: published ? `Annonce publiée — ${assetTitle}` : rejected ? `Annonce à revoir — ${assetTitle}` : `Mise à jour de votre annonce — ${assetTitle}`,
+    ...layout({
+      title: published ? 'Votre annonce est en ligne' : rejected ? 'Votre annonce est à revoir' : 'Votre annonce a été mise à jour',
+      lines,
+      cta: published ? 'Voir mon annonce' : 'Ouvrir mon espace',
+      url,
+    }),
+  }
+}
